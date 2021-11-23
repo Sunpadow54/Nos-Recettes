@@ -1,0 +1,14 @@
+// -----------------------------------------------------------
+/*  HEADER */
+// -----------------------------------------------------------
+
+header {
+    order: 2;
+    padding: 1rem;
+    border-left: 1px solid grey;
+}
+
+.header-nav {
+    @include flex(column);
+    gap:1rem;
+}

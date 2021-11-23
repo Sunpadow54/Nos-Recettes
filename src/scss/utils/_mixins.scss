@@ -1,0 +1,60 @@
+// -----------------------------------------------------------
+/*  MIXINS */
+// -----------------------------------------------------------
+
+// ------------ FLEXBOX Mixins
+
+// Variable to use in the mixins "flex", "grid", "position",  if we want to keep the defaults rules
+$default: false;
+
+@mixin flex(
+	$direction,
+	$wrap: $default,
+	$main_axis: $default,
+	$cross_axis: $default
+) {
+	display: flex;
+
+	// Create a list from parameters of the mixin
+	$new-flex: (
+		flex-direction: $direction,
+		flex-wrap: $wrap,
+		justify-content: $main_axis,
+		align-items: $cross_axis,
+	);
+
+	// Check the list in order to insert or not, the flex rules
+	// ( if the parameter in the list is not $d, then add the css rule )
+	@each $para, $value in $new-flex {
+		@if ($value) {
+			#{$para}: $value;
+		}
+	}
+}
+
+
+
+@mixin position(
+    $position, 
+    $top: $default,
+    $right: $default, 
+    $bottom: $default, 
+    $left : $default
+) {
+	position: $position;
+	// Create a list from parameters of the mixin
+	$axis: (
+		top: $top,
+		right: $right,
+		bottom: $bottom,
+		left: $left,
+	);
+
+	// Check the list in order to insert or not, the rules
+	// ( if the parameter in the list is not $default, then add the css rule )
+	@each $axis-para, $axis-value in $axis {
+		@if ($axis-value) {
+			#{$axis-para}: $axis-value;
+		}
+	}
+}
