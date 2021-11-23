@@ -3,12 +3,53 @@
 // -----------------------------------------------------------
 
 header {
-    order: 2;
-    padding: 1rem;
-    border-left: 3px solid rgb(221, 216, 216);
-}
+    h1 {
+        @include flex($default, $default, center, center);
+        gap: 1rem;
+        text-align: center;
+    }
 
-.header-nav {
-    @include flex(column);
-    gap:1rem;
+    .breadcrumb {
+        @include flex($default, $default, center);
+        gap: 1rem;
+        text-transform: uppercase;
+        padding: 1rem;
+        margin:0;
+        color: darken($color-grey, 60%);
+        border-top: 2px solid darken($color-grey, 60%);
+        border-bottom: 2px solid darken($color-grey, 60%);
+
+        &__link {
+            @include flex($default, $default, center, center);
+            svg {
+                font-size: 24px;
+            }
+            &--active {
+                opacity:0.5;
+            }
+        }
+    }
+
+    .sidebar {
+        @include position(fixed, 0, 0, 0);
+        width: 180px;
+        background: rgb(240,82,61);
+        background: linear-gradient(150deg, rgba(240,82,61,1) 70%, rgba(255, 141, 65, 0.8) 100%); 
+        padding: 1rem;
+        /* border-left : thick double #790e00; */
+        /* box-shadow: -2px 0 3px #790e00; */
+        &-nav {
+            @include flex(column);
+            gap:1rem;
+            margin-top: 3rem;
+        }
+
+        p,h2 {
+            text-align: center;
+        }
+
+        p {
+            font-style: italic;
+        }
+    }
 }

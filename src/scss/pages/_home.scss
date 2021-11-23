@@ -3,5 +3,5 @@
 // -----------------------------------------------------------
 
 .container-home {
-    @include flex($default, $default, $default, $default);
+    width: 100%;
 }

@@ -2,10 +2,10 @@
 /* BUTTONS */
 // -----------------------------------------------------------
 
-.header-nav__btn {
+.sidebar-nav__btn {
     @include flex($default, $default, space-between, center);
     @include position(relative);
-
+    gap:1rem;
     border: 1px solid grey;
     padding: 0.5rem 0.7rem;
     letter-spacing: 1px;
@@ -55,6 +55,7 @@
         }
     }
     &--search {
-        color: lighten(black, 30%);
+        color: black;
+        border-color: black;
     }
 }

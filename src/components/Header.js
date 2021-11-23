@@ -1,48 +1,26 @@
-import PropTypes from 'prop-types'
-import Button from './Button';
+/* import components */
+import Breadcrumb from './Breadcrumb';
+import Sidebar from './Sidebar';
+/* import icon */
+import { GiForkKnifeSpoon } from "react-icons/gi";
 
-const Header = (props) => {
-    /* variables */
-    const name = 'User name';
-
-    /* redirections */
-    const goToProfile = (event) => {
-        console.log('profile redirect');
-    }
-
-    /* Fetchs */
-    const addRecipe = (event) => {
-        console.log('nouvelle recette');
-    }
+const Header = () => {
+    const breadcrumbLinks = [
+        'toutes les recettes',
+        'entrées',
+        'plats',
+        'desserts'
+    ];
+    /* define the key of breadcrumbLinks which is active */
+    const activeLinkKey = 0;
 
     return (
         <header>
-            <h1>Hello {name} !</h1>
-            <p>{props.title}</p>
-            <nav className="header-nav">
-                <Button 
-                    onClick={ addRecipe }
-                    className="header-nav__btn header-nav__btn--create"
-                    btnText='Créer une Recette'
-                    btnType='addRecipe'
-                />
-                <Button 
-                    onClick={ goToProfile }
-                    className="header-nav__btn header-nav__btn--profil"
-                    btnText='Mon Profil'
-                    btnType='profile'
-                />
-            </nav>
+            <h1> <GiForkKnifeSpoon /> TITRE DU SITE</h1>
+            <Breadcrumb breadcrumbLinks={breadcrumbLinks} activeLinkKey={ activeLinkKey } />
+            <Sidebar />
         </header>
     )
-}
-
-Header.defaultProps = {
-    title: 'Default Bon Appétit',
-}
-
-Header.propTypes = {
-    title: PropTypes.string,
 }
 
 export default Header

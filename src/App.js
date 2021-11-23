@@ -1,10 +1,12 @@
 import { useState } from "react";
+/* Import Components */
 import Header from "./components/Header";
 import Recipes from "./components/Recipes";
 
 function App() {
 	// State of the App
-	const [recipes /* setRecipes */] = useState([
+    /* recipes exemple for dev */
+	const [recipes, /* setRecipes */] = useState([
 		{
 			id: 1,
 			title: "Epinards aux oeufs pochés",
@@ -68,11 +70,20 @@ function App() {
 		},
 	]);
 
+/*     const breadcrumbLinks = [
+        'toutes les recettes',
+        'entrée',
+        'plat',
+        'dessert'
+    ]; */
+
 	// Dom
 	return (
 		<div className="container-home">
-			<Header title="Hehe Bon Appétit Props" />
-			<Recipes recipes={recipes} />
+			<Header />
+            <main>
+                <Recipes recipes={recipes} />
+            </main>
 		</div>
 	);
 }

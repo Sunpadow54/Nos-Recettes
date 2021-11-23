@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types'
-import { RiAddFill } from 'react-icons/ri'
-import { RiUser5Line } from 'react-icons/ri'
+import { GrAdd } from 'react-icons/gr'
+import { RiUserSmileLine } from 'react-icons/ri'
+import { IoSearchSharp } from 'react-icons/io5'
 
 const Button = ({ btnText, onClick, btnType, className }) => {
 
     const icon = () => {
-        if (btnType === 'addRecipe') return <RiAddFill />
-        if (btnType === 'profile') return <RiUser5Line />
+        if (btnType === 'addRecipe') return <GrAdd />
+        if (btnType === 'profile') return <RiUserSmileLine />
+        if (btnType === 'search') return <IoSearchSharp />
     };
 
     return (
