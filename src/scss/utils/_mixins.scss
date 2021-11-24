@@ -2,10 +2,26 @@
 /*  MIXINS */
 // -----------------------------------------------------------
 
-// ------------ FLEXBOX Mixins
-
-// Variable to use in the mixins "flex", "grid", "position",  if we want to keep the defaults rules
+/* 
+// Variable to use in the mixins "flex", "grid", "position", "border"
+// if we want to keep the defaults rules 
+*/
 $default: false;
+
+
+// ------------ Borders
+
+@mixin border($positions : $default) {
+	@if ($positions) {
+        @each $position in $positions {
+            border-#{$position}: 2px solid $color-darkgrey;
+        }
+	} @else {
+		border: 2px solid $color-darkgrey;
+	}
+}
+
+// ------------ FLEXBOX Mixins
 
 @mixin flex(
 	$direction,
@@ -25,21 +41,19 @@ $default: false;
 
 	// Check the list in order to insert or not, the flex rules
 	// ( if the parameter in the list is not $d, then add the css rule )
-	@each $para, $value in $new-flex {
+	@each $property, $value in $new-flex {
 		@if ($value) {
-			#{$para}: $value;
+			#{$property}: $value;
 		}
 	}
 }
 
-
-
 @mixin position(
-    $position, 
-    $top: $default,
-    $right: $default, 
-    $bottom: $default, 
-    $left : $default
+	$position,
+	$top: $default,
+	$right: $default,
+	$bottom: $default,
+	$left: $default
 ) {
 	position: $position;
 	// Create a list from parameters of the mixin
@@ -52,9 +66,9 @@ $default: false;
 
 	// Check the list in order to insert or not, the rules
 	// ( if the parameter in the list is not $default, then add the css rule )
-	@each $axis-para, $axis-value in $axis {
+	@each $axis-property, $axis-value in $axis {
 		@if ($axis-value) {
-			#{$axis-para}: $axis-value;
+			#{$axis-property}: $axis-value;
 		}
 	}
 }

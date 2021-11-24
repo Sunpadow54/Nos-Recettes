@@ -15,9 +15,8 @@ header {
         text-transform: uppercase;
         padding: 1rem;
         margin:0;
-        color: darken($color-grey, 60%);
-        border-top: 2px solid darken($color-grey, 60%);
-        border-bottom: 2px solid darken($color-grey, 60%);
+        color: $color-darkgrey;
+        @include border((bottom, top));
 
         &__link {
             @include flex($default, $default, center, center);
@@ -25,7 +24,7 @@ header {
                 font-size: 24px;
             }
             &--active {
-                opacity:0.5;
+                color: $color-grey;
             }
         }
     }
@@ -33,11 +32,20 @@ header {
     .sidebar {
         @include position(fixed, 0, 0, 0);
         width: 180px;
-        background: rgb(240,82,61);
-        background: linear-gradient(150deg, rgba(240,82,61,1) 70%, rgba(255, 141, 65, 0.8) 100%); 
+        background: white;
+        background:
+                linear-gradient(to bottom, rgb(255, 255, 255) 50%, rgb(255, 255, 255) 51%, rgba(255, 255, 255, 0) 100%),
+                bottom / contain no-repeat url('./img/' + $random-img-food);     
         padding: 1rem;
-        /* border-left : thick double #790e00; */
-        /* box-shadow: -2px 0 3px #790e00; */
+
+        &:before {
+            content: "";
+            @include position(absolute, 0, $default, 0, -45px);
+            display: block;
+            width: 40px;
+            @include border((left, right));
+        }
+
         &-nav {
             @include flex(column);
             gap:1rem;

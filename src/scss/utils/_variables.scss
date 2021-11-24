@@ -9,7 +9,20 @@ $color-blue: #17585a;
 $color-red: #af3b15;
 $color-yellow: #fcd949;
 
-$color-grey: rgb(221, 216, 216);
+$color-black: #000000;
+$color-grey: lighten($color-black, 60%);
+$color-darkgrey: lighten($color-black, 20%);
 
+// ------------ Imgs
 
-// ------------ FONTS
+$imgs-food: 
+    'mockup-graphics-BgHfl1p3yAA-unsplash.jpg',
+    'mockup-graphics-lDhhUl3Gp3Q-unsplash.jpg',
+    'mockup-graphics-pleChDr5d4w-unsplash.jpg',
+    'olena-sergienko-1ROcVsA8UYA-unsplash.jpg',
+    'rezel-apacionado-MZfS19xrrz0-unsplash.jpg'
+;
+
+// random imgs food (header)
+$nbr-imgs-food: length($imgs-food);
+$random-img-food: nth($imgs-food, random($nbr-imgs-food));
