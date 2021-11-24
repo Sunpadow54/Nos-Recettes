@@ -5,3 +5,8 @@
 .container-home {
     width: 100%;
 }
+
+main {
+    @include flex(column, $default, $default, center);
+    width: $rest-size;
+}

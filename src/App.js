@@ -49,7 +49,7 @@ function App() {
 				{
 					id: 1,
 					stepTxt:
-						"Préchauffer le four (210°C). Faire décongeler les épinards suffisamment longtemps à l'avance. Préchauffer le four (210°C).",
+						"Préchauffer le four (210°C). Faire décongeler les épinards suffisamment longtemps à l'avance.",
 				},
 				{
 					id: 2,
@@ -65,6 +65,33 @@ function App() {
 					id: 4,
 					stepTxt:
 						"Remettre un peu de parmesan puis cuire à four chaud pendant 25 mn.",
+				},
+			],
+		},
+        {
+			id: 3,
+			title: "Epinards 2 aux oeufs pochés",
+			duration: "20 min",
+			ingredients: ["basilic", "épinards", "oeufs", "beurre"],
+			directions: [
+				{
+					id: 1,
+					stepTxt:
+						"Hacher les épinards et les faire fondre dans le beurre avec 1 cuillère à soupe de basilic",
+				},
+				{
+					id: 2,
+					stepTxt:
+						"Pocher les oeufs dans l'eau bouillante vinaigrée durant 5 minutes.",
+				},
+				{
+					id: 3,
+					stepTxt:
+						"Répartir les épinards dans les assiettes et déposer au centre 1 oeuf poché.",
+				},
+				{
+					id: 4,
+					stepTxt: "Parsemer de basilic, saler, poivrer.",
 				},
 			],
 		},

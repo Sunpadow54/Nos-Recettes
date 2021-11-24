@@ -8,16 +8,15 @@
 */
 $default: false;
 
-
 // ------------ Borders
 
-@mixin border($positions : $default) {
+@mixin border($positions: $default, $color: $color-darkgrey, $size: 2px) {
 	@if ($positions) {
-        @each $position in $positions {
-            border-#{$position}: 2px solid $color-darkgrey;
-        }
+		@each $position in $positions {
+			border-#{$position}: $size solid $color;
+		}
 	} @else {
-		border: 2px solid $color-darkgrey;
+		border: $size solid $color;
 	}
 }
 
@@ -48,6 +47,8 @@ $default: false;
 	}
 }
 
+// ------------ position Mixins
+
 @mixin position(
 	$position,
 	$top: $default,
@@ -71,4 +72,21 @@ $default: false;
 			#{$axis-property}: $axis-value;
 		}
 	}
+}
+
+// ------------ banderole mixin
+
+@mixin ribbon($position, $width: 23px) {
+	content: "";
+	@if $position == left {
+		@include position(absolute, $default, -$width, -8px);
+	} @else {
+		@include position(absolute, $default, $default, -10px, -$width);
+	}
+	height: calc(100% - 8px);
+	width: calc($width + 1px);
+	background-color: rgba(241, 241, 241, 0.904);
+	border: 1px solid rgb(177, 177, 177);
+	transform: skew(0deg, -4deg);
+	z-index: -1;
 }

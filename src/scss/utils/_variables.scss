@@ -26,3 +26,8 @@ $imgs-food:
 // random imgs food (header)
 $nbr-imgs-food: length($imgs-food);
 $random-img-food: nth($imgs-food, random($nbr-imgs-food));
+
+// ---------- Sizes
+
+$sidebar-size: 180px;
+$rest-size: calc(100% - $sidebar-size);
