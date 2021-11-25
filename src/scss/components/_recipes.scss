@@ -1,10 +1,11 @@
 // -----------------------------------------------------------
 /* BUTTONS */
 // -----------------------------------------------------------
+
 /* all recipes */
 .recipes {
-	margin: 1rem;
-	max-width: 1200px;
+	padding: 1rem calc($ribbon-right + 1rem) 1rem calc($ribbon-right + 1rem);
+	max-width: 1100px;
 
 	h2 {
 		padding-bottom: 50px;
@@ -12,7 +13,7 @@
 
 	&__cards {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
 		gap: 5rem;
 	}
 }
@@ -24,70 +25,73 @@
 	padding: 1rem;
 
 	&-top {
-        display: grid;
-        grid-template-rows: 35px auto 1fr;
-        grid-template-columns: 1fr;
-        grid-template-areas:
-            "top"
-            "title"
-            "bottom"
-        ;
-        height: 370px;
-        
-		&__title {
-            grid-area: title;
-            transform: skew(0deg, -3deg);
-            margin: 0 -2rem;
-            
-            h3 {
-                position: relative;
-                font-size: 1.3rem;
-                font-weight: normal;
-                text-transform: uppercase;
-                background-color:rgba(255, 255, 255, 0.7);
-                background: 
-                    linear-gradient(to right, 
-                        rgba(255, 255, 255, 1)0%, 
-                        rgba(255, 255, 255, 1) 5%, 
-                        rgba(255, 255, 255, 0.6) 97%,
-                        rgba(255, 255, 255, 1) 97%,
-                        rgba(255, 255, 255, 1) 100%);
-                padding: 0.7rem 1rem;
-                border-radius: 2px;
-                @include border((left, right, top), $color-darkgrey, 1px);
-                border-bottom: 5px solid;
-                border-image-slice: 1;
-                border-image-source: linear-gradient(to right,black, $color-darkgrey);
+		position: relative;
 
-                &:before {
-                    @include ribbon(left);
-                    border-left: 5px solid $color-darkgrey;
-                    border-bottom: 1px solid;
-                }
-                /* &:after {
+		&__title {
+			@include position(
+				absolute,
+				25px,
+				-$ribbon-right,
+				$default,
+				-$ribbon-left
+			);
+			transform: skew(0deg, -2deg);
+
+			h3 {
+				position: relative;
+				font-size: 1.3rem;
+				font-weight: normal;
+				text-transform: uppercase;
+				background-color: rgba(255, 255, 255, 0.7);
+				background: linear-gradient(
+					to right,
+					rgba(255, 255, 255, 1) 0%,
+					rgba(255, 255, 255, 1) 5%,
+					rgba(255, 255, 255, 0.6) 97%,
+					rgba(255, 255, 255, 1) 97%,
+					rgba(255, 255, 255, 1) 100%
+				);
+				padding: 0.7rem 1rem;
+
+				/* border-radius: 5px; */
+
+				@include border((left, right, top), $color-darkgrey, 1px);
+				border-bottom: 5px solid;
+				border-image-slice: 1;
+				border-image-source: linear-gradient(
+					to right,
+					black,
+					$color-darkgrey
+				);
+
+				&:before {
+					@include ribbon(left);
+					border-left: 5px solid $color-darkgrey;
+					border-bottom: 1px solid;
+				}
+				/* &:after {
                     @include ribbon(right);
                 } */
-            }
+			}
 		}
 
 		&__img {
-			border-radius: 30px;
-            grid-area: top title bottom;
-            @include border($default, $color-grey, 1px);
+			border-radius: 20px;
+			@include border($default, $color-grey, 1px);
 		}
 	}
 
 	&__ingredients {
 		@include flex($default, wrap);
-        padding: 1rem 0;
-        gap:0.5rem;
+		padding: 1rem 0;
+		gap: 0.5rem;
 
-        &--tags {
-            padding: 0.2rem 1rem;
-            color: $color-darkgrey;
-            border-radius: 10px;
-            background-color: lighten($color-grey, 30%);
-;        }
+		&--tags {
+			padding: 0.2rem 1rem;
+			color: $color-darkgrey;
+			border-radius: 10px;
+			background-color: lighten($color-grey, 30%);
+		}
 	}
 
 	h4 {

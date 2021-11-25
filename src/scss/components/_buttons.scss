@@ -2,7 +2,8 @@
 /* BUTTONS */
 // -----------------------------------------------------------
 
-.sidebar-nav__btn {
+// Nav Btns : Create recipe / Profile / Search
+.sidebar-content-nav__btn {
     @include flex($default, $default, space-between, center);
     @include position(relative);
     gap:1rem;
@@ -12,6 +13,7 @@
     font-size: 16px;
     font-weight: 200;
     transition: all 0.17s ease-in-out;
+    border-radius: 5px;
 
     svg {
         font-size: 25px;
@@ -22,10 +24,11 @@
         content: "";
         @include position(absolute, 5px, $default, $default, 5px);
         display: block;
-        width: 100%;
-        height: 100%;
+        width: calc(100% + 2px);
+        height: calc(100% + 2px);
         z-index: -1;
         transition: all 0.12s ease-in-out;
+        border-radius: 5px;
     }
 
     &:hover {
@@ -40,7 +43,7 @@
         }
     }
 
-   /*  Specific button */
+   /*  actions button */
     &--create {
         color: darken($color-green, 35%);
         border-color: darken($color-green, 35%);
@@ -58,4 +61,12 @@
     &--search {
         color: $color-darkgrey;
     }
+}
+
+
+// Sidebar slide btn
+.btn-slide {
+    font-size: 2rem;
+    width: $sidebar-gutter;
+    @include border((left, right));
 }

@@ -1,0 +1,26 @@
+// -----------------------------------------------------------
+/*  MIXINS */
+// -----------------------------------------------------------
+
+
+// ------------ Sidebar
+
+@keyframes slide-in {
+    0% {
+        transform-origin: right;
+        transform: translateX($sidebar-size);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-out {
+    0% {
+        transform-origin: right;
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX($sidebar-size);
+    }
+}

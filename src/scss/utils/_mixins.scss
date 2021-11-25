@@ -9,7 +9,6 @@
 $default: false;
 
 // ------------ Borders
-
 @mixin border($positions: $default, $color: $color-darkgrey, $size: 2px) {
 	@if ($positions) {
 		@each $position in $positions {
@@ -47,8 +46,7 @@ $default: false;
 	}
 }
 
-// ------------ position Mixins
-
+// ------------ Position Mixins
 @mixin position(
 	$position,
 	$top: $default,
@@ -74,8 +72,7 @@ $default: false;
 	}
 }
 
-// ------------ banderole mixin
-
+// ------------ Banderole mixin
 @mixin ribbon($position, $width: 23px) {
 	content: "";
 	@if $position == left {
@@ -90,3 +87,23 @@ $default: false;
 	transform: skew(0deg, -4deg);
 	z-index: -1;
 }
+
+
+// ------------ MediaQueries
+
+@mixin desktop {
+	@media screen and (max-width: 800px) {
+		@content;
+	}
+}
+
+
+// ------------ Animations
+
+// Slide In / Out
+
+/* @mixin animate-slide ($type){
+    @if $type == in { $ }
+    transform: translateX(calc($sidebar-size + 10px));
+    transform-origin: right;
+} */
