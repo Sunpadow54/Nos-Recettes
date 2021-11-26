@@ -1,26 +1,51 @@
+import { useState } from "react";
 /* import components */
-import Breadcrumb from './Breadcrumb';
-import Sidebar from './Sidebar';
+import Breadcrumb from "./Breadcrumb";
+import Sidebar from "./Sidebar";
 /* import icon */
 import { GiForkKnifeSpoon } from "react-icons/gi";
+/* import { AiOutlineMenuFold } from "react-icons/ai"; */
+import { IoIosArrowBack } from "react-icons/io";
 
-const Header = () => {
-    const breadcrumbLinks = [
-        'toutes les recettes',
-        'entrées',
-        'plats',
-        'desserts'
-    ];
-    /* define the key of breadcrumbLinks which is active */
-    const activeLinkKey = 0;
+const Header = (props) => {
+	// ---- Breadcrumb
+	const breadcrumbLinks = [
+		"toutes les recettes",
+		"entrées",
+		"plats",
+		"desserts",
+	];
+	/* define the key of breadcrumbLinks which is active */
+	const activeLinkKey = 0;
 
-    return (
-        <header>
-            <h1> <GiForkKnifeSpoon /> TITRE DU SITE</h1>
-            <Breadcrumb breadcrumbLinks={breadcrumbLinks} activeLinkKey={ activeLinkKey } />
-            <Sidebar />
-        </header>
-    )
-}
+	// ---- Sidebar
+	const [isHidden, setHidden] = useState(false);
+	const toogleSidebar = () => {
+		setHidden(!isHidden);
+		props.toogleShrink(isHidden);
+	};
 
-export default Header
+	return (
+		<header>
+			<h1 className={`${isHidden ? "grow" : "shrink"}`}>
+				<GiForkKnifeSpoon /> TITRE DU SITE
+			</h1>
+
+            <nav className={`${isHidden ? "grow" : "shrink"}`}>
+                <Breadcrumb
+                    breadcrumbLinks={breadcrumbLinks}
+                    activeLinkKey={activeLinkKey}
+                />
+            </nav>
+
+			<div className={`sidebar ${isHidden ? "sidebar--hide" : false}`}>
+				<button className="btn-slide" onClick={toogleSidebar}>
+					<IoIosArrowBack />
+				</button>
+				<Sidebar />
+			</div>
+		</header>
+	);
+};
+
+export default Header;

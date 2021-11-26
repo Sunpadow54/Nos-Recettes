@@ -88,22 +88,18 @@ $default: false;
 	z-index: -1;
 }
 
-
 // ------------ MediaQueries
 
 @mixin desktop {
-	@media screen and (max-width: 800px) {
+	@media screen and (min-width: 800px) {
 		@content;
 	}
 }
 
-
 // ------------ Animations
 
 // Slide In / Out
-
-/* @mixin animate-slide ($type){
-    @if $type == in { $ }
-    transform: translateX(calc($sidebar-size + 10px));
-    transform-origin: right;
-} */
+@mixin animate-slide($name) {
+	transform-origin: right;
+	animation: $name 0.4s ease-in-out forwards;
+}

@@ -1,26 +1,31 @@
 // -----------------------------------------------------------
-/*  MIXINS */
+/*  Animations */
 // -----------------------------------------------------------
 
 
-// ------------ Sidebar
+// ------------ Sidebar / Content
 
-@keyframes slide-in {
-    0% {
-        transform-origin: right;
-        transform: translateX($sidebar-size);
+$animes : (
+    "sidebar": $sidebar-size,
+    "content": - calc($sidebar-size / 2)
+);
+
+@each $name, $value in $animes {
+    @keyframes #{$name}-in {
+        0% {
+            transform: translateX($value);
+        }
+        100% {
+            transform: translateX(0);
+        }
     }
-    100% {
-        transform: translateX(0);
+    @keyframes #{$name}-out {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX($value);
+        }
     }
 }
 
-@keyframes slide-out {
-    0% {
-        transform-origin: right;
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX($sidebar-size);
-    }
-}

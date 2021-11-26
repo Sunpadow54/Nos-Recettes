@@ -3,71 +3,72 @@
 // -----------------------------------------------------------
 
 header {
-    width: $rest-size;
-    @include desktop {
-        width: 100%;
-    }
+	h1 {
+		@include flex($default, $default, center, center);
+		gap: 1rem;
+		text-align: center;
+	}
 
-    h1 {
-        @include flex($default, $default, center, center);
-        gap: 1rem;
-        text-align: center;
-    }
+	.breadcrumb {
+		@include flex($default, wrap, center, center);
+		gap: 1rem;
+		text-transform: uppercase;
+		padding: 1rem;
+		margin: 0;
+		color: $color-darkgrey;
+		@include border((bottom, top));
 
-    .breadcrumb {
-        @include flex($default, wrap, center, center);
-        gap: 1rem;
-        text-transform: uppercase;
-        padding: 1rem;
-        margin:0;
-        color: $color-darkgrey;
-        @include border((bottom, top));
+		&__link {
+			@include flex($default, $default, center, center);
+			svg {
+				font-size: 24px;
+			}
+			&--active {
+				color: $color-grey;
+			}
+		}
+	}
 
-        &__link {
-            @include flex($default, $default, center, center);
-            svg {
-                font-size: 24px;
-            }
-            &--active {
-                color: $color-grey;
-            }
+	.sidebar {
+		@include position(fixed, 0, 0, 0);
+		display: flex;
+		z-index: 1;
+		background: white;
+		@include animate-slide(sidebar-in);
+
+		&-content {
+			width: $sidebar-size;
+			height: 100%;
+			background: white;
+			background: linear-gradient(
+					to bottom,
+					rgb(255, 255, 255) 50%,
+					rgb(255, 255, 255) 51%,
+					rgba(255, 255, 255, 0) 100%
+				),
+				bottom / contain no-repeat url("./img/" + $random-img-food);
+			padding: 1rem;
+
+			&-nav {
+				@include flex(column);
+				gap: 1rem;
+				margin-top: 3rem;
+				position: relative;
+				z-index: 1;
+			}
+
+			p,
+			h2 {
+				text-align: center;
+			}
+
+			p {
+				font-style: italic;
+			}
+		}
+
+        &--hide {
+            @include animate-slide(sidebar-out);
         }
-    }
-
-    .sidebar {
-        @include position(fixed, 0, 0, 0);
-        display: flex;
-        z-index: 1;
-        background: white;
-        
-        &-content {
-            width: $sidebar-size;
-            height: 100%;
-            background: white;
-            background:
-                    linear-gradient(to bottom, rgb(255, 255, 255) 50%, rgb(255, 255, 255) 51%, rgba(255, 255, 255, 0) 100%),
-                    bottom / contain no-repeat url('./img/' + $random-img-food);     
-            padding: 1rem;
-                &-nav {
-                    @include flex(column);
-                    gap:1rem;
-                    margin-top: 3rem;
-                    position: relative;
-                    z-index: 1;
-                }
-        
-                p,h2 {
-                    text-align: center;
-                }
-        
-                p {
-                    font-style: italic;
-                }
-        
-                @include desktop {
-                    /* transform: translateX(calc($sidebar-size + 10px));
-                    transform-origin: right; */
-                }
-            }
-        }
+	}
 }

@@ -5,8 +5,8 @@ import Recipes from "./components/Recipes";
 
 function App() {
 	// State of the App
-    /* recipes exemple for dev */
-	const [recipes, /* setRecipes */] = useState([
+	/* recipes exemple for dev */
+	const [recipes /* setRecipes */] = useState([
 		{
 			id: 1,
 			title: "Epinards aux oeufs pochés",
@@ -68,7 +68,7 @@ function App() {
 				},
 			],
 		},
-        {
+		{
 			id: 3,
 			title: "Epinards 2 aux oeufs pochés",
 			duration: "20 min",
@@ -97,20 +97,19 @@ function App() {
 		},
 	]);
 
-/*     const breadcrumbLinks = [
-        'toutes les recettes',
-        'entrée',
-        'plat',
-        'dessert'
-    ]; */
+	// Shrink | Grow of <main>  (depend on Sidebar (header) showned or hide)
+	const [isShrink, setShrink] = useState(true);
+	const toogleShrink = (sideBarState) => {
+		setShrink(sideBarState);
+	};
 
 	// Dom
 	return (
 		<div className="container-home">
-			<Header />
-            <main>
-                <Recipes recipes={recipes} />
-            </main>
+			<Header toogleShrink={toogleShrink} />
+			<main className={isShrink ? "shrink" : "grow"}>
+				<Recipes recipes={recipes} />
+			</main>
 		</div>
 	);
 }
