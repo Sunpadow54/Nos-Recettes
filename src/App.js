@@ -107,7 +107,7 @@ function App() {
 	return (
 		<div className="container-home">
 			<Header toogleShrink={toogleShrink} />
-			<main className={isShrink ? "shrink" : "grow"}>
+			<main className={"main-home " + (isShrink ? "main-home--small" : false)}>
 				<Recipes recipes={recipes} />
 			</main>
 		</div>

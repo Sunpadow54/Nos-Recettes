@@ -75,15 +75,18 @@ $default: false;
 // ------------ Banderole mixin
 @mixin ribbon($position, $width: 23px) {
 	content: "";
-	@if $position == left {
+    border: 1px solid rgb(177, 177, 177);
+	@if $position == right {
 		@include position(absolute, $default, -$width, -8px);
+        border-left: 5px solid $color-darkgrey;
 	} @else {
 		@include position(absolute, $default, $default, -10px, -$width);
+        border-right: 5px solid $color-darkgrey;
 	}
 	height: calc(100% - 8px);
 	width: calc($width + 1px);
 	background-color: rgba(241, 241, 241, 0.904);
-	border: 1px solid rgb(177, 177, 177);
+	border-bottom: 1px solid;
 	transform: skew(0deg, -4deg);
 	z-index: -1;
 }

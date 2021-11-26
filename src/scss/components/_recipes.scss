@@ -4,8 +4,14 @@
 
 /* all recipes */
 .recipes {
-	padding: 1rem calc($ribbon-right + 1rem) 1rem calc($ribbon-right + 1rem);
+	grid-area: content;
+	justify-self: center;
 	max-width: 1100px;
+    padding: 0 1rem;
+
+    @include desktop {
+		padding: 0 2rem;
+	}
 
 	h2 {
 		padding-bottom: 50px;
@@ -22,7 +28,7 @@
 .recipe {
 	@include border($default, $color-grey, 1px);
 	border-radius: 30px;
-	padding: 1rem;
+	padding: 0.8rem;
 
 	&-top {
 		position: relative;
@@ -35,7 +41,7 @@
 				$default,
 				-$ribbon-left
 			);
-			transform: skew(0deg, -2deg);
+            transform: skew(0deg, -2deg);
 
 			h3 {
 				position: relative;
@@ -53,25 +59,29 @@
 				);
 				padding: 0.7rem 1rem;
 
-				/* border-radius: 5px; */
-
-				@include border((left, right, top), $color-darkgrey, 1px);
-				border-bottom: 5px solid;
-				border-image-slice: 1;
+                border-radius: 5px 3px 0 3px;
+                @include border((left, right, top), $color-darkgrey, 1px);
+                border-bottom: 5px solid;
+				/* border-image-slice: 1;
 				border-image-source: linear-gradient(
 					to right,
 					black,
 					$color-darkgrey
-				);
+				); */
 
-				&:before {
-					@include ribbon(left);
-					border-left: 5px solid $color-darkgrey;
-					border-bottom: 1px solid;
+				&:after {
+					@include ribbon(right);
 				}
-				/* &:after {
-                    @include ribbon(right);
-                } */
+				&:before {
+                    /* @include ribbon(left); */
+                    content: "";
+                    @include position(absolute, $default, $default, -6px, 0);
+                    width: 8px;
+                    height:10px;
+                    background-color: $color-darkgrey;
+                    transform: skew(0deg, 14deg);
+                    z-index: -1;
+                }
 			}
 		}
 
