@@ -27,13 +27,12 @@ $random-img-food: nth($imgs-food, random($nbr-imgs-food));
 // ---------- Sizes
 
 // Sidebar
-$sidebar-size: 180px;
 $sidebar-gutter: 40px;
+$sidebar-size: 180px;
+$sidebar-mobile-size: calc(100vw - $sidebar-gutter);
+
 /* $rest-size: calc(100% - ($sidebar-size + $sidebar-gutter)); */
 
 // Ribbons
 $ribbon-left: 1.4rem;
 $ribbon-right: calc($ribbon-left + 0.3rem);
-
-
-

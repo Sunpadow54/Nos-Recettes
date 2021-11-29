@@ -7,6 +7,7 @@
 
 $animes : (
     "sidebar": $sidebar-size,
+    "sidebar-mobile": $sidebar-mobile-size,
     "content": - calc($sidebar-size / 2)
 );
 

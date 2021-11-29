@@ -1,8 +1,5 @@
-/* import { useState } from "react"; */
 /* import Components */
 import Button from './Button';
-/* import icon */
-/* import { AiOutlineMenuFold } from "react-icons/ai"; */
 
 
 const Sidebar = () => {
@@ -24,20 +21,20 @@ const Sidebar = () => {
             <h2>Hello {name} !</h2>
             <p>Bon Appétit !</p>
             <nav className="sidebar-content-nav">
-                <Button 
-                    onClick={ addRecipe }
+                <Button
+                    onClick={addRecipe}
                     className="sidebar-content-nav__btn sidebar-content-nav__btn--create"
                     btnText='Créer une Recette'
                     btnType='addRecipe'
                 />
-                <Button 
-                    onClick={ goToProfile }
+                <Button
+                    onClick={goToProfile}
                     className="sidebar-content-nav__btn sidebar-content-nav__btn--profil"
                     btnText='Mon Profil'
                     btnType='profile'
                 />
-                <Button 
-                    onClick={ goToProfile }
+                <Button
+                    onClick={goToProfile}
                     className="sidebar-content-nav__btn sidebar-content-nav__btn--search"
                     btnText='Recherche'
                     btnType='search'

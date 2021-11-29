@@ -3,12 +3,14 @@
 // -----------------------------------------------------------
 
 header {
+	// main title
 	h1 {
 		@include flex($default, $default, center, center);
 		gap: 1rem;
 		text-align: center;
+		margin-top: $sidebar-gutter;
 	}
-
+	// nav links
 	.breadcrumb {
 		@include flex($default, wrap, center, center);
 		gap: 1rem;
@@ -28,18 +30,20 @@ header {
 			}
 		}
 	}
-
+	// user actions
 	.sidebar {
-		@include position(fixed, 0, 0, 0);
+		@include position(fixed, 0, 0, 0, 0);
 		display: flex;
 		z-index: 1;
-		background: white;
-		@include animate-slide(sidebar-in);
+
+		@include desktop {
+			left: auto;
+		}
 
 		&-content {
-			width: $sidebar-size;
+			width: $sidebar-mobile-size;
 			height: 100%;
-			background: white;
+			flex: 1;
 			background: linear-gradient(
 					to bottom,
 					rgb(255, 255, 255) 50%,
@@ -48,15 +52,26 @@ header {
 				),
 				bottom / contain no-repeat url("./img/" + $random-img-food);
 			padding: 1rem;
+			@include border(left);
 
+			@include desktop {
+				width: $sidebar-size;
+				border: 0;
+			}
+			// btns actions
 			&-nav {
-				@include flex(column);
+				position: relative;
+				@include flex(column, $default, $default, center);
+				margin: auto;
 				gap: 1rem;
 				margin-top: 3rem;
-				position: relative;
 				z-index: 1;
-			}
 
+				button {
+					width: 100%;
+				}
+			}
+			// title & message
 			p,
 			h2 {
 				text-align: center;
@@ -66,9 +81,27 @@ header {
 				font-style: italic;
 			}
 		}
+		// mobile version
+		/* &-mobile {
+			left: 0;
+		} */
 
-        &--hide {
-            @include animate-slide(sidebar-out);
-        }
+		// sidebar animate
+		&--hide {
+			@include animate-slide(sidebar-mobile-out);
+		}
+		&--show {
+			@include animate-slide(sidebar-mobile-in);
+		}
+
+		@include desktop {
+			&--hide {
+				@include animate-slide(sidebar-out);
+			}
+			&--show {
+				@include animate-slide(sidebar-in);
+				width: auto;
+			}
+		}
 	}
 }
