@@ -26,13 +26,15 @@ $random-img-food: nth($imgs-food, random($nbr-imgs-food));
 
 // ---------- Sizes
 
-// Sidebar
+// -- Sidebar
 $sidebar-gutter: 40px;
 $sidebar-size: 180px;
-$sidebar-mobile-size: calc(100vw - $sidebar-gutter);
+$sidebar-mobile-size: 100vw;
 
-/* $rest-size: calc(100% - ($sidebar-size + $sidebar-gutter)); */
-
+// -- Cards
+// Imgs
+$img-edge-mobile: 8px;
+$img-edge: 12px;
 // Ribbons
-$ribbon-left: 1.4rem;
-$ribbon-right: calc($ribbon-left + 0.3rem);
+$ribbon-size: calc($img-edge + 6px);
+$ribbon-size-mobile: calc($img-edge-mobile + 6px);

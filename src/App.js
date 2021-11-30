@@ -98,7 +98,7 @@ function App() {
 	]);
 
 	// Shrink | Grow of <main>  (depend on Sidebar (header) showned or hide)
-	const [isShrink, setShrink] = useState(true);
+	const [isShrink, setShrink] = useState(false);
 	const toogleShrink = (sideBarState) => {
 		setShrink(sideBarState);
 	};

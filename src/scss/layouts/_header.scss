@@ -32,13 +32,9 @@ header {
 	}
 	// user actions
 	.sidebar {
-		@include position(fixed, 0, 0, 0, 0);
+		@include position(fixed, 0, 0, 0);
 		display: flex;
 		z-index: 1;
-
-		@include desktop {
-			left: auto;
-		}
 
 		&-content {
 			width: $sidebar-mobile-size;
@@ -52,11 +48,9 @@ header {
 				),
 				bottom / contain no-repeat url("./img/" + $random-img-food);
 			padding: 1rem;
-			@include border(left);
 
 			@include desktop {
 				width: $sidebar-size;
-				border: 0;
 			}
 			// btns actions
 			&-nav {
@@ -82,9 +76,9 @@ header {
 			}
 		}
 		// mobile version
-		/* &-mobile {
+		&-mobile {
 			left: 0;
-		} */
+		}
 
 		// sidebar animate
 		&--hide {

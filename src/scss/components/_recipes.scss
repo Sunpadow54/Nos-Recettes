@@ -7,7 +7,7 @@
 	grid-area: content;
 	justify-self: center;
 	max-width: 1100px;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
 
     @include desktop {
 		padding: 0 2rem;
@@ -15,12 +15,21 @@
 
 	h2 {
 		padding-bottom: 50px;
+        text-align: center;
+
+        @include desktop {
+            text-align: left;
+        }
 	}
 
 	&__cards {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+		@include flex(column, $default, $default, center);
 		gap: 5rem;
+
+        @include desktop {
+            display: grid;
+		    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+        }
 	}
 }
 
@@ -28,24 +37,32 @@
 .recipe {
 	@include border($default, $color-grey, 1px);
 	border-radius: 30px;
-	padding: 0.8rem;
+	padding: $img-edge-mobile;
+
+    @include desktop {
+        padding: $img-edge;
+    }
 
 	&-top {
 		position: relative;
 
 		&__title {
-			@include position(
-				absolute,
-				25px,
-				-$ribbon-right,
-				$default,
-				-$ribbon-left
-			);
             transform: skew(0deg, -2deg);
+            @include position(
+                    absolute,
+                    15px, -$ribbon-size-mobile, $default, -$ribbon-size-mobile
+            );
+
+            @include desktop {
+                @include position(
+                    absolute,
+                    15px, -$ribbon-size, $default, -$ribbon-size
+                );
+            }
 
 			h3 {
 				position: relative;
-				font-size: 1.3rem;
+				font-size: 1.25rem;
 				font-weight: normal;
 				text-transform: uppercase;
 				background-color: rgba(255, 255, 255, 0.7);
@@ -62,26 +79,14 @@
                 border-radius: 5px 3px 0 3px;
                 @include border((left, right, top), $color-darkgrey, 1px);
                 border-bottom: 5px solid;
-				/* border-image-slice: 1;
-				border-image-source: linear-gradient(
-					to right,
-					black,
-					$color-darkgrey
-				); */
 
 				&:after {
-					@include ribbon(right);
+					@include ribbon(right, $ribbon-size-mobile);
+
+                    @include desktop {
+                        @include ribbon(right, $ribbon-size);
+                    }
 				}
-				&:before {
-                    /* @include ribbon(left); */
-                    content: "";
-                    @include position(absolute, $default, $default, -6px, 0);
-                    width: 8px;
-                    height:10px;
-                    background-color: $color-darkgrey;
-                    transform: skew(0deg, 14deg);
-                    z-index: -1;
-                }
 			}
 		}
 
