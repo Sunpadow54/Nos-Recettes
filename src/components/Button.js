@@ -1,4 +1,6 @@
-import PropTypes from 'prop-types'
+/* import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+// import Icons
 import { GrAdd } from 'react-icons/gr'
 import { RiUserSmileLine } from 'react-icons/ri'
 import { IoSearchSharp } from 'react-icons/io5'
@@ -32,4 +34,4 @@ Button.propTypes = {
     btnType: PropTypes.string.isRequired,
 }
 
-export default Button
+export default Button */

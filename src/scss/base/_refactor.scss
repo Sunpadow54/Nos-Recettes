@@ -3,27 +3,26 @@
 // Reset some basic automatic style
 // -----------------------------------------------------------
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+		"Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+		"Helvetica Neue", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
-
 * {
-    text-decoration: none;
-    list-style: none;
-    box-sizing: border-box;
-    outline: none;
-    border: none;
-    padding: 0;
+	text-decoration: none;
+	list-style: none;
+	box-sizing: border-box;
+	outline: none;
+	border: none;
+	padding: 0;
 }
 
 img {
-    max-width: 100%;
-    display: block;
+	max-width: 100%;
+	display: block;
 	object-fit: cover;
 	object-position: center;
 }
@@ -34,6 +33,9 @@ input {
 	cursor: pointer;
 }
 
-h3 {
-    margin: 0;
+h3,
+ul,
+h5 {
+	margin: 0;
+	padding: 0;
 }

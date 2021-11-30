@@ -1,48 +1,59 @@
+import { Link } from "react-router-dom";
 /* import Components */
-import Button from './Button';
-
+/* import Button from './Button'; */
+// import Icons
+import { GrAdd } from "react-icons/gr";
+import { RiUserSmileLine } from "react-icons/ri";
+import { IoSearchSharp } from "react-icons/io5";
 
 const Sidebar = () => {
-    /* variables */
-    const name = 'User name';
+	/* variables */
+	const name = "User name";
 
-    /* redirections */
-    const goToProfile = (event) => {
-        console.log('profile redirect');
-    }
-
-    /* Fetchs */
-    const addRecipe = (event) => {
-        console.log('nouvelle recette');
-    }
-
-    return (
-        <div className="sidebar-content">
-            <h2>Hello {name} !</h2>
-            <p>Bon Appétit !</p>
-            <nav className="sidebar-content-nav">
-                <Button
-                    onClick={addRecipe}
+	return (
+		<div className="sidebar-content">
+			<h2>Hello {name} !</h2>
+			<p>Bon Appétit !</p>
+			<nav className="sidebar-content-nav">
+				<Link
+					to="/create"
+					className="sidebar-content-nav__btn sidebar-content-nav__btn--create"
+				>
+					<GrAdd /> Créer une Recette
+				</Link>
+				<Link
+					to="/profile"
+					className="sidebar-content-nav__btn sidebar-content-nav__btn--profil"
+				>
+					<RiUserSmileLine /> Mon Profil
+				</Link>
+				<Link
+					to="/"
+					className="sidebar-content-nav__btn sidebar-content-nav__btn--search"
+				>
+					<IoSearchSharp /> Recherche
+				</Link>
+				{/* <Button
+                    href='/create'
                     className="sidebar-content-nav__btn sidebar-content-nav__btn--create"
                     btnText='Créer une Recette'
                     btnType='addRecipe'
                 />
                 <Button
-                    onClick={goToProfile}
+                    href={goToProfile}
                     className="sidebar-content-nav__btn sidebar-content-nav__btn--profil"
                     btnText='Mon Profil'
                     btnType='profile'
                 />
                 <Button
-                    onClick={goToProfile}
+                    href={goToProfile}
                     className="sidebar-content-nav__btn sidebar-content-nav__btn--search"
                     btnText='Recherche'
                     btnType='search'
-                />
-            </nav>
-        </div>
-    )
-}
+                /> */}
+			</nav>
+		</div>
+	);
+};
 
-export default Sidebar
-
+export default Sidebar;

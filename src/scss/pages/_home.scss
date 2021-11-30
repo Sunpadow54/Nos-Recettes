@@ -3,9 +3,7 @@
 // -----------------------------------------------------------
 
 .container-home {
-	overflow: hidden;
-
-    // animate Sidebar & cie
+	// animate Sidebar & cie
 	@include desktop {
 		header > h1,
 		header > nav {
@@ -13,18 +11,19 @@
 		}
 
 		.main-home {
-            @include desktop {
-                display: grid;
-                grid-template-columns: 1fr $sidebar-gutter;
-                grid-template-areas: "content sidebar";
-                column-gap: 0rem;
-                transition: 0.4s ease-in;
-                
-                &--small {
-                    column-gap: calc(1.5rem + $sidebar-size);
-                    transition: 0.4s ease-in;
-                }
-            }
+			@include desktop {
+				display: grid;
+				grid-template-columns: 1fr $sidebar-gutter;
+				grid-template-rows: auto;
+				grid-template-areas: "content sidebar";
+				column-gap: 0rem;
+				transition: 0.4s ease-in;
+
+				&--small {
+					column-gap: calc(1.5rem + $sidebar-size);
+					transition: 0.4s ease-in;
+				}
+			}
 		}
 
 		.grow {
@@ -32,6 +31,27 @@
 		}
 		.shrink {
 			@include animate-slide(content-out);
+		}
+	}
+}
+
+section {
+	grid-area: content;
+	justify-self: center;
+	max-width: 1000px;
+	width: 100%;
+	padding: 0 1.5rem;
+
+	@include desktop {
+		padding: 0 2rem;
+	}
+
+	h2 {
+		padding-bottom: 50px;
+		text-align: center;
+
+		@include desktop {
+			text-align: left;
 		}
 	}
 }

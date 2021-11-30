@@ -3,62 +3,58 @@
 // -----------------------------------------------------------
 
 /* all recipes */
-.recipes {
-	grid-area: content;
-	justify-self: center;
-	max-width: 1100px;
-    padding: 0 1.5rem;
+.recipes__cards {
+	@include flex(column, $default, $default, center);
+	gap: 5rem;
 
-    @include desktop {
-		padding: 0 2rem;
+	@include desktop {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
 	}
 
-	h2 {
-		padding-bottom: 50px;
-        text-align: center;
-
-        @include desktop {
-            text-align: left;
-        }
-	}
-
-	&__cards {
-		@include flex(column, $default, $default, center);
-		gap: 5rem;
-
-        @include desktop {
-            display: grid;
-		    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-        }
+	li {
+		height: 100%;
+		.recipe-ingredients {
+			flex: 1;
+		}
 	}
 }
 
 /* one recipe */
 .recipe {
+	@include flex(column);
+	gap: 0.5rem;
+
 	@include border($default, $color-grey, 1px);
 	border-radius: 30px;
 	padding: $img-edge-mobile;
 
-    @include desktop {
-        padding: $img-edge;
-    }
+	@include desktop {
+		padding: $img-edge;
+	}
 
 	&-top {
 		position: relative;
 
 		&__title {
-            transform: skew(0deg, -2deg);
-            @include position(
-                    absolute,
-                    15px, -$ribbon-size-mobile, $default, -$ribbon-size-mobile
-            );
+			transform: skew(0deg, -2deg);
+			@include position(
+				absolute,
+				15px,
+				-$ribbon-size-mobile,
+				$default,
+				-$ribbon-size-mobile
+			);
 
-            @include desktop {
-                @include position(
-                    absolute,
-                    15px, -$ribbon-size, $default, -$ribbon-size
-                );
-            }
+			@include desktop {
+				@include position(
+					absolute,
+					15px,
+					-$ribbon-size,
+					$default,
+					-$ribbon-size
+				);
+			}
 
 			h3 {
 				position: relative;
@@ -76,16 +72,16 @@
 				);
 				padding: 0.7rem 1rem;
 
-                border-radius: 5px 3px 0 3px;
-                @include border((left, right, top), $color-darkgrey, 1px);
-                border-bottom: 5px solid;
+				border-radius: 5px 3px 0 3px;
+				@include border((left, right, top), $color-darkgrey, 1px);
+				border-bottom: 5px solid;
 
 				&:after {
 					@include ribbon(right, $ribbon-size-mobile);
 
-                    @include desktop {
-                        @include ribbon(right, $ribbon-size);
-                    }
+					@include desktop {
+						@include ribbon(right, $ribbon-size);
+					}
 				}
 			}
 		}
@@ -96,24 +92,40 @@
 		}
 	}
 
-	&__ingredients {
-		@include flex($default, wrap);
-		padding: 1rem 0;
-		gap: 0.5rem;
+	&-ingredients {
+		&__list {
+			@include flex($default, wrap);
+			padding: 1rem 0;
+			gap: 0.5rem;
 
-		&--tags {
-			padding: 0.2rem 1rem;
-			color: $color-darkgrey;
-			border-radius: 10px;
-			background-color: lighten($color-grey, 30%);
+			li {
+				padding: 0.2rem 1rem;
+				color: $color-darkgrey;
+				border-radius: 10px;
+				background-color: lighten($color-grey, 30%);
+			}
 		}
 	}
 
-	h4 {
-		display: none;
+	&-steps {
+		h4 {
+			@include flex($default, $default, $default, center);
+			gap: 0.5rem;
+		}
+
+		&__list {
+			@include flex($default, wrap);
+			padding: 1rem 0;
+			gap: 1rem;
+		}
 	}
 
-	&__steps {
-		display: none;
+	&__see-more {
+		align-self: center;
+	}
+
+	h4 {
+		font-size: 1.3rem;
+		text-transform: uppercase;
 	}
 }
