@@ -13,7 +13,7 @@ CREATE TABLE users
 CREATE TABLE ingredients 
 (
     id SERIAL PRIMARY KEY,
-	name VARCHAR(100)
+	name VARCHAR(100) UNIQUE
 );
 
 CREATE TABLE recipes 
@@ -36,7 +36,7 @@ CREATE TABLE recipe_ingredients
     id SERIAL PRIMARY KEY,
     id_recipe INT NOT NULL,
 	id_ingredient INT NOT NULL,
-	quantity INT NOT NULL,
+	quantity INT,
 	unit VARCHAR(10),
     CONSTRAINT fk_id_recipe_ri
         FOREIGN KEY (id_recipe)

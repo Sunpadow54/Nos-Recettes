@@ -5,33 +5,51 @@ const format = require('pg-format');
 
 // ============================================================
 
-// constructor 
+// Recipe constructor
 class Recipe {
     constructor(recipe) {
-		this.id_user = recipe.userId;
+        this.id_user = recipe.userId;
         this.created_at = new Date();
-		this.duration = recipe.duration;
         this.title = recipe.title;
+        this.duration = recipe.duration;
         this.preparation = recipe.preparation;
         this.img = recipe.img;
-		this.category = recipe.category;
+        this.category = recipe.category;
     }
 }
 
 
 // ============================================================
 
-Recipe.create = (newRecipe) => {
-    // define client query
-    const keys = format(`%s`, Object.keys(newRecipe));
-    let values = format(`%L`,Object.values(newRecipe));
+/* query create the Recipe + the Recipe_ingredients + ingredients (if they are not yet in the db) */ 
+Recipe.create = (newRecipe, ingredients) => {
+    const recipeKeys = format(`%s`, Object.keys(newRecipe));
+    let recipeValues = format(`%L`, Object.values(newRecipe));
     // construct Array insert for postgresql
-    values = values.replaceAll('(', 'ARRAY[');
-    values = values.replaceAll(')', ']');
+    recipeValues = recipeValues.replaceAll('(', 'ARRAY[');
+    recipeValues = recipeValues.replaceAll(')', ']');
 
-    const query = `INSERT INTO recipes (${keys}) VALUES (${values})`;
-
-    console.log(query);
+    const query =
+        `WITH  data(ingredient, quantity, unit) AS (
+            VALUES ${format(`%L`, ingredients)}
+        ),
+        insertRecipe AS(
+            INSERT INTO recipes (${recipeKeys}) 
+            VALUES (${recipeValues})
+            RETURNING id AS id_recipe, title
+        ),
+        insertIngredients AS (
+            INSERT INTO ingredients (name)
+            SELECT data.ingredient FROM data
+            ON     CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
+            RETURNING name, id AS id_ingredients
+        )
+        INSERT INTO recipe_ingredients (id_recipe, id_ingredient, quantity, unit)
+        SELECT r.id_recipe, ing.id_ingredients, d.quantity::INTEGER, d.unit
+        FROM insertRecipe AS r, data AS d
+        INNER JOIN insertIngredients AS ing
+            ON d.ingredient = ing.name
+        ;`;
     // ask client
     return new Promise((resolve, reject) => {
         db.query(query, (err, res) => {
@@ -39,7 +57,7 @@ Recipe.create = (newRecipe) => {
             if (err) return reject(err);
             // success
             resolve(res);
-        }); 
+        });
     })
 }
 

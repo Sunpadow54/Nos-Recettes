@@ -13,8 +13,8 @@ exports.createRecipe = (req, res, next) => {
 		...req.body.recipe,
 		userId: 1 // use res.locals 
 	});
-	/* console.log(newRecipe); */
-	Recipe.create(newRecipe)
+
+	Recipe.create(newRecipe, req.body.ingredients)
 		.then(newRecipe => res.status(201).json({newRecipe}))
 		.catch(error => res.status(500).json({error}))
 };
