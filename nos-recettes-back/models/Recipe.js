@@ -50,13 +50,60 @@ Recipe.create = (newRecipe, ingredients) => {
         INNER JOIN insertIngredients AS ing
             ON d.ingredient = ing.name
         ;`;
-    // ask client
+    // ask db
     return new Promise((resolve, reject) => {
         db.query(query, (err, res) => {
             // error
             if (err) return reject(err);
             // success
             resolve(res);
+        });
+    })
+}
+
+Recipe.findAll = () => {
+    const query =
+        `SELECT * FROM recipes;`;
+
+    // ask db
+    return new Promise((resolve, reject) => {
+        db.query(query, (err, res) => {
+            // error
+            if (err) return reject(err);
+            // success
+            resolve(res.rows);
+        });
+    })
+}
+
+Recipe.findOne = (id) => {
+    const query = format(
+        `SELECT 
+            r.id, CONCAT(u.lastname, ' ', u.firstname) AS "author",
+            r.created_at AS date, r.duration, r.title, r.preparation,
+            r.img, r.category,
+            ri.ingredients
+        FROM recipes AS r
+        JOIN users AS u ON r.id_user = u.id
+        LEFT JOIN (
+            SELECT 
+                id_recipe, 
+                array_agg(i.name || '/' || quantity || '/' || unit) AS ingredients
+            FROM recipe_ingredients
+            LEFT JOIN ingredients AS i ON id_ingredient = i.id
+            GROUP BY id_recipe
+        ) ri ON id_recipe = r.id
+        WHERE r.id = %L
+        ;`, id
+    );
+
+    // ask db
+    return new Promise((resolve, reject) => {
+        db.query(query, (err, res) => {
+            // error
+            if (err) return reject(err);
+            // success
+            resolve(res.rows);
         });
     })
 }

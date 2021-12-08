@@ -16,8 +16,9 @@ const recipeCtrl = require('../controllers/recipe');
 // ============================================================
 // ------------------------- ROADS ----------------------------
 
+router.get('/', recipeCtrl.getAllRecipes);
+router.get('/:id', recipeCtrl.getOneRecipe);
 router.post('/', recipeCtrl.createRecipe);
-
 
 // ============================================================
 // ------------------------- EXPORT ---------------------------
