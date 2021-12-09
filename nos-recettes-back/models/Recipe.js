@@ -21,7 +21,6 @@ class Recipe {
 
 // ============================================================
 
-/* query create the Recipe + the Recipe_ingredients + ingredients (if they are not yet in the db) */ 
 Recipe.create = (newRecipe, ingredients) => {
     const recipeKeys = format(`%s`, Object.keys(newRecipe));
     let recipeValues = format(`%L`, Object.values(newRecipe));
@@ -30,7 +29,7 @@ Recipe.create = (newRecipe, ingredients) => {
     recipeValues = recipeValues.replaceAll(')', ']');
 
     const query =
-        `WITH  data(ingredient, quantity, unit) AS (
+        `WITH data(ingredient, quantity, unit) AS (
             VALUES ${format(`%L`, ingredients)}
         ),
         insertRecipe AS(
@@ -41,7 +40,7 @@ Recipe.create = (newRecipe, ingredients) => {
         insertIngredients AS (
             INSERT INTO ingredients (name)
             SELECT data.ingredient FROM data
-            ON     CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
+            ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
             RETURNING name, id AS id_ingredients
         )
         INSERT INTO recipe_ingredients (id_recipe, id_ingredient, quantity, unit)
@@ -61,6 +60,7 @@ Recipe.create = (newRecipe, ingredients) => {
     })
 }
 
+
 Recipe.findAll = () => {
     const query =
         `SELECT * FROM recipes;`;
@@ -75,6 +75,7 @@ Recipe.findAll = () => {
         });
     })
 }
+
 
 Recipe.findOne = (id) => {
     const query = format(
@@ -104,6 +105,86 @@ Recipe.findOne = (id) => {
             if (err) return reject(err);
             // success
             resolve(res.rows);
+        });
+    })
+}
+
+
+Recipe.findRecipeUserId = (idRecipe) => {
+    const query = format(
+        `SELECT 
+            id_user
+        FROM recipes
+        WHERE id = %L
+        ;`, idRecipe
+    );
+
+    // ask db
+    return new Promise((resolve, reject) => {
+        db.query(query, (err, res) => {
+            // error
+            if (err) return reject(err);
+            // success
+            resolve(res.rows[0].id_user);
+        });
+    })
+}
+
+
+Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
+    // initialize the DB Query
+    let query = '';
+
+    // Populate Query if the ingredients are changed
+    if (newIngredients) {
+        query += format(
+            `WITH data(ingredient, quantity, unit) AS (
+                VALUES %L
+            ),
+            insertIngredients AS (
+                INSERT INTO ingredients (name)
+                SELECT data.ingredient FROM data
+                ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
+                RETURNING name, id AS id_ingredient
+            ),
+            ing AS (
+                UPDATE recipe_ingredients AS ri
+                    SET 
+                        quantity = di.quantity::INTEGER,
+                        unit = di.unit
+                FROM (
+                    SELECT i.id_ingredient, d.quantity, d.unit
+                    FROM data AS d
+                    INNER JOIN insertIngredients AS i
+                        ON d.ingredient = i.name
+                ) AS di (id_ingredient, quantity, unit)
+                WHERE ri.id_recipe = %L AND di.id_ingredient = ri.id_ingredient
+            )
+            `, newIngredients, idRecipe
+        )
+    }
+
+    // format the inserts for the recipe
+    let recipeInserts = [];
+    for (let key in newRecipe) {
+        recipeInserts.push(format('%s = %L', key, newRecipe[key]));
+    }
+
+    // Populate Query to change the recipe
+    query += format(
+        `UPDATE recipes 
+            SET %s
+        WHERE id = %L
+        ;`, recipeInserts, idRecipe
+    );
+
+    // ask db
+    return new Promise((resolve, reject) => {
+        db.query(query, (err, res) => {
+            // error
+            if (err) return reject(err);
+            // success
+            resolve(res);
         });
     })
 }
