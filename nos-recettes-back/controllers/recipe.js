@@ -33,7 +33,7 @@ exports.createRecipe = (req, res, next) => {
 
 exports.editRecipe = (req, res, next) => {
     // find the recipe and check if user is author
-    Recipe.findRecipeUserId(req.params.id)
+    Recipe.findUserId(req.params.id)
         .then(recipeUserId => {
             const isAuthor = recipeUserId === 1 ? true : false; // ! use res.locals
             // the user is not the author
@@ -47,6 +47,26 @@ exports.editRecipe = (req, res, next) => {
 
             Recipe.edit(newIngredients, newRecipe, req.params.id)
                 .then((editedRecipe) => res.status(201).json({ editedRecipe }))
+                .catch(error => res.status(500).json({ error }));
+        })
+        .catch(error => res.status(500).json({ error }));
+};
+
+
+exports.deleteRecipe = (req, res, next) => {
+    // find the recipe and check if user is author
+    Recipe.findUserId(req.params.id)
+        .then(recipeUserId => {
+            const isAuthor = recipeUserId === 1 ? true : false; // ! use res.locals
+            // the user is not the author
+            if (!isAuthor) { throw 'unauthorized' };
+
+            // user is author
+            const ids = { recipeId: req.params.id, userId: 1 }; // ! use res.locals
+
+            Recipe.delete(ids)
+                .then((deletedRecipe) => res.status(201).json({ deletedRecipe }))
+                .catch(error => res.status(500).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
 };

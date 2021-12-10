@@ -110,7 +110,7 @@ Recipe.findOne = (id) => {
 }
 
 
-Recipe.findRecipeUserId = (idRecipe) => {
+Recipe.findUserId = (idRecipe) => {
     const query = format(
         `SELECT 
             id_user
@@ -124,6 +124,7 @@ Recipe.findRecipeUserId = (idRecipe) => {
         db.query(query, (err, res) => {
             // error
             if (err) return reject(err);
+            if (res.rowCount === 0) return reject('This recipe does not exist');
             // success
             resolve(res.rows[0].id_user);
         });
@@ -188,6 +189,25 @@ Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
         });
     })
 }
+
+
+Recipe.delete = ({ recipeId, userId}) => {
+    // define the query
+    const query = format(
+        `DELETE FROM recipes WHERE id = %L AND id_user = %L`
+        , recipeId, userId );
+
+    // ask client
+    return new Promise((resolve, reject) => {
+        db.query(query, (err, res) => {
+            // error
+            //if (res.affectedRows === 0) return reject('Could not delete this Post')
+            if (err) return reject(err);
+            // success
+            resolve('deleted');
+        });
+    })
+};
 
 // ============================================================
 // ------------------------- EXPORT ---------------------------

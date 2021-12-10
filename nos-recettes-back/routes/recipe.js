@@ -20,6 +20,7 @@ router.get('/', recipeCtrl.getAllRecipes);
 router.post('/', recipeCtrl.createRecipe);
 router.get('/:id', recipeCtrl.getOneRecipe);
 router.put('/:id', recipeCtrl.editRecipe);
+router.delete('/:id', recipeCtrl.deleteRecipe);
 
 // ============================================================
 // ------------------------- EXPORT ---------------------------
