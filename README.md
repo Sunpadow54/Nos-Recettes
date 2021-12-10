@@ -2,22 +2,24 @@
 
 ## Projet 
 
-Apprentissage de React en créant un site/app de recettes pour les partager avec ses amis .
+Apprentissage de React & exercices Postgresql en créant un site de recettes pour les partager avec ses amis .
 ...
 
-(work in progress)
+(work in progress :see_no_evil: :tada:)
 
 ## Installation
 
 node version 16.7.0
-pour une installation rapide :
+- front : <kbd> :file_folder: nos-recettes-front </kbd>
+- back : <kbd> :file_folder: nos-recettes-back </kbd>
 
 ```
-npm install
+npm install 
 ```
 
 ### 3. Lancer le projet
 
+<kbd> :file_folder: nos-recettes-front </kbd> :
 
 - Pour avoir accès au serveur de développement : `npm run start` (Rendez-vous sur http://localhost:3000/)
 
@@ -27,6 +29,9 @@ npm install
 
 * Sass
 * React 17.0.2
+* Node Js 
+    * Express
+* Database : postgresql
 
 ## Auteur
 
