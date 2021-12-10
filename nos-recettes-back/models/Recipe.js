@@ -178,7 +178,6 @@ Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
         ;`, recipeInserts, idRecipe
     );
 
-    console.log(query);
     // ask db
     return new Promise((resolve, reject) => {
         db.query(query, (err, res) => {

@@ -11,6 +11,7 @@ const hpp = require('hpp'); // against Dos attack (avoid parameters pollution)
 
 // ---- Import Roads
 const recipeRoutes = require('./routes/recipe');
+const userRoutes = require('./routes/user');
 
 // ============================================================
 // ----------------------- Create app -------------------------
@@ -44,6 +45,7 @@ app.use(hpp());
 
 // --- Roads
 app.use('/api/recipe', recipeRoutes);
+app.use('/api/user', userRoutes);
 
 
 // ============================================================
