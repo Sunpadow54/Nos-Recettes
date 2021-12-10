@@ -148,18 +148,17 @@ Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
                 ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
                 RETURNING name, id AS id_ingredient
             ),
-            ing AS (
-                UPDATE recipe_ingredients AS ri
-                    SET 
-                        quantity = di.quantity::INTEGER,
-                        unit = di.unit
-                FROM (
-                    SELECT i.id_ingredient, d.quantity, d.unit
-                    FROM data AS d
-                    INNER JOIN insertIngredients AS i
-                        ON d.ingredient = i.name
-                ) AS di (id_ingredient, quantity, unit)
-                WHERE ri.id_recipe = %L AND di.id_ingredient = ri.id_ingredient
+            recipeIngr AS (
+                INSERT INTO recipe_ingredients (id_recipe, id_ingredient, quantity, unit)
+                SELECT %L, i.id_ingredient, d.quantity::INTEGER, d.unit
+                FROM data AS d
+                INNER JOIN insertIngredients AS i
+                    ON d.ingredient = i.name
+                ON CONFLICT (id_recipe, id_ingredient) 
+                DO UPDATE
+                    SET
+                        quantity = EXCLUDED.quantity::INTEGER,
+                        unit = EXCLUDED.unit
             )
             `, newIngredients, idRecipe
         )
@@ -179,6 +178,7 @@ Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
         ;`, recipeInserts, idRecipe
     );
 
+    console.log(query);
     // ask db
     return new Promise((resolve, reject) => {
         db.query(query, (err, res) => {
