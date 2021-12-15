@@ -50,20 +50,20 @@ exports.createUser = (req, res, next) => {
 
 
 exports.editUser = (req, res, next) => {
-    User.findOne({ id: 3 }) // ! use res.locals
-        // confirm password
+    User.findOne({ id: 2 }) // ! use res.locals
+        // 1 : Confirm password
         .then(user => {
             return checkPassword(req.body.oldPassword, user.pass);
         })
-        // if user send a new password Hash it
+        // 2 : If user send a new password Hash it
         .then(valid => {
             if (req.body.newPassword) {
                 return hashPassword(req.body.newPassword)
             }
         })
-        // create new user object for update in db
+        // 3 : Create new user object and update in db
         .then(newPass => {
-            let userEdited = { 
+            let userEdited = {
                 ...req.body
             };
             delete userEdited.oldPassword;
@@ -71,17 +71,16 @@ exports.editUser = (req, res, next) => {
             // add password if newPass
             req.body.email ? userEdited.email = encryptEmail(req.body.email) : false;
             newPass ? userEdited.pass = newPass : false; // add password if changed
-
+            // Update in the db
             return User.edit(userEdited, 2) // ! use res.locals
-
-        // Update in the db
         })
+        // SUCESS : send message
         .then(message => {
             res.status(201).json({
                 ...message, newEmail: decryptEmail(message.newEmail)
             })
         })
-        // Error
+        // ERRORS
         .catch(error => {
             // custom error and status code
             const code = error.code ? error.code : 500;

@@ -7,7 +7,7 @@ const express = require('express');
 const router = new express.Router();
 
 // ---- Import middelwares
-const { userSignUpRules, validateSignUp } = require('../middleware/validate');
+const { userSignUpRules, userEditRules, validateRules } = require('../middleware/validate');
 
 // ----- Import Controlls
 const userCtrl = require('../controllers/user');
@@ -16,8 +16,8 @@ const userCtrl = require('../controllers/user');
 // ============================================================
 // ------------------------- ROADS ----------------------------
 
-router.post('/create', userSignUpRules(), validateSignUp, userCtrl.createUser); // ! add admin restriction
-router.put('/edit', userCtrl.editUser);
+router.post('/create', userSignUpRules(), validateRules, userCtrl.createUser); // ! add admin restriction
+router.put('/edit', userEditRules(), validateRules, userCtrl.editUser);
 router.get('/', userCtrl.getOneUser);
 
 // ============================================================
