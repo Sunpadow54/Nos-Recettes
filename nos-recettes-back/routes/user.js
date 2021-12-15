@@ -16,10 +16,9 @@ const userCtrl = require('../controllers/user');
 // ============================================================
 // ------------------------- ROADS ----------------------------
 
-router.post('/create', userSignUpRules(), validateSignUp , userCtrl.createUser); // ! add admin restriction
-/* router.get('/:id', userCtrl.getOneRecipe);
-router.put('/:id', userCtrl.editRecipe);
-router.delete('/:id', userCtrl.deleteRecipe); */
+router.post('/create', userSignUpRules(), validateSignUp, userCtrl.createUser); // ! add admin restriction
+router.put('/edit', userCtrl.editUser);
+router.get('/', userCtrl.getOneUser);
 
 // ============================================================
 // ------------------------- EXPORT ---------------------------

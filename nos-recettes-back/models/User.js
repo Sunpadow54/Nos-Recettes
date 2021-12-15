@@ -21,7 +21,7 @@ class User {
 User.create = (newUser) => {
     // define the query
     const insert = Object.keys(newUser);
-    const values= Object.values(newUser);
+    const values = Object.values(newUser);
     const query = format(`INSERT INTO users (%s) VALUES (%L)`, insert, values);
     // ask client
     return new Promise((resolve, reject) => {
@@ -36,6 +36,55 @@ User.create = (newUser) => {
     })
 };
 
+
+User.findOne = (id) => {
+    // define the query
+    const inserts = Object.keys(id);
+    const values = Object.values(id);
+    const query = format(
+        `SELECT * FROM users WHERE %s = %L`
+        , inserts, values);
+    // ask client
+    return new Promise((resolve, reject) => {
+        db.query(query, (err, res) => {
+            // errors
+            if (res === undefined) return reject('This account does not exist');
+
+            if (err) return reject(err);
+            // success
+            resolve(res.rows[0]);
+        })
+    });
+};
+
+User.edit = (user, userId) => {
+    // format the insert for SET
+    let inserts = [];
+    for (let key in user) {
+        inserts.push(format('%s = %L', key, user[key]));
+    }
+    // define the query
+    const query = format(`
+            UPDATE users 
+            SET %s 
+            WHERE id =%L
+            RETURNING lastname AS "newLastname", firstname AS "newFirstname", email AS "newEmail"
+            `, inserts, userId
+    );
+
+    // ask client
+    return new Promise((resolve, reject) => {
+        db.query(query, (err, res) => {
+            // errors
+            if (err && err.constraint === "users_username_key") return reject('This username already exist');
+            if (err && err.constraint === "users_email_key") return reject('This email already exist');
+            if (err) return reject(err);
+            // if (res.changedRows === 0) return reject('This User has not been updated')
+            // success
+            resolve(res.rows[0]);
+        })
+    });
+}
 
 // ============================================================
 // ------------------------- EXPORT ---------------------------
