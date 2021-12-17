@@ -104,7 +104,7 @@ Recipe.findOne = (id) => {
             // error
             if (err) return reject(err);
             // success
-            resolve(res.rows);
+            resolve(res.rows[0]);
         });
     })
 }
