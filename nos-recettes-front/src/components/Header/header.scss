@@ -1,0 +1,38 @@
+// -----------------------------------------------------------
+/*  HEADER */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use '../../style/sass/variables' as v;
+@use '../../style/sass/mixins' as m;
+
+
+.header {
+    &__title {
+        text-align: center;
+		font: 2rem Coming Soon;
+		padding: 1rem 0;
+		@include m.grow-shrink();
+    }
+	&:after {
+		@include m.line();
+	}
+}
+
+// Links
+.breadcrumb {
+    @include m.flex(v.$default, wrap, center, center);
+        gap: 1rem;
+		padding: 1rem 0;
+		text-transform: capitalize;
+        color: v.$color-darkgrey;
+		@include m.grow-shrink();
+        &__link {
+			@include m.flex(v.$default, v.$default, center, center);
+			svg {
+				font-size: 24px;
+			}
+			&--active {
+				color: v.$color-grey;
+			}
+		}
+}

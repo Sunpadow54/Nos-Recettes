@@ -23,8 +23,6 @@ npm install
 
 - Pour avoir accès au serveur de développement : `npm run start` (Rendez-vous sur http://localhost:3000/)
 
-( - pour utiliser Sass : `npm run sass` pour 'watch' en continu )
-
 ## :package: Made with
 
 * Sass

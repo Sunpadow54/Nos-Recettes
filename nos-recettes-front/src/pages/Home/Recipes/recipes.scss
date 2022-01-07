@@ -1,0 +1,15 @@
+// -----------------------------------------------------------
+/*  Recipes */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use '../../../style/sass/variables' as v;
+@use '../../../style/sass/mixins' as m;
+
+.recipes {
+	@include m.flex(column, v.$default, v.$default, v.$default);
+	gap: 3.5rem 4rem;
+	@include m.desktop {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+	}
+}

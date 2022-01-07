@@ -1,0 +1,122 @@
+// -----------------------------------------------------------
+/*  MIXINS */
+// -----------------------------------------------------------
+@use './variables' as v;
+
+// ------------ FLEXBOX Mixins
+
+@mixin flex(
+	$direction,
+	$wrap: v.$default,
+	$main_axis: v.$default,
+	$cross_axis: v.$default
+) {
+	display: flex;
+
+	// Create a list from parameters of the mixin
+	$new-flex: (
+		flex-direction: $direction,
+		flex-wrap: $wrap,
+		justify-content: $main_axis,
+		align-items: $cross_axis,
+	);
+
+	// Check the list in order to insert or not, the flex rules
+	// ( if the parameter in the list is not $d, then add the css rule )
+	@each $property, $value in $new-flex {
+		@if ($value) {
+			#{$property}: $value;
+		}
+	}
+}
+
+// ------------ Position Mixins
+
+@mixin position(
+	$position,
+	$top: v.$default,
+	$right: v.$default,
+	$bottom: v.$default,
+	$left: v.$default
+) {
+	position: $position;
+	// Create a list from parameters of the mixin
+	$axis: (
+		top: $top,
+		right: $right,
+		bottom: $bottom,
+		left: $left,
+	);
+
+	// Check the list in order to insert or not, the rules
+	// ( if the parameter in the list is not $default, then add the css rule )
+	@each $axis-property, $axis-value in $axis {
+		@if ($axis-value) {
+			#{$axis-property}: $axis-value;
+		}
+	}
+}
+
+// ------------ Borders
+@mixin border($positions: v.$default, $color: v.$color-darkgrey, $size: 1px) {
+	@if ($positions) {
+		@each $position in $positions {
+			border-#{$position}: $size solid $color;
+		}
+	} @else {
+		border: $size solid $color;
+	}
+}
+
+@mixin funky-border($style, $color:rgba(255,255,255,0.8)) {
+	border: solid $color;
+	@if($style == '1') {
+		border-width: 3px 4px 3px 5px;
+  		border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
+	}
+	@if($style == '2') {
+		border-width: 3px 3px 5px 5px;
+		border-radius: 4% 95% 6% 95%/95% 4% 92% 5%;
+	}
+	@if($style == '3') {
+		border-width: 5px 3px 3px 5px;
+		border-radius: 95% 4% 97% 5%/4% 94% 3% 95%;
+	}
+}
+
+// ------------ MediaQueries
+
+@mixin desktop {
+	@media screen and (min-width: 700px) {
+		@content;
+	}
+}
+
+// ------------ PSEUDO-ELEMENT Mixins
+@mixin before-after {
+	content:"";
+	display: block;
+}
+
+// ------------ SKETCH LINE Mixins
+
+@mixin line($width: 100%, $deg: 0.3deg) {
+	@include before-after();
+	height: 1px;
+	width: $width;
+	background-color: v.$color-darkgrey;
+	transform: rotate($deg);
+}
+
+@mixin grow-shrink() {
+	@include desktop {
+		will-change: translate;
+		width: calc(100% - v.$sidebar-size);
+		transition: transform 0.4s ease-in-out;
+		&--grow {
+			
+			transform: translateX(calc(v.$sidebar-size / 2 ));
+		}
+	}
+}
+

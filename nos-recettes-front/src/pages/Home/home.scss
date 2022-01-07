@@ -1,0 +1,22 @@
+// -----------------------------------------------------------
+/*  HOME PAGE */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use '../../style/sass/variables' as v;
+@use '../../style/sass/mixins' as m;
+
+.main-home {
+	@include m.grow-shrink();
+}
+
+.main-container {
+	padding:0 1rem;
+	grid-column: 1 / 2;
+	width: 100%;
+	margin:auto;
+	max-width: 1100px;
+	&__title {
+		padding: 2.4rem 0;
+		font-size: 1.3rem;
+	}
+}

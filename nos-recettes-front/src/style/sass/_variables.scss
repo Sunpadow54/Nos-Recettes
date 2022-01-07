@@ -1,0 +1,72 @@
+// -----------------------------------------------------------
+/*  VARIABLES*/
+// -----------------------------------------------------------
+
+// ------------ COLORS
+$color-green: #92c24c;
+$color-blue: #17585a;
+$color-red: #af3b15;
+$color-yellow: #fcd949;
+
+$color-darkgrey: lighten(black, 20%);
+$color-grey: lighten(black, 60%);
+$color-lightgrey: lighten(black, 85%);
+
+$sidebar-btn-color: $color-green, $color-blue, transparent;
+/* 
+// ------------ DEFAULT
+// Variable to use in the mixins "flex", "grid", "position", "border"
+// if we want to keep the defaults rules 
+*/
+$default: false;
+
+// ------------ SIZES 
+$sidebar-size: 300px;
+
+// ------------ FONTS
+@font-face {
+	font-family: 'cabin';
+	src: url('../fonts/cabin-sketch-v14-latin-regular.woff') format('woff');
+	font-stretch : normal;
+	font-weight : normal;
+	font-style : normal;
+}
+@font-face {
+	font-family: 'cabin';
+	src: url('../fonts/cabin-sketch-v14-latin-700.woff') format('woff');
+	font-stretch : normal;
+	font-weight : 700;
+	font-style : normal;
+}
+@font-face {
+	font-family: 'crayon';
+	src: url('../fonts/DK Crayon Crumble.woff') format('woff');
+	font-stretch : normal;
+	font-weight : normal;
+	font-style : normal;
+}
+@font-face {
+	font-family: 'Raleway';
+	font-style: normal;
+	font-weight: 400;
+	src: local(''),
+		 url('../fonts/raleway-v22-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+		 url('../fonts/raleway-v22-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+  @font-face {
+	font-family: 'Raleway';
+	font-style: normal;
+	font-weight: 500;
+	src: local(''),
+		 url('../fonts/raleway-v22-latin-500.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+		 url('../fonts/raleway-v22-latin-500.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+@font-face {
+	font-family: 'Coming Soon';
+	font-style: normal;
+	font-weight: 400;
+	src: local(''),
+		 url('../fonts/coming-soon-v12-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+		 url('../fonts/coming-soon-v12-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+  }
+  
