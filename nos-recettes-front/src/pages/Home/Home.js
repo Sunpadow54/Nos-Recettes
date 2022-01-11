@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 /* Import Style */
 import "./home.scss";
 /* Import Components */
@@ -8,6 +8,20 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 
 function Home() {
 	const [sidebarState, setSidebarState] = useState(false);
+
+	const location = useLocation();
+	let title = () => {
+		switch (location.pathname) {
+			case "/":
+				return "Toutes les recettes";
+			case "/create":
+				return "Créer sa recette";
+			case "/profil":
+				return "Votre Profil";
+			default:
+				return "";
+		}
+	};
 
 	return (
 		<>
@@ -23,9 +37,7 @@ function Home() {
 				}
 			>
 				<section className="main-container">
-					<h2 className="main-container__title">
-						Toutes les recettes
-					</h2>
+					<h2 className="main-container__title">{title()}</h2>
 					<Outlet />
 				</section>
 			</main>
