@@ -19,7 +19,6 @@ function Input(props) {
 
 	return (
 		<div className={`input-group input-group--${formType}`}>
-			<label className="input-group__label">{label}</label>
 			{(() => {
 				switch (formType) {
 					case "input":
@@ -59,6 +58,8 @@ function Input(props) {
 						return null;
 				}
 			})()}
+
+			<label className="input-group__label">{label}</label>
 		</div>
 	);
 }

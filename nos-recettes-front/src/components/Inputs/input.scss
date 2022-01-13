@@ -6,28 +6,74 @@
 @use "../../style/sass/mixins" as m;
 
 .input-group {
-	@include m.flex(column);
-	gap: 0.3rem;
-
-	&--time,
-	&--select {
-		@include m.flex(row, v.$default, v.$default, center);
-		input,
-		option {
-			width: auto;
-		}
-	}
-	&--textarea {
-		textarea {
-			resize: none;
-		}
-	}
+	position: relative;
+	margin-bottom: 1.2rem;
 
 	&__label {
-		color: v.$color-darkgrey;
-		word-wrap: no-wrap;
+		@include m.position(absolute, 0, v.$default, v.$default, 0.5rem);
+		@include m.flex(v.$default, v.$default, v.$default, center);
+		transition: all 0.5s ease-in-out;
+		padding: 0.3rem 0;
+		height: 100%;
+		text-transform: capitalize;
 	}
 	&__control {
-		@include m.form-control;
+		width: 100%;
+		border: 1px solid v.$color-lightgrey;
+		padding: 12px;
+		border-radius: 4px;
+		font-size: 1rem;
+		font-family: "Raleway";
+
+		&:focus ~ label,
+		&:valid ~ label {
+			top: -2rem;
+			left: 0;
+			font-size: 14px;
+			color: v.$color-grey;
+		}
+	}
+}
+
+.input-group--input {
+	label {
+		@include m.flex(v.$default, v.$default, v.$default, center);
+		height: 100%;
+	}
+	input {
+		width: 100%;
+		&:focus ~ label,
+		&:valid ~ label {
+			top: -2rem;
+		}
+	}
+}
+
+.input-group--textarea {
+	label {
+		align-items: flex-start;
+		color: v.$color-grey;
+	}
+	textarea {
+		resize: none;
+		&:focus ~ label,
+		&:valid ~ label {
+			top: -1.5rem;
+		}
+	}
+}
+
+.input-group--time {
+	width: 190px;
+	input {
+		color: transparent;
+		text-align: center;
+		&:focus,
+		&:valid {
+			color: black;
+		}
+	}
+	label {
+		z-index: -1;
 	}
 }

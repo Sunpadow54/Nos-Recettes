@@ -1,6 +1,8 @@
 import { useState } from "react";
 /* Import Style */
 import "./createRecipe.scss";
+/* Import Icons */
+import { GrAdd } from "react-icons/gr";
 /* Import Components */
 import Input from "../../../components/Inputs/Input";
 
@@ -8,7 +10,7 @@ function CreateRecipe() {
 	const [formValues, setFormValues] = useState({
 		title: "",
 		duration: "",
-		preparation: ["", ""],
+		preparation: [""],
 		category: "",
 	});
 
@@ -72,8 +74,8 @@ function CreateRecipe() {
 				/>
 			))}
 
-			<fieldset className="form__group">
-				<legend className="input-group__label"> Préparation : </legend>
+			<fieldset className="form-group">
+				<legend className="form-group__legend"> Préparation : </legend>
 
 				{formValues.preparation.map((step, i) => (
 					<Input
@@ -81,17 +83,22 @@ function CreateRecipe() {
 						onChange={handleInputChange}
 						value={step}
 						id={i}
-						label={`Etape ${i + 1} :`}
+						label={`étape ${i + 1} :`}
 						type="textarea"
 						name="preparation"
 					/>
 				))}
 
-				<button onClick={handleAddStep}>ajouter une étape</button>
+				<button className="form-group__btn" onClick={handleAddStep}>
+					<GrAdd />
+					<span className="form-group__btn--label">
+						Ajouter une étape
+					</span>
+				</button>
 			</fieldset>
 
-			<button form="create" type="submit">
-				save
+			<button form="create" type="submit" className="form__submit-btn">
+				Enregistrer
 			</button>
 		</form>
 	);

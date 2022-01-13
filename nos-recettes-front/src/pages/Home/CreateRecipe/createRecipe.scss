@@ -8,22 +8,80 @@
 .form {
 	@include m.flex(column);
 	gap: 1.3rem;
-	&__group {
+
+	&-group {
 		border: 1px solid v.$color-grey;
 		border-radius: 4px;
-		padding: 1rem;
+		padding: 1.2rem;
 		@include m.flex(column);
-		position: relative;
 		gap: 0.5rem;
-		margin-top: 2rem;
-		legend {
-			position: absolute;
-			top: -2.2rem;
-			left: -1px;
-			padding: 0.5rem;
-			border: 1px solid v.$color-grey;
-			border-bottom: none;
+		&__legend {
+			padding: 0.5rem 1rem 0.5rem 0;
 			background-color: white;
+			margin-left: calc(-1.2rem - 1px);
+			text-transform: capitalize;
+		}
+		&__btn {
+			@include m.brand-btn(30px, 30px, v.$color-blue);
+			align-self: flex-end;
+			line-height: 30px;
+			border-radius: 50%;
+			transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+			&::after {
+				background-color: lighten(v.$color-blue, 50%);
+				border-radius: 50%;
+			}
+
+			svg {
+				font-size: 1rem;
+			}
+
+			&--label {
+				@include m.position(absolute, 0, 38px, 0);
+				@include m.flex(v.$default, v.$default, space-between, center);
+				border-radius: 5px;
+				border: 1px solid v.$color-lightgrey;
+				white-space: nowrap;
+				width: 125px;
+				padding-left: 9px;
+				color: v.$color-blue;
+				background-color: lighten(v.$color-blue, 70%);
+				border: 1px solid v.$color-grey;
+				transform: translateX(134px);
+				opacity: 0;
+				transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+				&::after {
+					content: "";
+					transform: rotate(45deg);
+					margin-right: -4px;
+					height: 7px;
+					width: 7px;
+					background-color: inherit;
+					border: 1px solid v.$color-grey;
+					border-bottom: none;
+					border-left: none;
+				}
+			}
+
+			&:hover &--label {
+				transform: translateX(0);
+				opacity: 1;
+				transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+			}
+		}
+	}
+
+	&__submit-btn {
+		align-self: center;
+		@include m.brand-btn(130px, 40px, v.$color-darkgrey);
+		font-size: 1rem;
+		/* padding: 0.8rem 1rem; */
+		color: v.$color-darkgrey;
+		&::after {
+			background-color: v.$color-green;
+			opacity: 1;
 		}
 	}
 }

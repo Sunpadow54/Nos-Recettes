@@ -1,7 +1,7 @@
 // -----------------------------------------------------------
 /*  MIXINS */
 // -----------------------------------------------------------
-@use './variables' as v;
+@use "./variables" as v;
 
 // ------------ FLEXBOX Mixins
 
@@ -68,17 +68,17 @@
 	}
 }
 
-@mixin funky-border($style, $color:rgba(255,255,255,0.8)) {
+@mixin funky-border($style, $color: rgba(255, 255, 255, 0.8)) {
 	border: solid $color;
-	@if($style == '1') {
+	@if ($style == "1") {
 		border-width: 3px 4px 3px 5px;
-  		border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
+		border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
 	}
-	@if($style == '2') {
+	@if ($style == "2") {
 		border-width: 3px 3px 5px 5px;
 		border-radius: 4% 95% 6% 95%/95% 4% 92% 5%;
 	}
-	@if($style == '3') {
+	@if ($style == "3") {
 		border-width: 5px 3px 3px 5px;
 		border-radius: 95% 4% 97% 5%/4% 94% 3% 95%;
 	}
@@ -94,7 +94,7 @@
 
 // ------------ PSEUDO-ELEMENT Mixins
 @mixin before-after {
-	content:"";
+	content: "";
 	display: block;
 }
 
@@ -114,18 +114,30 @@
 		width: calc(100% - v.$sidebar-size);
 		transition: transform 0.4s ease-in-out;
 		&--grow {
-			
-			transform: translateX(calc(v.$sidebar-size / 2 ));
+			transform: translateX(calc(v.$sidebar-size / 2));
 		}
 	}
 }
 
-
-@mixin form-control() {
-    border: 1px solid v.$color-lightgrey;
-    padding: 12px;
-    border-radius: 4px;
-    font-size: 1rem;
-    font-family: 'Raleway';
+@mixin brand-btn($width, $height, $border-color, $flex-content: center) {
+	position: relative;
+	@include flex(v.$default, v.$default, $flex-content, center);
+	gap: 1rem;
+	width: $width;
+	height: $height;
+	border: 2px solid $border-color;
+	transition: all 0.17s ease-in-out;
+	&::after {
+		@include before-after();
+		@include position(absolute, 4px, v.$default, v.$default, 4px);
+		width: calc(100% + 2px);
+		height: calc(100% + 2px);
+		z-index: -1;
+		opacity: 0.6;
+		transition: all 0.17s ease-in-out;
+	}
+	&:hover::after {
+		top: 0;
+		left: 0;
+	}
 }
-
