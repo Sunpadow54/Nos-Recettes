@@ -1,0 +1,29 @@
+// -----------------------------------------------------------
+/*  Create Recipe */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../../style/sass/variables" as v;
+@use "../../../style/sass/mixins" as m;
+
+.form {
+	@include m.flex(column);
+	gap: 1.3rem;
+	&__group {
+		border: 1px solid v.$color-grey;
+		border-radius: 4px;
+		padding: 1rem;
+		@include m.flex(column);
+		position: relative;
+		gap: 0.5rem;
+		margin-top: 2rem;
+		legend {
+			position: absolute;
+			top: -2.2rem;
+			left: -1px;
+			padding: 0.5rem;
+			border: 1px solid v.$color-grey;
+			border-bottom: none;
+			background-color: white;
+		}
+	}
+}

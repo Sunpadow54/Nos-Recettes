@@ -1,0 +1,33 @@
+// -----------------------------------------------------------
+/*  inputs */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../style/sass/variables" as v;
+@use "../../style/sass/mixins" as m;
+
+.input-group {
+	@include m.flex(column);
+	gap: 0.3rem;
+
+	&--time,
+	&--select {
+		@include m.flex(row, v.$default, v.$default, center);
+		input,
+		option {
+			width: auto;
+		}
+	}
+	&--textarea {
+		textarea {
+			resize: none;
+		}
+	}
+
+	&__label {
+		color: v.$color-darkgrey;
+		word-wrap: no-wrap;
+	}
+	&__control {
+		@include m.form-control;
+	}
+}
