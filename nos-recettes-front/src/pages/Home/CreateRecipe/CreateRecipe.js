@@ -140,7 +140,7 @@ function CreateRecipe() {
 					<BtnBrand
 						onClick={(event) => handleAddInput(event, "step")}
 						icon={<IoMdAdd />}
-						label="Ajouter un ingrédient"
+						label="Ajouter une étape"
 						round={true}
 						color="blue"
 					/>
@@ -196,7 +196,7 @@ function CreateRecipe() {
 					<BtnBrand
 						onClick={(event) => handleAddInput(event, "ingredient")}
 						icon={<IoMdAdd />}
-						label="Ajouter une étape"
+						label="Ajouter un ingrédient"
 						round={true}
 						color="blue"
 					/>

@@ -42,20 +42,21 @@
 		border-radius: 5px;
 		border: 1px solid v.$color-lightgrey;
 		white-space: nowrap;
-		width: 125px;
-		padding-left: 9px;
+		width: auto;
+		height: inherit;
+		padding: 0 0.5rem;
 		color: v.$color-blue;
 		background-color: lighten(v.$color-blue, 70%);
 		border: 1px solid v.$color-grey;
-		opacity: 0;
 		z-index: -1;
+		opacity: 0;
 		transform: translateX(134px);
 		transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
 		&::after {
 			content: "";
+			@include m.position(absolute, v.$default, -5px, v.$default);
 			transform: rotate(45deg);
-			margin-right: -4px;
 			height: 7px;
 			width: 7px;
 			background-color: inherit;
