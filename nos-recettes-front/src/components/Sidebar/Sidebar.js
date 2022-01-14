@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 /* Import Style */
 import "./sidebar.scss";
 /* Import Icons */
-import { GrAdd } from "react-icons/gr";
+import { IoMdAdd } from "react-icons/io";
 import { RiUserSmileLine } from "react-icons/ri";
 import { IoSearchSharp } from "react-icons/io5";
 import { IoMenuOutline } from "react-icons/io5";
@@ -11,7 +11,7 @@ function Sidebar({ sidebarState, setSidebarState }) {
 	const links = [
 		{
 			txt: "créer une recette",
-			icon: GrAdd,
+			icon: IoMdAdd,
 			src: "/create",
 		},
 		{

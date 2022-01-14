@@ -65,7 +65,7 @@
 	font: 1.5em crayon;
 	line-height: 1.4rem;
 	color: white;
-
+    
 	svg {
 		font-size: 25px;
 		margin-right: 0.5rem;
@@ -77,5 +77,6 @@
 @for $i from 1 to 4 {
 	.sidebar__nav > li:nth-child(#{$i}) > a:after {
 		background-color: nth(v.$sidebar-btn-color, $i);
+        opacity: 0.6;
 	}
 }

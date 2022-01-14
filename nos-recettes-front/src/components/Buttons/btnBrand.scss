@@ -1,0 +1,72 @@
+// -----------------------------------------------------------
+/*  Button brand */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../style/sass/variables" as v;
+@use "../../style/sass/mixins" as m;
+
+.btn-brand {
+	transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	&--round {
+		@include m.brand-btn(30px, 30px);
+		border-radius: 50%;
+		&::after {
+			border-radius: 50%;
+		}
+	}
+	&--square {
+		@include m.brand-btn(auto, auto);
+		padding: 0.5rem 1.5rem;
+		font-size: 1rem;
+	}
+	&--green {
+		border-color: darken(v.$color-green, 30%);
+		color: darken(v.$color-green, 40%);
+		&::after {
+			background-color: v.$color-green;
+		}
+	}
+	&--blue {
+		border-color: v.$color-blue;
+		color: v.$color-blue;
+		&::after {
+			background-color: lighten(v.$color-blue, 50%);
+		}
+	}
+	svg {
+		font-size: 1.4rem;
+	}
+	&__popup {
+		@include m.position(absolute, 0, 38px, 0);
+		@include m.flex(v.$default, v.$default, space-between, center);
+		border-radius: 5px;
+		border: 1px solid v.$color-lightgrey;
+		white-space: nowrap;
+		width: 125px;
+		padding-left: 9px;
+		color: v.$color-blue;
+		background-color: lighten(v.$color-blue, 70%);
+		border: 1px solid v.$color-grey;
+		opacity: 0;
+		z-index: -1;
+		transform: translateX(134px);
+		transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+		&::after {
+			content: "";
+			transform: rotate(45deg);
+			margin-right: -4px;
+			height: 7px;
+			width: 7px;
+			background-color: inherit;
+			border: 1px solid v.$color-grey;
+			border-bottom: none;
+			border-left: none;
+		}
+	}
+	&:hover &__popup {
+		transform: translateX(0);
+		opacity: 1;
+		transition: all 0.8s 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+	}
+}

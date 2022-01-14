@@ -119,7 +119,7 @@
 	}
 }
 
-@mixin brand-btn($width, $height, $border-color, $flex-content: center) {
+@mixin brand-btn($width, $height, $border-color:black, $flex-content: center) {
 	position: relative;
 	@include flex(v.$default, v.$default, $flex-content, center);
 	gap: 1rem;
@@ -133,7 +133,6 @@
 		width: calc(100% + 2px);
 		height: calc(100% + 2px);
 		z-index: -1;
-		opacity: 0.6;
 		transition: all 0.17s ease-in-out;
 	}
 	&:hover::after {

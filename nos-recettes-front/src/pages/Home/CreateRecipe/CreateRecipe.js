@@ -2,11 +2,12 @@ import { useState } from "react";
 /* Import Style */
 import "./createRecipe.scss";
 /* Import Icons */
-import { GrAdd } from "react-icons/gr";
+import { IoMdAdd } from "react-icons/io";
 /* Import Components */
 import Input from "../../../components/FormControls/Input";
 import Textarea from "../../../components/FormControls/Textarea";
 import Select from "../../../components/FormControls/Select";
+import BtnBrand from "../../../components/Buttons/BtnBrand";
 
 function CreateRecipe() {
 	// ------ Variables
@@ -135,15 +136,15 @@ function CreateRecipe() {
 						onChange={handleInputChange}
 					/>
 				))}
-				<button
-					className="form-group__btn"
-					onClick={(event) => handleAddInput(event, "step")}
-				>
-					<GrAdd />
-					<span className="form-group__btn--label">
-						Ajouter une étape
-					</span>
-				</button>
+				<div className="form-group__btn">
+					<BtnBrand
+						onClick={(event) => handleAddInput(event, "step")}
+						icon={<IoMdAdd />}
+						label="Ajouter un ingrédient"
+						round={true}
+						color="blue"
+					/>
+				</div>
 			</fieldset>
 
 			<fieldset className="form-group">
@@ -191,11 +192,25 @@ function CreateRecipe() {
 						/>
 					</div>
 				))}
+				<div className="form-group__btn">
+					<BtnBrand
+						onClick={(event) => handleAddInput(event, "ingredient")}
+						icon={<IoMdAdd />}
+						label="Ajouter une étape"
+						round={true}
+						color="blue"
+					/>
+				</div>
 			</fieldset>
 
-			<button form="create" type="submit" className="form__submit-btn">
-				Enregistrer
-			</button>
+			<div className="form__submit-btn">
+				<BtnBrand
+					form="create"
+					type="submit"
+					text="Enregistrer"
+					color="green" /* round={false} */
+				/>
+			</div>
 		</form>
 	);
 }
