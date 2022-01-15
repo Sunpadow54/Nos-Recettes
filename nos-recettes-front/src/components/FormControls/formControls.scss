@@ -7,73 +7,50 @@
 
 .input-group {
 	position: relative;
-	margin-bottom: 1.2rem;
-
+	@include m.flex(v.$default, v.$default, v.$default, center);
+	margin-bottom: 0.5rem;
 	&__label {
-		@include m.position(absolute, 0, v.$default, v.$default, 0.5rem);
+		@include m.position(absolute, 0);
 		@include m.flex(v.$default, v.$default, v.$default, center);
 		transition: all 0.5s ease-in-out;
-		padding: 0.3rem 0;
-		height: 100%;
+		padding: 0.75rem;
 		text-transform: capitalize;
+		z-index: -1;
+		&--light {
+			color: v.$color-grey;
+		}
 	}
 	&__control {
 		width: 100%;
 		border: 1px solid v.$color-lightgrey;
-		padding: 12px;
+		padding: 0.75rem;
 		border-radius: 4px;
 		font-size: 1rem;
 		font-family: "Raleway";
+		background-color: transparent;
 
 		&:focus ~ label,
 		&:valid ~ label {
-			top: -2rem;
-			left: 0;
+			transform: translate(-0.74rem, -1.8rem);
 			font-size: 14px;
 			color: v.$color-grey;
 		}
-	}
-}
 
-.input-group--input {
-	label {
-		@include m.flex(v.$default, v.$default, v.$default, center);
-		height: 100%;
-	}
-	input {
-		width: 100%;
-		&:focus ~ label,
-		&:valid ~ label {
-			top: -2rem;
+		&[type="time"] {
+			width: 195px;
+			color: transparent;
+			text-align: center;
+			&:focus,
+			&:valid {
+				color: black;
+			}
 		}
 	}
-}
 
-.input-group--textarea {
-	label {
-		align-items: flex-start;
-		color: v.$color-grey;
-	}
 	textarea {
 		resize: none;
-		&:focus ~ label,
-		&:valid ~ label {
-			top: -1.5rem;
+		& ~ label {
+			bottom: initial;
 		}
-	}
-}
-
-.input-group--time {
-	width: 190px;
-	input {
-		color: transparent;
-		text-align: center;
-		&:focus,
-		&:valid {
-			color: black;
-		}
-	}
-	label {
-		z-index: -1;
 	}
 }

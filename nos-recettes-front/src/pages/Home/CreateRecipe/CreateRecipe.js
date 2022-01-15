@@ -3,6 +3,7 @@ import { useState } from "react";
 import "./createRecipe.scss";
 /* Import Icons */
 import { IoMdAdd } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
 /* Import Components */
 import Input from "../../../components/FormControls/Input";
 import Textarea from "../../../components/FormControls/Textarea";
@@ -88,6 +89,18 @@ function CreateRecipe() {
 		setFormValues({ ...newData });
 	};
 
+	const handleRemoveInput = (e, type, index) => {
+		e.preventDefault(); // stop refreshing page
+		const newData = { ...formValues };
+		if (type === "step") {
+			newData.recipe.preparation.splice(index, 1);
+		}
+		if (type === "ingredient") {
+			newData.ingredients.splice(index, 1);
+		}
+		setFormValues({ ...newData });
+	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault(); // stop refreshing page
 		console.log(formValues);
@@ -129,11 +142,15 @@ function CreateRecipe() {
 				{formValues.recipe.preparation.map((step, i) => (
 					<Textarea
 						key={i}
-						type="textarea"
 						name={`preparation-${i}`}
 						label={`étape ${i + 1} :`}
 						value={step}
 						onChange={handleInputChange}
+						light={true}
+						hasRemove={true}
+						handleRemoveInput={(event) =>
+							handleRemoveInput(event, "step", i)
+						}
 					/>
 				))}
 				<div className="form-group__btn">
@@ -154,7 +171,7 @@ function CreateRecipe() {
 						<Input
 							type="text"
 							name={`ingredients-${i}-0`}
-							label="ingrédient"
+							label={`ingrédient ${i + 1}`}
 							value={formValues.ingredients[i][0]}
 							onChange={handleInputChange}
 							onKeyUp={(event) =>
@@ -166,6 +183,7 @@ function CreateRecipe() {
 							}
 							options={ingredientsFound}
 							list="ingredients"
+							light={true}
 						/>
 						<Input
 							type="number"
@@ -173,6 +191,7 @@ function CreateRecipe() {
 							label="quantité"
 							value={formValues.ingredients[i][1]}
 							onChange={handleInputChange}
+							light={true}
 						/>
 						<Input
 							type="text"
@@ -189,6 +208,17 @@ function CreateRecipe() {
 							}
 							options={unitsFound}
 							list="units"
+							light={true}
+						/>
+						<BtnBrand
+							icon={<IoMdClose />}
+							label="suprimer"
+							round={true}
+							border0={true}
+							color="grey"
+							onClick={(event) =>
+								handleRemoveInput(event, "ingredient", i)
+							}
 						/>
 					</div>
 				))}
@@ -208,7 +238,7 @@ function CreateRecipe() {
 					form="create"
 					type="submit"
 					text="Enregistrer"
-					color="green" /* round={false} */
+					color="green"
 				/>
 			</div>
 		</form>
