@@ -58,7 +58,7 @@
 }
 
 // ------------ Borders
-@mixin border($positions: v.$default, $color: v.$color-darkgrey, $size: 1px) {
+@mixin border($positions: v.$default, $color: v.$color-darkgrey, $radius:0, $size: 1px) {
 	@if ($positions) {
 		@each $position in $positions {
 			border-#{$position}: $size solid $color;
@@ -66,6 +66,7 @@
 	} @else {
 		border: $size solid $color;
 	}
+    border-radius: $radius;
 }
 
 @mixin funky-border($style, $color: rgba(255, 255, 255, 0.8)) {

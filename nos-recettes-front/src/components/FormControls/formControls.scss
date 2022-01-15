@@ -11,20 +11,27 @@
 	margin-bottom: 0.5rem;
 	&__label {
 		@include m.position(absolute, 0);
-		@include m.flex(v.$default, v.$default, v.$default, center);
 		transition: all 0.5s ease-in-out;
+		display: block; // to make the uppercase works on ::first-letter
 		padding: 0.75rem;
-		text-transform: capitalize;
 		z-index: -1;
+		width: 100%;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 		&--light {
 			color: v.$color-grey;
+		}
+		&::first-letter {
+			text-transform: uppercase;
 		}
 	}
 	&__control {
 		width: 100%;
+        
 		border: 1px solid v.$color-lightgrey;
 		padding: 0.75rem;
-		border-radius: 4px;
+
 		font-size: 1rem;
 		font-family: "Raleway";
 		background-color: transparent;
@@ -45,6 +52,25 @@
 				color: black;
 			}
 		}
+		&[type="number"] {
+			color: transparent;
+			text-align: center;
+			width: 87px;
+			padding: 0.75rem 0.1rem;
+			// --- delete increment button
+			-moz-appearance: textfield; // firefox
+			appearance: textfield; // firefox
+			&::-webkit-inner-spin-button {
+				-webkit-appearance: none; // chrome
+			}
+			@include m.desktop {
+				width: 87px;
+			}
+			&:focus,
+			&:valid {
+				color: black;
+			}
+		}
 	}
 
 	textarea {
@@ -52,5 +78,9 @@
 		& ~ label {
 			bottom: initial;
 		}
+	}
+
+	select {
+		width: 195px;
 	}
 }
