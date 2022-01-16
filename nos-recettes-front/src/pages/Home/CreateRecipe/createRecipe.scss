@@ -25,7 +25,6 @@
 			gap: 0.5rem;
             @include m.border(v.$default,v.$color-grey, 4px );
 			padding: 0.5rem;
-            z-index: -2;
 			@include m.desktop {
 				padding: 0;
 				border: none;
