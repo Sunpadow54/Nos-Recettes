@@ -10,8 +10,10 @@ import Textarea from "../../../components/FormControls/Textarea";
 import Select from "../../../components/FormControls/Select";
 import BtnBrand from "../../../components/Buttons/BtnBrand";
 
+
 function CreateRecipe() {
 	// ------ Variables
+
 	const [formValues, setFormValues] = useState({
 		recipe: {
 			title: "",
@@ -103,7 +105,17 @@ function CreateRecipe() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault(); // stop refreshing page
-		console.log(formValues);
+        fetch('http://localhost:3000/api/recipe', {
+            method: 'POST',
+            headers : {"Content-Type": "application/json"},
+            body: JSON.stringify(formValues)
+        })
+        .then((res) => {
+            console.log("res : " + res.json());
+        })
+        .catch(error => {
+            console.log("erreur : " + error);
+        });
 	};
 
 	return (
