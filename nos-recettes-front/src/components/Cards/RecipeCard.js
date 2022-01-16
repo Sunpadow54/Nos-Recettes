@@ -10,8 +10,8 @@ function RecipeCard({ recipe }) {
 				src={recipe.img ? recipe.img : placeholderImg}
 				alt={recipe.title}
 				className="recipe__img"
-                width="400px"
-                height="300px"
+				width="400px"
+				height="300px"
 			/>
 			<h3 className="recipe__title">{recipe.title}</h3>
 			<ul className="recipe__ingredients">

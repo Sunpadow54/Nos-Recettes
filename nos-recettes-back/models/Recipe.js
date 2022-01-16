@@ -18,7 +18,6 @@ class Recipe {
     }
 }
 
-
 // ============================================================
 
 Recipe.create = (newRecipe, ingredients) => {
@@ -32,7 +31,7 @@ Recipe.create = (newRecipe, ingredients) => {
         `WITH data(ingredient, quantity, unit) AS (
             VALUES ${format(`%L`, ingredients)}
         ),
-        insertRecipe AS(
+        insertRecipe AS (
             INSERT INTO recipes (${recipeKeys}) 
             VALUES (${recipeValues})
             RETURNING id AS id_recipe, title
@@ -63,7 +62,20 @@ Recipe.create = (newRecipe, ingredients) => {
 
 Recipe.findAll = () => {
     const query =
-        `SELECT * FROM recipes;`;
+        `SELECT 
+            id, r.id_user, r.created_at, r.img, r.duration, r.title,
+            i.ingredients
+        FROM  recipes AS r
+        LEFT JOIN (
+            SELECT  
+                ri.id_recipe AS id,
+                array_agg(i.name) AS ingredients
+            FROM   recipe_ingredients AS ri
+            JOIN   ingredients AS i  ON i.id = ri.id_ingredient
+            GROUP  BY ri.id_recipe
+        ) i USING (id)
+        ORDER BY r.created_at DESC;
+        `;
 
     // ask db
     return new Promise((resolve, reject) => {
@@ -89,7 +101,7 @@ Recipe.findOne = (id) => {
         LEFT JOIN (
             SELECT 
                 id_recipe, 
-                array_agg(i.name || '/' || quantity || '/' || unit) AS ingredients
+                array_agg(i.name) AS ingredients
             FROM recipe_ingredients
             LEFT JOIN ingredients AS i ON id_ingredient = i.id
             GROUP BY id_recipe

@@ -25,7 +25,7 @@ CREATE TABLE recipes
     title VARCHAR(100) NOT NULL,
     preparation TEXT[] NOT NULL,
     img VARCHAR(250),
-	category VARCHAR(100)[],
+	category VARCHAR(30)[],
     CONSTRAINT fk_id_user_r
         FOREIGN KEY (id_user)
         REFERENCES users(id) ON DELETE CASCADE
@@ -37,7 +37,7 @@ CREATE TABLE recipe_ingredients
     id_recipe INT NOT NULL,
 	id_ingredient INT NOT NULL,
 	quantity INT,
-	unit VARCHAR(10),
+	unit VARCHAR(100),
     CONSTRAINT fk_id_recipe_ri
         FOREIGN KEY (id_recipe)
         REFERENCES recipes(id) ON DELETE CASCADE,
