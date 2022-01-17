@@ -69,7 +69,7 @@ Recipe.findAll = () => {
         LEFT JOIN (
             SELECT  
                 ri.id_recipe AS id,
-                array_agg(i.name) AS ingredients
+                ARRAY_AGG(i.name) AS ingredients
             FROM   recipe_ingredients AS ri
             JOIN   ingredients AS i  ON i.id = ri.id_ingredient
             GROUP  BY ri.id_recipe
@@ -100,8 +100,8 @@ Recipe.findOne = (id) => {
         JOIN users AS u ON r.id_user = u.id
         LEFT JOIN (
             SELECT 
-                id_recipe, 
-                array_agg(i.name) AS ingredients
+                id_recipe,
+                JSON_AGG(JSON_BUILD_OBJECT('name', i.name, 'quantity', quantity, 'unit', unit )) AS ingredients
             FROM recipe_ingredients
             LEFT JOIN ingredients AS i ON id_ingredient = i.id
             GROUP BY id_recipe
@@ -109,7 +109,7 @@ Recipe.findOne = (id) => {
         WHERE r.id = %L
         ;`, id
     );
-
+    
     // ask db
     return new Promise((resolve, reject) => {
         db.query(query, (err, res) => {
