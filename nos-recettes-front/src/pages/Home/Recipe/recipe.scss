@@ -1,0 +1,11 @@
+// -----------------------------------------------------------
+/*  Cards */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../../style/sass/variables" as v;
+@use "../../../style/sass/mixins" as m;
+
+.recipe-alone {
+	@include m.flex(column);
+	gap: v.$card-gap;
+}

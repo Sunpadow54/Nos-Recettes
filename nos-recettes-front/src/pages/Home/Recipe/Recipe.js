@@ -1,6 +1,9 @@
 import { useParams } from "react-router-dom";
+/* Import Style */
+import "./recipe.scss";
 /* Import Components */
 import HeaderCard from "../../../components/Cards/HeaderCard";
+import InfosCard from "../../../components/Cards/InfosCard";
 import IngredientsList from "../../../components/Cards/IngredientsList";
 import StepsList from "../../../components/Cards/StepsList";
 import useFetch from "../../../apiFetch/useFetch";
@@ -14,10 +17,11 @@ function Recipe() {
 	console.log(data);
 
 	return (
-		<div>
+		<div class="recipe-alone">
 			{data && !loading && (
 				<>
 					<HeaderCard recipe={data} alone={true} />
+					<InfosCard recipe={data} />
 					<IngredientsList
 						ingredients={data.ingredients}
 						alone={true}

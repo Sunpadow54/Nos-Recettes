@@ -6,9 +6,6 @@
 @use "../../style/sass/mixins" as m;
 
 .card {
-	&__body {
-		margin-bottom: 2rem;
-	}
 	&__heading {
 		font: 500 24px Raleway;
 		margin-bottom: 1.5rem;
@@ -16,7 +13,6 @@
 	&__subtitle {
 		text-transform: capitalize;
 		font: 500 17px Raleway;
-		margin-bottom: 0.5rem;
 	}
 	&__text {
 		line-height: 22px;
@@ -25,7 +21,6 @@
 
 .card-header {
 	width: 100%;
-	margin-bottom: 42px;
 	@include m.flex(column);
 	&__img {
 		position: relative;
@@ -58,6 +53,32 @@
 			font-size: 1.5rem;
 		}
 	}
+}
+
+.card-infos {
+    @include m.flex(v.$default, wrap, center);
+    gap: 1.4rem;
+    margin-top: -2rem;
+    &__item {
+        @include m.flex(v.$default, v.$default, v.$default, center);
+        gap:0.5rem;
+        min-width: 100px;
+        svg {
+            font-size: 2rem;
+            font-weight: normal;
+        }
+        &::before {
+            content: "";
+            @include m.flex(v.$default, v.$default, center, center);
+            width: 4px;
+            height: 4px;
+            background-color: black;
+            border-radius: 50%;
+        }
+        &:nth-child(2) {
+            text-transform: capitalize;
+        }
+    }
 }
 
 .card-pills {
