@@ -2,14 +2,25 @@
 /*  Recipes */
 // -----------------------------------------------------------
 /* Import Sass utils */
-@use '../../../style/sass/variables' as v;
-@use '../../../style/sass/mixins' as m;
+@use "../../../style/sass/variables" as v;
+@use "../../../style/sass/mixins" as m;
 
-.recipe-list {
+.recipes-list {
 	@include m.flex(column);
 	gap: 3.5rem 4rem;
 	@include m.desktop {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+	}
+}
+.card {
+	&:after {
+		@include m.before-after();
+		@include m.line(40vw, -0.4deg);
+		margin: auto;
+		margin-top: 3rem;
+		@include m.desktop {
+			display: none;
+		}
 	}
 }

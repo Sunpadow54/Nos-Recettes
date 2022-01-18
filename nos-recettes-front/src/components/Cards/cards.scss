@@ -1,0 +1,93 @@
+// -----------------------------------------------------------
+/*  Cards */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../style/sass/variables" as v;
+@use "../../style/sass/mixins" as m;
+
+.card {
+	&__body {
+		margin-bottom: 2rem;
+	}
+	&__heading {
+		font: 500 24px Raleway;
+		margin-bottom: 1.5rem;
+	}
+	&__subtitle {
+		text-transform: capitalize;
+		font: 500 17px Raleway;
+		margin-bottom: 0.5rem;
+	}
+	&__text {
+		line-height: 22px;
+	}
+}
+
+.card-header {
+	width: 100%;
+	margin-bottom: 42px;
+	@include m.flex(column);
+	&__img {
+		position: relative;
+		z-index: -1;
+	}
+	&__new {
+		display: block;
+		@include m.position(absolute, 1.25rem, 1.25rem);
+		background-color: v.$color-darkgrey;
+		width: 4.25rem;
+		height: 1.75rem;
+		line-height: 1.75rem;
+		text-align: center;
+		color: white;
+		font-size: 0.9rem;
+	}
+	&__title {
+		@include m.flex(v.$default, wrap, center, center);
+		background: white;
+		padding: 0.5rem 4rem 0.5rem 2rem;
+		width: 320px;
+		height: 85px;
+		font-weight: 500;
+		font-size: 1.25rem;
+		margin-top: -42px;
+		&--center {
+			align-self: center;
+			width: 400px;
+			padding: 0.5rem 2rem;
+			font-size: 1.5rem;
+		}
+	}
+}
+
+.card-pills {
+	margin-top: -25px;
+	@include m.flex(v.$default, wrap);
+	gap: 0.8rem;
+	&__item {
+		background-color: v.$color-lightgrey;
+		padding: 0.2rem 1.4rem;
+		border-radius: 5px;
+		font-size: 0.9rem;
+	}
+}
+
+.card-list {
+	@include m.flex(column);
+	gap: 1.7rem;
+	&__item {
+		font: 15px Raleway;
+	}
+	&--styled {
+		gap: 0.8rem;
+		li {
+			list-style: initial;
+			list-style-position: inside;
+			margin-left: 1rem;
+			&::marker {
+				font-size: 10px;
+				color: v.$color-grey;
+			}
+		}
+	}
+}

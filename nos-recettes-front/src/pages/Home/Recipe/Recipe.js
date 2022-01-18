@@ -1,6 +1,8 @@
 import { useParams } from "react-router-dom";
 /* Import Components */
-import RecipeCard from "../../../components/Cards/RecipeCard";
+import HeaderCard from "../../../components/Cards/HeaderCard";
+import IngredientsList from "../../../components/Cards/IngredientsList";
+import StepsList from "../../../components/Cards/StepsList";
 import useFetch from "../../../apiFetch/useFetch";
 
 function Recipe() {
@@ -13,9 +15,16 @@ function Recipe() {
 
 	return (
 		<div>
-			{data && !loading ? (
-				<RecipeCard recipe={data} alone={true} />
-			) : null}
+			{data && !loading && (
+				<>
+					<HeaderCard recipe={data} alone={true} />
+					<IngredientsList
+						ingredients={data.ingredients}
+						alone={true}
+					/>
+					<StepsList steps={data.preparation} />
+				</>
+			)}
 			{error ? <p>{error}</p> : null}
 		</div>
 	);
