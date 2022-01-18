@@ -2,13 +2,14 @@
 import "./formControls.scss";
 
 function Inputs(props) {
-	const { label, onChange, options, light, ...inputProps } = props;
+	const { label, onChange, options, light, noRequired,...inputProps } = props;
+
 
 	return (
 		<div className="input-group">
 			<input
 				className="input-group__control"
-				required
+                required={!noRequired && true}
 				{...inputProps}
 				onChange={onChange}
 			/>

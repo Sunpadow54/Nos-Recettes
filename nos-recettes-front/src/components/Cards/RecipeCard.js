@@ -14,7 +14,8 @@ function RecipeCard(props) {
 		alone ? <>{children}</> : <Link to={urlFormated}>{children}</Link>;
 
 	const concat = (el) => {
-		const article = el.name[0].match(/[aeiouh]/) ? "d'" : "de ";
+		let article = el.name[0].match(/[aeiouh]/) ? "d'" : "de ";
+        article = el.unit ? article : "";
 		return el.quantity + " " + el.unit + " " + article + el.name;
 	};
 

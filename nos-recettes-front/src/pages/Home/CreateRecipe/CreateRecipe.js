@@ -210,6 +210,7 @@ function CreateRecipe() {
 							name={`ingredients-${i}-2`}
 							label=" unité de mesure"
 							value={formValues.ingredients[i][2]}
+                            noRequired={true}
 							onChange={handleInputChange}
 							onKeyUp={(event) =>
 								handleAutoComplete(
