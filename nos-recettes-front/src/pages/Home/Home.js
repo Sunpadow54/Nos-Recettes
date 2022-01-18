@@ -8,8 +8,8 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 
 function Home() {
 	const [sidebarState, setSidebarState] = useState(false);
-
 	const location = useLocation();
+    
 	let title = () => {
 		switch (location.pathname) {
 			case "/":

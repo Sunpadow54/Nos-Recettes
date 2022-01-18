@@ -63,7 +63,7 @@ Recipe.create = (newRecipe, ingredients) => {
 Recipe.findAll = () => {
     const query =
         `SELECT 
-            id, r.id_user, r.created_at, r.img, r.duration, r.title,
+            id, r.id_user, r.created_at AS date, r.img, r.duration, r.title,
             i.ingredients
         FROM  recipes AS r
         LEFT JOIN (

@@ -6,17 +6,16 @@ import useFetch from "../../../apiFetch/useFetch";
 
 function Recipes() {
 	const { data, error } = useFetch({ endpoint: "/recipe", method: "GET" });
-
+	console.log(data);
 	return (
-		<div className="recipes">
-			{data ? 
-                data.map((recipe) => (
-						<article key={recipe.id} className="recipe">
+		<div className="recipe-list">
+			{data
+				? data.map((recipe) => (
+						<article key={recipe.id} className="card">
 							<RecipeCard recipe={recipe} />
 						</article>
 				  ))
-				: null
-            }
+				: null}
 			{error ? <p>{error}</p> : null}
 		</div>
 	);

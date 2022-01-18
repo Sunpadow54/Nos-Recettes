@@ -10,7 +10,7 @@ function useFetch(props) {
 
 	useEffect(() => {
 		setLoading(true);
-		fetch(baseUrl + endpoint, { method: method })
+		fetch((baseUrl + endpoint), { method: method })
 			.then((res) => {
 				if (!res.ok) {
 					const err = `Désolé, il est impossible d'accéder à l'API. (erreur status: ${res.status})`;
@@ -20,7 +20,6 @@ function useFetch(props) {
 			})
 			.then((dataFetched) => {
 				setData(dataFetched);
-				console.log("data : " + data);
 			})
 			.catch((err) => {
 				setError(err);

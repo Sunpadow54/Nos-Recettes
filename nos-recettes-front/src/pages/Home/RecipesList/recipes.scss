@@ -5,7 +5,7 @@
 @use '../../../style/sass/variables' as v;
 @use '../../../style/sass/mixins' as m;
 
-.recipes {
+.recipe-list {
 	@include m.flex(column);
 	gap: 3.5rem 4rem;
 	@include m.desktop {
