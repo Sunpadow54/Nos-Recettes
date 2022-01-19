@@ -10,7 +10,7 @@ function useFetch(props) {
 
 	useEffect(() => {
 		setLoading(true);
-		fetch((baseUrl + endpoint), { method: method })
+		fetch(baseUrl + endpoint, { method: method })
 			.then((res) => {
 				if (!res.ok) {
 					const err = `Désolé, il est impossible d'accéder à l'API. (erreur status: ${res.status})`;
@@ -28,8 +28,8 @@ function useFetch(props) {
 			.finally(() => {
 				setLoading(false);
 			});
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [endpoint]); // each time the props endpoint change -> fetch
 
 	return { data, loading, error };
 }

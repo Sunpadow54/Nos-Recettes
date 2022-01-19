@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 /* Import Style */
 import "./recipes.scss";
 /* Import Components */
@@ -6,8 +7,13 @@ import IngredientsList from "../../../components/Cards/IngredientsList";
 import useFetch from "../../../apiFetch/useFetch";
 
 function Recipes() {
-	const { data, error } = useFetch({ endpoint: "/recipe", method: "GET" });
-	console.log(data);
+	const { category } = useParams();
+	const endpoint = category ? "/categories/" + category.slice(0, -1) : "";
+
+	const { data, error } = useFetch({
+		endpoint: "/recipe" + endpoint,
+		method: "GET",
+	});
 
 	return (
 		<div className="recipes-list">

@@ -8,12 +8,21 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 
 function Home() {
 	const [sidebarState, setSidebarState] = useState(false);
+
 	const location = useLocation();
-    
-	let title = () => {
+
+	const getTitle = () => {
 		switch (location.pathname) {
 			case "/":
 				return "Toutes les recettes";
+			case "/entrees":
+				return "Toutes les entrées";
+			case "/plats":
+				return "Tous les plats";
+			case "/desserts":
+				return "Tous les desserts";
+			case "/autres":
+				return "Les autres recettes";
 			case "/create":
 				return "Créer sa recette";
 			case "/profil":
@@ -22,6 +31,8 @@ function Home() {
 				return "";
 		}
 	};
+
+	const pageTitle = getTitle();
 
 	return (
 		<>
@@ -37,7 +48,7 @@ function Home() {
 				}
 			>
 				<section className="main-container">
-					<h2 className="main-container__title">{title()}</h2>
+					<h2 className="main-container__title">{pageTitle}</h2>
 					<Outlet />
 				</section>
 			</main>
