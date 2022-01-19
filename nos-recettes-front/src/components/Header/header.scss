@@ -28,11 +28,21 @@
 		@include m.grow-shrink();
         &__link {
 			@include m.flex(v.$default, v.$default, center, center);
-			svg {
-				font-size: 24px;
-			}
+            gap:0.3rem;
+            // triangle
+			&::before {
+                @include m.before-after();
+                width: 0;
+                height: 0;
+                border-top: 5px solid transparent;
+                border-bottom: 5px solid transparent;
+                border-left: 5px solid transparent;
+            }
 			&--active {
 				color: v.$color-grey;
+                &::before {
+                    border-left: 5px solid v.$color-grey;
+                }
 			}
 		}
 }

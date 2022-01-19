@@ -1,8 +1,6 @@
 import { /* Link, */ NavLink } from "react-router-dom";
 /* Import Style */
 import "./header.scss";
-/* Import icons */
-import { MdOutlineArrowRight } from "react-icons/md";
 
 const Header = ({ sidebarState }) => {
 	const links = [
@@ -28,9 +26,6 @@ const Header = ({ sidebarState }) => {
 		},
 	];
 
-	let activeLinkKey = 0;
-	let activeLink = links[activeLinkKey];
-
 	return (
 		<header className="header">
 			<h1
@@ -48,15 +43,11 @@ const Header = ({ sidebarState }) => {
 						<li key={id}>
 							<NavLink
                                 to={link.src}
-								className={(navData) =>
-									navData.isActive
-										? "breadcrumb__link breadcrumb__link--active"
-										: "breadcrumb__link"
+								className={({ isActive }) => isActive ?
+                                    "breadcrumb__link breadcrumb__link--active"
+                                    : "breadcrumb__link"
 								}
 							>
-								{activeLink === link ? (
-									<MdOutlineArrowRight />
-								) : null}
 								{link.txt}
 							</NavLink>
 						</li>
