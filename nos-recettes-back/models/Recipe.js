@@ -76,7 +76,7 @@ Recipe.findAll = () => {
         ) i USING (id)
         ORDER BY r.created_at DESC;
         `;
-
+        
     // ask db
     return new Promise((resolve, reject) => {
         db.query(query, (err, res) => {
@@ -88,6 +88,35 @@ Recipe.findAll = () => {
     })
 }
 
+Recipe.findByCategory = (category) => {
+    const query = format(
+        `SELECT 
+            id, r.id_user, r.created_at AS date, r.img, r.duration, r.title, r.category,
+            i.ingredients
+        FROM  recipes AS r
+        LEFT JOIN (
+            SELECT  
+                ri.id_recipe AS id,
+                ARRAY_AGG(i.name) AS ingredients
+            FROM   recipe_ingredients AS ri
+            JOIN   ingredients AS i  ON i.id = ri.id_ingredient
+            GROUP  BY ri.id_recipe
+        ) i USING (id)
+        WHERE r.category = %L
+        ORDER BY r.created_at DESC
+        ;`, category
+    );
+
+    // ask db
+    return new Promise((resolve, reject) => {
+        db.query(query, (err, res) => {
+            // error
+            if (err) return reject(err);
+            // success
+            resolve(res.rows);
+        });
+    })
+}
 
 Recipe.findOne = (id) => {
     const query = format(
