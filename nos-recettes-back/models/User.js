@@ -39,11 +39,17 @@ User.create = (newUser) => {
 
 User.findOne = (id) => {
     // define the query
-    const inserts = Object.keys(id);
-    const values = Object.values(id);
     const query = format(
-        `SELECT * FROM users WHERE %s = %L`
-        , inserts, values);
+        `SELECT u.*, nbr
+        FROM users AS u
+        INNER JOIN (
+            SELECT id_user, id, COUNT(id) AS nbr
+            FROM recipes
+            GROUP BY id
+        ) r ON r.id_user = u.id
+        WHERE u.id = %L
+        ;`, id);
+
     // ask client
     return new Promise((resolve, reject) => {
         db.query(query, (err, res) => {

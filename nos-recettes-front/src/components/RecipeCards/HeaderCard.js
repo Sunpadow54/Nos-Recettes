@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 /* Import Style */
-import "./cards.scss";
+import "./recipeCards.scss";
 // Import img placeholder
 import placeholderImg from "../../style/images/lukas-blazek-f-TWhXOrLiU-unsplash.jpg";
 

@@ -1,5 +1,5 @@
 /* Import Style */
-import "./cards.scss";
+import "./recipeCards.scss";
 /* Import Icons */
 import { RiTimerLine } from "react-icons/ri";
 import { GrRestaurant } from "react-icons/gr";

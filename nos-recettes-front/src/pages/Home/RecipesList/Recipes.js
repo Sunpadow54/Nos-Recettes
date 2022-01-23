@@ -2,8 +2,8 @@ import { useParams } from "react-router-dom";
 /* Import Style */
 import "./recipes.scss";
 /* Import Components */
-import HeaderCard from "../../../components/Cards/HeaderCard";
-import IngredientsList from "../../../components/Cards/IngredientsList";
+import HeaderCard from "../../../components/RecipeCards/HeaderCard";
+import IngredientsList from "../../../components/RecipeCards/IngredientsList";
 import useFetch from "../../../apiFetch/useFetch";
 
 function Recipes() {

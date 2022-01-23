@@ -1,5 +1,5 @@
 /* Import Style */
-import "./cards.scss";
+import "./recipeCards.scss";
 
 function IngredientsList({ ingredients, alone }) {
 	const concat = (el) => {

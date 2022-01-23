@@ -2,10 +2,10 @@ import { useParams } from "react-router-dom";
 /* Import Style */
 import "./recipe.scss";
 /* Import Components */
-import HeaderCard from "../../../components/Cards/HeaderCard";
-import InfosCard from "../../../components/Cards/InfosCard";
-import IngredientsList from "../../../components/Cards/IngredientsList";
-import StepsList from "../../../components/Cards/StepsList";
+import HeaderCard from "../../../components/RecipeCards/HeaderCard";
+import InfosCard from "../../../components/RecipeCards/InfosCard";
+import IngredientsList from "../../../components/RecipeCards/IngredientsList";
+import StepsList from "../../../components/RecipeCards/StepsList";
 import useFetch from "../../../apiFetch/useFetch";
 
 function Recipe() {

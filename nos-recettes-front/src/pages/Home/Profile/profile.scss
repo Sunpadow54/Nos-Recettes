@@ -1,0 +1,32 @@
+// -----------------------------------------------------------
+/* Profile */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../../style/sass/variables" as v;
+@use "../../../style/sass/mixins" as m;
+
+
+.profile {
+	@include m.flex(column, v.$default, v.$default, center);
+	gap: 1rem;
+	@include m.desktop(800px) {
+		@include m.grid((1fr 2fr), (auto 1fr auto));
+		grid-template-areas:
+		"card name"
+		"card recipes"
+		". recipes";
+	}
+	&-card {
+		grid-area: card;
+	}
+	&-name {
+		text-transform: capitalize;
+		grid-area: name;
+		justify-self: end;
+		font: 1.3rem Coming Soon;
+	}
+	&-recipes {
+		align-self: stretch;
+		grid-area: recipes;
+	}
+}

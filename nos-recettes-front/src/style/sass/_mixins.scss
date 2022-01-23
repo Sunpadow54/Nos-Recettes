@@ -30,6 +30,14 @@
 	}
 }
 
+// ------------ GRID Mixins
+
+@mixin grid($columns, $rows) {
+	display:grid;
+	grid-template-columns: $columns;
+	grid-template-rows: $rows;
+}
+
 // ------------ Position Mixins
 
 @mixin position(
@@ -87,8 +95,8 @@
 
 // ------------ MediaQueries
 
-@mixin desktop {
-	@media screen and (min-width: 700px) {
+@mixin desktop($min-width:700px) {
+	@media screen and (min-width: $min-width) {
 		@content;
 	}
 }

@@ -91,13 +91,14 @@ exports.editUser = (req, res, next) => {
 
 
 exports.getOneUser = (req, res, next) => {
-    User.findOne({ id: 3 }) // ! use res.locals
+    User.findOne(req.params.id)
         .then(user => {
             const userData = {
                 username: user.username,
                 email: decryptEmail(user.email),
                 lastname: user.username,
                 firstname: user.username,
+                nbrRecipes: user.nbr
             };
             res.status(201).json(userData);
         })
