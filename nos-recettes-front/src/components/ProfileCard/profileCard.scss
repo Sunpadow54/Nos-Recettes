@@ -8,6 +8,7 @@
 
 .profile-card {
 	@include m.flex(column, v.$default, v.$default, center);
+	background-color: white;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 4px 4px rgba(0, 0, 0, 0.23);
 	padding: 1rem;
 	border-radius: 18px;
@@ -17,14 +18,14 @@
 		border: 2px solid v.$color-blue;
 		padding: 7px;
 		border-radius: 16px;
-		@include m.desktop {
-		width: auto;
-		height: auto;
+		@include m.desktop(1050px) {
+			width: auto;
+			height: auto;
 		}
 		img {
-		background-color: rgb(185, 185, 185); // for transparent png
-		border-radius: 10px;
-		height: 100%;
+			background-color: rgb(185, 185, 185); // for transparent png
+			border-radius: 10px;
+			height: 100%;
 		}
 	}
 	&__icon {

@@ -20,35 +20,36 @@
 }
 
 .card-header {
-	width: 100%;
-	@include m.flex(column);
+	margin-bottom: 42px;
+	a {
+		height: 100%;
+	}
 	&__img {
+		height: 100%;
 		position: relative;
-		z-index: -1;
 	}
 	&__new {
 		display: block;
 		@include m.position(absolute, 1.25rem, 1.25rem);
 		background-color: v.$color-darkgrey;
 		width: 4.25rem;
-		height: 1.75rem;
 		line-height: 1.75rem;
 		text-align: center;
 		color: white;
 		font-size: 0.9rem;
 	}
 	&__title {
+		@include m.position(relative,v.$default, v.$default, 42px);
 		@include m.flex(v.$default, wrap, center, center);
-		background: white;
 		padding: 0.5rem 4rem 0.5rem 2rem;
 		width: 320px;
 		height: 85px;
 		font-weight: 500;
 		font-size: 1.25rem;
-		margin-top: -42px;
+		background-color: white;
 		&--center {
-			align-self: center;
-			width: 400px;
+			margin: auto;
+			width: 450px;
 			padding: 0.5rem 2rem;
 			font-size: 1.5rem;
 		}
@@ -82,8 +83,8 @@
 }
 
 .card-pills {
-	margin-top: -25px;
 	@include m.flex(v.$default, wrap);
+	align-content: flex-start;
 	gap: 0.8rem;
 	&__item {
 		background-color: v.$color-lightgrey;

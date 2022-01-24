@@ -6,6 +6,6 @@
 @use "../../../style/sass/mixins" as m;
 
 .recipe-alone {
-	@include m.flex(column);
+	@include m.grid(1fr, (500px auto));
 	gap: v.$card-gap;
 }

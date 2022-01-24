@@ -15,13 +15,11 @@
 	}
 }
 .card {
-    @include m.flex(column);
+    @include m.grid(1fr, (300px 1fr));
     gap: v.$card-gap;
 	&:after {
-		@include m.before-after();
 		@include m.line(40vw, -0.4deg);
 		margin: auto;
-		/* margin-top: 3rem; */
 		@include m.desktop {
 			display: none;
 		}
