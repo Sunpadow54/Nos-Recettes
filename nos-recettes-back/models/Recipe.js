@@ -60,8 +60,22 @@ Recipe.create = (newRecipe, ingredients) => {
 }
 
 
-Recipe.findAll = () => {
-    const query =
+Recipe.findAll = (filter) => {
+
+    // Function to format filter to query the db
+    const formatFilters = () => {
+        let filtersArray = [];
+        for (const [key, value] of Object.entries(filter)) {
+            filtersArray.push(`${key}='${value}'`);
+        }
+        return 'WHERE ' + filtersArray.join(' AND ');
+    };
+
+    // set filters for query if any
+    const hasFilter = Object.keys(filter).length === 0;
+    const filters = hasFilter ? '' : formatFilters();
+
+    const query = 
         `SELECT 
             id, r.id_user, r.created_at AS date, r.img, r.duration, r.title,
             i.ingredients
@@ -74,9 +88,10 @@ Recipe.findAll = () => {
             JOIN   ingredients AS i  ON i.id = ri.id_ingredient
             GROUP  BY ri.id_recipe
         ) i USING (id)
+        ${filters}
         ORDER BY r.created_at DESC;
         `;
-        
+
     // ask db
     return new Promise((resolve, reject) => {
         db.query(query, (err, res) => {

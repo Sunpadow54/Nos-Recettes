@@ -8,7 +8,7 @@ import useFetch from "../../../apiFetch/useFetch";
 
 function Recipes() {
 	const { category } = useParams();
-	const endpoint = category ? "/categories/" + category.slice(0, -1) : "";
+	const endpoint = category ? "?category=" + category.slice(0, -1) : "";
 
 	const { data, error } = useFetch({
 		endpoint: "/recipe" + endpoint,

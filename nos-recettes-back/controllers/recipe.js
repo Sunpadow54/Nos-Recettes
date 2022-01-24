@@ -8,15 +8,9 @@ const Recipe = require('../models/Recipe');
 // -------------------------- CONTROLS ------------------------
 
 exports.getAllRecipes = (req, res, next) => {
-    Recipe.findAll()
+    Recipe.findAll(req.query)
         .then(recipes => res.status(201).json(recipes))
         .catch(error => res.status(500).json({ error }));
-};
-
-exports.getRecipeCategory = (req, res, next) => {
-    Recipe.findByCategory(req.params.category)
-        .then(recipes => res.status(201).json(recipes))
-        .catch(error => res.status(501).json({ error }));
 };
 
 exports.getOneRecipe = (req, res, next) => {
