@@ -5,6 +5,7 @@ import Recipes from "./pages/Home/RecipesList/Recipes";
 import Recipe from "./pages/Home/Recipe/Recipe";
 import CreateRecipe from "./pages/Home/CreateRecipe/CreateRecipe";
 import Profile from "./pages/Home/Profile/Profile";
+import EditProfile from "./pages/Home/Profile/EditProfile";
 
 function App() {
 	return (
@@ -17,6 +18,7 @@ function App() {
 						<Route path="/:recipeName/:id" element={<Recipe />} />
 						<Route path="create" element={<CreateRecipe />} />
 						<Route path="profil" element={<Profile />} />
+						<Route path="profil/edit" element={<EditProfile />} />
 					</Route>
 				</Routes>
 			</div>

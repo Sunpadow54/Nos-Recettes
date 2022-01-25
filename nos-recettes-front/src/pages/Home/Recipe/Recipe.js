@@ -14,7 +14,6 @@ function Recipe() {
 		endpoint: "/recipe/" + id,
 		method: "GET",
 	});
-	console.log(data);
 
 	return (
 		<div class="recipe-alone">
