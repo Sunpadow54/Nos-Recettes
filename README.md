@@ -1,4 +1,4 @@
-# Nos Recettes ( je cherche un Nom !)
+# Nos Recettes (temporaire)
 
 ## Projet 
 
