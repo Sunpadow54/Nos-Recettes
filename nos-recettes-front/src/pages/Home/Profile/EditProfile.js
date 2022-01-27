@@ -77,7 +77,7 @@ function EditProfile() {
 		});
         // change size of parent div & input
         if (e.target.type !== "password") {
-            e.target.size = Math.max(value.length - 1, 1);
+            e.target.size = Math.max(value.length, 1);
             e.target.parentNode.dataset.value = value
         }
 	};
@@ -124,7 +124,7 @@ function EditProfile() {
 						value={getValues('firstname')}
                         resizable
 						onChange={handleInputChange}
-                        size={user.firstname.length - 1}
+                        size={user.firstname.length}
 
 					/>
                     <Input
@@ -132,7 +132,7 @@ function EditProfile() {
 						value={getValues('lastname')}
                         resizable
 						onChange={handleInputChange}
-                        size={user.lastname.length - 1}
+                        size={user.lastname.length}
 					/>
 				</div>
                 <div className="profile-info">
@@ -141,21 +141,19 @@ function EditProfile() {
 						value={getValues('username')}
                         resizable
 						onChange={handleInputChange}
-                        size={user.username.length - 1}
+                        size={user.username.length}
 					/>
                     <Input
 						{... inputs[3]}
 						value={getValues('email')}
                         resizable
 						onChange={handleInputChange}
-                        size={user.email.length - 1}
+                        size={user.email.length}
 					/>
                       <Input
                         {... inputs[4]}
                         value={getValues('oldPassword')}
-                        /* resizable={true} */
                         onChange={handleInputChange}
-                        /* size={user.email.length} */
                     />
                     <div className="profile-submit">
                         <BtnBrand
