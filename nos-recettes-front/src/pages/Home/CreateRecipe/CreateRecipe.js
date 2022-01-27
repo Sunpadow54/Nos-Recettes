@@ -158,8 +158,8 @@ function CreateRecipe() {
 						label={`étape ${i + 1} :`}
 						value={step}
 						onChange={handleInputChange}
-						light={true}
-						hasRemove={true}
+						light
+						hasRemove
 						handleRemoveInput={(event) =>
 							handleRemoveInput(event, "step", i)
 						}
@@ -170,7 +170,7 @@ function CreateRecipe() {
 						onClick={(event) => handleAddInput(event, "step")}
 						icon={<IoMdAdd />}
 						label="Ajouter une étape"
-						round={true}
+						round
 						color="blue"
 					/>
 				</div>
@@ -195,7 +195,7 @@ function CreateRecipe() {
 							}
 							options={ingredientsFound}
 							list="ingredients"
-							light={true}
+							light
 						/>
 						<Input
 							type="number"
@@ -203,14 +203,14 @@ function CreateRecipe() {
 							label="quantité"
 							value={formValues.ingredients[i][1]}
 							onChange={handleInputChange}
-							light={true}
+							light
 						/>
 						<Input
 							type="text"
 							name={`ingredients-${i}-2`}
 							label=" unité de mesure"
 							value={formValues.ingredients[i][2]}
-                            noRequired={true}
+                            noRequired
 							onChange={handleInputChange}
 							onKeyUp={(event) =>
 								handleAutoComplete(
@@ -221,13 +221,13 @@ function CreateRecipe() {
 							}
 							options={unitsFound}
 							list="units"
-							light={true}
+							light
 						/>
 						<BtnBrand
 							icon={<IoMdClose />}
 							label="suprimer"
-							round={true}
-							border0={true}
+							round
+							border0
 							color="grey"
 							onClick={(event) =>
 								handleRemoveInput(event, "ingredient", i)
@@ -240,7 +240,7 @@ function CreateRecipe() {
 						onClick={(event) => handleAddInput(event, "ingredient")}
 						icon={<IoMdAdd />}
 						label="Ajouter un ingrédient"
-						round={true}
+						round
 						color="blue"
 					/>
 				</div>

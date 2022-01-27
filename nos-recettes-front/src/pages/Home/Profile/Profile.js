@@ -40,8 +40,8 @@ function Profile() {
 					}}
 					icon={<RiEdit2Line />}
 					label="modifier son profil"
-					round={true}
-					border0={true}
+					round
+					border0
 					color="red"
 				/>
 			</div>

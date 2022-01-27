@@ -20,8 +20,8 @@ function Textarea(props) {
 			onClick={handleRemoveInput}
 			icon={<IoMdClose />}
 			label="suprimer"
-			round={true}
-			border0={true}
+			round
+			border0
 			color="grey"
 		/>
 	) : null;

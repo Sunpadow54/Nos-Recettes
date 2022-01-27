@@ -19,11 +19,11 @@ function Recipe() {
 		<div class="recipe-alone">
 			{data && !loading && (
 				<>
-					<HeaderCard recipe={data} alone={true} />
+					<HeaderCard recipe={data} alone/>
 					<InfosCard recipe={data} />
 					<IngredientsList
 						ingredients={data.ingredients}
-						alone={true}
+						alone
 					/>
 					<StepsList steps={data.preparation} />
 				</>

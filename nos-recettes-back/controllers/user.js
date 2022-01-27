@@ -50,7 +50,6 @@ exports.createUser = (req, res, next) => {
 
 
 exports.editUser = (req, res, next) => {
-    console.log(req.body);
     User.findOne(req.params.id) // ! use res.locals
         // 1 : Confirm password
         .then(user => {
