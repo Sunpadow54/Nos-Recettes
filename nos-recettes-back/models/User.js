@@ -42,7 +42,7 @@ User.findOne = (id) => {
     const query = format(
         `SELECT u.*, nbr
         FROM users AS u
-        INNER JOIN (
+        LEFT JOIN (
             SELECT id_user, id, COUNT(id) AS nbr
             FROM recipes
             GROUP BY id

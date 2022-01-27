@@ -17,7 +17,7 @@ const userCtrl = require('../controllers/user');
 // ------------------------- ROADS ----------------------------
 
 router.post('/create', userSignUpRules(), validateRules, userCtrl.createUser); // ! add admin restriction
-router.put('/edit', userEditRules(), validateRules, userCtrl.editUser);
+router.put('/edit/:id', userEditRules(), validateRules, userCtrl.editUser);
 router.get('/:id', userCtrl.getOneUser);
 
 // ============================================================

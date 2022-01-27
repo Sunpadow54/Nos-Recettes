@@ -50,7 +50,8 @@ exports.createUser = (req, res, next) => {
 
 
 exports.editUser = (req, res, next) => {
-    User.findOne({ id: 2 }) // ! use res.locals
+    console.log(req.body);
+    User.findOne(req.params.id) // ! use res.locals
         // 1 : Confirm password
         .then(user => {
             return checkPassword(req.body.oldPassword, user.pass);
@@ -72,7 +73,7 @@ exports.editUser = (req, res, next) => {
             req.body.email ? userEdited.email = encryptEmail(req.body.email) : false;
             newPass ? userEdited.pass = newPass : false; // add password if changed
             // Update in the db
-            return User.edit(userEdited, 2) // ! use res.locals
+            return User.edit(userEdited, req.params.id) // ! use res.locals
         })
         // SUCESS : send message
         .then(message => {
@@ -96,8 +97,8 @@ exports.getOneUser = (req, res, next) => {
             const userData = {
                 username: user.username,
                 email: decryptEmail(user.email),
-                lastname: user.username,
-                firstname: user.username,
+                lastname: user.lastname,
+                firstname: user.firstname,
                 nbrRecipes: user.nbr
             };
             res.status(201).json(userData);
