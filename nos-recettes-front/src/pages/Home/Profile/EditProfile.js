@@ -84,7 +84,7 @@ function EditProfile() {
 
     const handleSubmit = (e) => {
 		e.preventDefault(userForm); // stop refreshing page
-        fetch('http://localhost:3000/api/user/edit/' + userId, {
+        fetch('http://localhost:3000/api/user/' + userId, {
             method: 'PUT',
             headers : {"Content-Type": "application/json"},
             body: JSON.stringify(userForm)
