@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 // security
 const helmet = require('helmet'); // against Xss attacks
 const hpp = require('hpp'); // against Dos attack (avoid parameters pollution)
+const cors = require('cors');
 
 // ---- Import Roads
 const recipeRoutes = require('./routes/recipe');
@@ -17,7 +18,7 @@ const userRoutes = require('./routes/user');
 // ----------------------- Create app -------------------------
 
 const app = express();
-
+app.use(cors())
 
 // ------------------------- MIDDLEWARES ----------------------
 
