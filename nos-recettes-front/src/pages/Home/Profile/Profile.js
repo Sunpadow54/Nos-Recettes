@@ -1,19 +1,23 @@
 import useFetch from "../../../apiFetch/useFetch";
+import { useNavigate } from "react-router-dom";
 /* Import Style */
 import "./profile.scss";
 /* Import Icons */
 import { IoRestaurantOutline } from "react-icons/io5";
+import { RiEdit2Line } from "react-icons/ri";
 // Import components
 import ProfileCard from "../../../components/ProfileCard/ProfileCard";
 import HeaderCard from "../../../components/RecipeCards/HeaderCard";
 import IngredientsList from "../../../components/RecipeCards/IngredientsList";
+import BtnBrand from "../../../components/Buttons/BtnBrand";
 
 
 function Profile() {
 	// ---- Variables
 	// id user for the fetchs
-	const userId = 1; // test
-	
+	const userId = 2; // test
+	const navigate = useNavigate();
+
 	// ---- Fetchs
 	const getUser = useFetch({
 		endpoint: "/user/" + userId,
@@ -25,33 +29,51 @@ function Profile() {
 	});
 
 	const user = getUser.data;
-	const userRecipes = getUserRecipes.data
+	const userRecipes = getUserRecipes.data;
 
 	return (
 		<div className="profile">
-			{user && ( 
-			<>	
-				<ProfileCard className="profile-card" user={user}/>
-				<div className="profile-name">
-					<h3>{`${user.firstname} ${user.lastname}`}</h3>
-				</div>
-				<div>{user.email}</div>
-			</>
+			<div className="profile-edit-btn">
+				<BtnBrand
+					onClick={() => {
+						navigate("edit");
+					}}
+					icon={<RiEdit2Line />}
+					label="modifier son profil"
+					round={true}
+					border0={true}
+					color="red"
+				/>
+			</div>
+			{user && (
+				<>
+					<ProfileCard className="profile-card" user={user} />
+					<div className="profile-name">
+						<h3><span>{`${user.firstname}`}</span><span>{`${user.lastname}`}</span></h3>
+					</div>
+                    <div className="profile-info">
+                        <p className="profile-info__email">{user.email}</p>
+                    </div>
+				</>
 			)}
 			<section className="profile-recipes">
-				<h4 className="profile-recipes__title">
+				<h2 className="profile-recipes__title">
 					<IoRestaurantOutline />
 					Toutes les recettes du chef :
-				</h4>
+				</h2>
 				<ul className="profile-recipes__list">
-					{userRecipes && 
-					userRecipes.map((recipe) => (	
-					<li key={recipe.id} className="profile-recipes__list--item">
-						<HeaderCard recipe={recipe} />
-						<IngredientsList ingredients={recipe.ingredients} />
-					</li>
-					))
-					}
+					{userRecipes &&
+						userRecipes.map((recipe) => (
+							<li
+								key={recipe.id}
+								className="profile-recipes__list--item"
+							>
+								<HeaderCard recipe={recipe} />
+								<IngredientsList
+									ingredients={recipe.ingredients}
+								/>
+							</li>
+						))}
 				</ul>
 			</section>
 		</div>

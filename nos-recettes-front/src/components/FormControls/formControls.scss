@@ -5,17 +5,23 @@
 @use "../../style/sass/variables" as v;
 @use "../../style/sass/mixins" as m;
 
+$input-padding: 0.75rem;
+@mixin label-focus() {
+    transform: translate(-($input-padding), -1.9rem);
+    font-size: 14px;
+    color: v.$color-grey;
+}
+
 .input-group {
 	position: relative;
 	@include m.flex(v.$default, v.$default, v.$default, center);
-	margin-bottom: 0.5rem;
 	&__label {
-		@include m.position(absolute, 0);
+		@include m.position(absolute, calc($input-padding + 1px)); // 1px for the border
 		transition: all 0.5s ease-in-out;
 		display: block; // to make the uppercase works on ::first-letter
-		padding: 0.75rem;
+		padding-left: $input-padding;
 		z-index: -1;
-		width: 100%;
+        font: 1rem Raleway;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
@@ -28,17 +34,17 @@
 	}
 	&__control {
 		width: 100%;
-		border: 1px solid v.$color-lightgrey;
-		padding: 0.75rem;
-		font-size: 1rem;
-		font-family: "Raleway";
+        @include m.border(v.$default, v.$color-lightgrey);
+		padding: $input-padding;
+		font: inherit;
 		background-color: transparent;
+		&:focus { 
+			border-color: #32a1ce;
+		}
 
 		&:focus ~ label,
 		&:valid ~ label {
-			transform: translate(-0.74rem, -1.8rem);
-			font-size: 14px;
-			color: v.$color-grey;
+			@include label-focus;
 		}
 
 		&[type="time"] {
@@ -80,5 +86,35 @@
 
 	select {
 		width: 195px;
+	}
+}
+
+.input-group--resize {
+	display: inline-grid;
+	align-items: center;
+    @include m.border(v.$default, v.$color-lightgrey);
+    padding: $input-padding;
+	&::after {
+		content: attr(data-value) "";
+		visibility: hidden;
+		white-space: pre-wrap;
+	}
+	label {
+        @include label-focus;
+		width: auto;
+	}
+	&::after,
+	input,
+	textarea {
+        grid-area: 1 / 2;
+		width: auto;
+		min-width: 1em;
+		font: inherit;
+		margin: 0;
+		padding: 0;
+		resize: none;
+		background: none;
+		appearance: none;
+        border:none;
 	}
 }

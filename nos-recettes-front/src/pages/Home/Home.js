@@ -27,6 +27,8 @@ function Home() {
 				return "Créer sa recette";
 			case "/profil":
 				return "Votre Profil";
+            case "/profil/edit":
+                return "Modifier votre Profil";
 			default:
 				return "";
 		}

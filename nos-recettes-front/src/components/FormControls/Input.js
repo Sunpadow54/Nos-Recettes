@@ -2,11 +2,11 @@
 import "./formControls.scss";
 
 function Inputs(props) {
-	const { label, onChange, options, light, noRequired,...inputProps } = props;
+	const { label, onChange, options, light, noRequired, resizable, ...inputProps } = props;
 
 
 	return (
-		<div className="input-group">
+		<div className={`input-group ${resizable ? "input-group--resize" : ""}`}>
 			<input
 				className="input-group__control"
                 required={!noRequired && true}
