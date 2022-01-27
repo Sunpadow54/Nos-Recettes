@@ -50,13 +50,13 @@ exports.createUser = (req, res, next) => {
 
 
 exports.editUser = (req, res, next) => {
-    User.findOne(req.params.id) // ! use res.locals
+    User.findOne({ id: req.params.id }) // ! use res.locals
         // 1 : Confirm password
         .then(user => {
             return checkPassword(req.body.oldPassword, user.pass);
         })
         // 2 : If user send a new password Hash it
-        .then(valid => {
+        .then(() => {
             if (req.body.newPassword) {
                 return hashPassword(req.body.newPassword)
             }
@@ -91,7 +91,7 @@ exports.editUser = (req, res, next) => {
 
 
 exports.getOneUser = (req, res, next) => {
-    User.findOne(req.params.id)
+    User.findOne({ id: req.params.id })
         .then(user => {
             const userData = {
                 username: user.username,

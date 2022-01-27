@@ -37,7 +37,10 @@ User.create = (newUser) => {
 };
 
 
-User.findOne = (id) => {
+User.findOne = (user) => {
+    const insert = Object.keys(user);
+    const value = Object.values(user);
+
     // define the query
     const query = format(
         `SELECT u.*, nbr
@@ -47,8 +50,9 @@ User.findOne = (id) => {
             FROM recipes
             GROUP BY id
         ) r ON r.id_user = u.id
-        WHERE u.id = %L
-        ;`, id);
+        WHERE u.%s = %L
+        ;`, insert, value);
+
 
     // ask client
     return new Promise((resolve, reject) => {
