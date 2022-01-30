@@ -16,7 +16,7 @@ function Recipe() {
 	});
 
 	return (
-		<div class="recipe-alone">
+		<div className="recipe-alone">
 			{data && !loading && (
 				<>
 					<HeaderCard recipe={data} alone/>
