@@ -1,173 +1,134 @@
-import useFetch from "../../../apiFetch/useFetch";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 /* Import Style */
 import "./profile.scss";
-/* Import Icons */
-import { RiArrowGoBackLine } from "react-icons/ri";
 // Import components
-import ProfileCard from "../../../components/ProfileCard/ProfileCard";
 import Input from "../../../components/FormControls/Input";
 import BtnBrand from "../../../components/Buttons/BtnBrand";
 
-
 function EditProfile() {
-	// ---- Variables
-	// id user for the fetchs
 	const userId = 2; // test
-    // Fetchs user and his recipes
-	const getUser = useFetch({
-		endpoint: "/user/" + userId,
-		method: "GET",
-	});
-
-    const navigate = useNavigate();
-	const [user, setUser] = useState();
-    const [userForm, setUserForm] = useState({});
-
-    useEffect(() => {
-        setUser(getUser.data);
-    }, [getUser]);
-
-	// Function : inputs values showned are default or input change
-	const getValues = (key) => {
-		return userForm.hasOwnProperty(key) ? userForm[key] : user[key]
-	}
-    
-	const inputs = [
+	const navigate = useNavigate();
+	const [userForm, setUserForm] = useState({});
+	const { user, inputWidth } = useOutletContext();
+	const inputsName = [
 		{
 			type: "text",
 			name: "firstname",
-			label:"Prénom",
-            light: true,
+			label: "Prénom",
+			light: true,
+			resizable: true,
+			size: "1",
 		},
 		{
 			type: "text",
 			name: "lastname",
 			label: "Nom",
-            light: true,
+			light: true,
+			resizable: true,
+			size: "1",
 		},
+	];
+	const inputsMore = [
 		{
 			type: "text",
 			name: "username",
 			label: "Username",
-            light: true,
+			light: true,
+			resizable: true,
 		},
-        {
+		{
 			type: "email",
 			name: "email",
 			label: "email",
-            light: true,
+			light: true,
+			resizable: true,
 		},
-        {
+		{
 			type: "password",
 			name: "oldPassword",
 			label: "mot de passe pour valider",
-            light: true,
+			light: true,
 		},
-
 	];
 
+	// ---- Functions
+	// -> inputs values showned are default or input change
+	const getValues = (key) => {
+		return userForm.hasOwnProperty(key) ? userForm[key] : user[key];
+	};
+
 	const handleInputChange = (e) => {
-        // populate form
+		// populate form
 		const { name, value } = e.target;
 		setUserForm({
 			...userForm,
-			[name]: value
+			[name]: value,
 		});
-        // change size of parent div & input
-        if (e.target.type !== "password") {
-            e.target.size = Math.max(value.length, 1);
-            e.target.parentNode.dataset.value = value
-        }
+		// change size of parent div with dataset
+		if (e.target.type !== "password") {
+			e.target.parentNode.dataset.value = value;
+		}
 	};
 
-    const handleSubmit = (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault(userForm); // stop refreshing page
-        fetch('http://localhost:3000/api/user/' + userId, {
-            method: 'PUT',
-            headers : {"Content-Type": "application/json"},
-            body: JSON.stringify(userForm)
-        })
-        .then((res) => {
-            navigate("/profil");
-            console.log(res.json());
-        })
-        .catch(error => {
-            console.log(error);
-        });
+		fetch("http://localhost:3000/api/user/" + userId, {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(userForm),
+		})
+			.then((res) => {
+				navigate("/profil");
+				console.log(res.json());
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
-  return (
-		<form 
-            className="profile"
-            autoComplete="off"
+	return (
+		<form
+			autoComplete="off"
 			id="edit-profile"
 			onSubmit={handleSubmit}
-        >
-            <div className="profile-edit-btn">
-                <BtnBrand
-                    onClick={() => { navigate("/profil") }}
-                    icon={<RiArrowGoBackLine />}
-                    label="retourner au profil"
-                    round
-                    border0
-                    color="blue"
-                />
-            </div>
+			className="profile-info__group"
+		>
 			{user && (
-				<>	
-				<ProfileCard className="profile-card" user={user}/>
-				<div className="profile-name">
-                    <Input
-						{... inputs[0]}
-						value={getValues('firstname')}
-                        resizable
-						onChange={handleInputChange}
-                        size={user.firstname.length}
-
-					/>
-                    <Input
-						{... inputs[1]}
-						value={getValues('lastname')}
-                        resizable
-						onChange={handleInputChange}
-                        size={user.lastname.length}
-					/>
-				</div>
-                <div className="profile-info">
-                    <Input
-						{... inputs[2]}
-						value={getValues('username')}
-                        resizable
-						onChange={handleInputChange}
-                        size={user.username.length}
-					/>
-                    <Input
-						{... inputs[3]}
-						value={getValues('email')}
-                        resizable
-						onChange={handleInputChange}
-                        size={user.email.length}
-					/>
-                      <Input
-                        {... inputs[4]}
-                        value={getValues('oldPassword')}
-                        onChange={handleInputChange}
-                    />
-                    <div className="profile-submit">
-                        <BtnBrand
-                            form="edit-profile"
-                            type="submit"
-                            text="Enregistrer"
-                            color="green"
-                        />
-                    </div>
-                </div>
-			</>
+				<>
+					<div className="profile-info__name">
+						{inputsName.map((input, i) => (
+							<Input
+								key={i}
+								{...input}
+								value={getValues(input.name)}
+								style={inputWidth[input.name]}
+								onChange={handleInputChange}
+							/>
+						))}
+					</div>
+					<div className="profile-info__more">
+						{inputsMore.map((input, i) => (
+							<Input
+								key={i}
+								{...input}
+								value={getValues(input.name)}
+								onChange={handleInputChange}
+							/>
+						))}
+					</div>
+					<div>
+						<BtnBrand
+							form="edit-profile"
+							type="submit"
+							text="Enregistrer"
+							color="green"
+						/>
+					</div>
+				</>
 			)}
-	  	</form>
-  );
+		</form>
+	);
 }
 
 export default EditProfile;

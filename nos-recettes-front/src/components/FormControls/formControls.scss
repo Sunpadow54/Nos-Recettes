@@ -7,21 +7,24 @@
 
 $input-padding: 0.75rem;
 @mixin label-focus() {
-    transform: translate(-($input-padding), -1.9rem);
-    font-size: 14px;
-    color: v.$color-grey;
+	transform: translate(-($input-padding), -1.9rem);
+	font-size: 14px;
+	color: v.$color-grey;
 }
 
 .input-group {
 	position: relative;
 	@include m.flex(v.$default, v.$default, v.$default, center);
 	&__label {
-		@include m.position(absolute, calc($input-padding + 1px)); // 1px for the border
+		@include m.position(
+			absolute,
+			calc($input-padding + 1px)
+		); // 1px for the border
 		transition: all 0.5s ease-in-out;
 		display: block; // to make the uppercase works on ::first-letter
 		padding-left: $input-padding;
 		z-index: -1;
-        font: 1rem Raleway;
+		font: 1rem Raleway;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
@@ -34,11 +37,11 @@ $input-padding: 0.75rem;
 	}
 	&__control {
 		width: 100%;
-        @include m.border(v.$default, v.$color-lightgrey);
+		@include m.border(v.$default, v.$color-lightgrey);
 		padding: $input-padding;
 		font: inherit;
 		background-color: transparent;
-		&:focus { 
+		&:focus {
 			border-color: #32a1ce;
 		}
 
@@ -91,30 +94,31 @@ $input-padding: 0.75rem;
 
 .input-group--resize {
 	display: inline-grid;
+	grid-template-areas: "input";
 	align-items: center;
-    @include m.border(v.$default, v.$color-lightgrey);
-    padding: $input-padding;
+	@include m.border(v.$default, v.$color-lightgrey);
+	padding: $input-padding;
 	&::after {
 		content: attr(data-value) "";
 		visibility: hidden;
 		white-space: pre-wrap;
 	}
 	label {
-        @include label-focus;
+		@include label-focus;
 		width: auto;
 	}
 	&::after,
 	input,
 	textarea {
-        grid-area: 1 / 2;
+		grid-area: input;
 		width: auto;
-		min-width: 1em;
+		//min-width: 1em;
 		font: inherit;
 		margin: 0;
 		padding: 0;
 		resize: none;
 		background: none;
 		appearance: none;
-        border:none;
+		border: none;
 	}
 }

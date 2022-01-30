@@ -14,11 +14,12 @@ function App() {
 				<Routes>
 					<Route path="/" element={<Home />}>
 						<Route path="/" element={<Recipes />} />
-                        <Route path="/:category" element={<Recipes />} />
+						<Route path="/:category" element={<Recipes />} />
 						<Route path="/:recipeName/:id" element={<Recipe />} />
 						<Route path="create" element={<CreateRecipe />} />
-						<Route path="profil" element={<Profile />} />
-						<Route path="profil/edit" element={<EditProfile />} />
+						<Route path="profil" element={<Profile />}>
+							<Route path="edit" element={<EditProfile />} />
+						</Route>
 					</Route>
 				</Routes>
 			</div>

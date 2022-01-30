@@ -10,10 +10,9 @@
 	gap: 2rem;
 	position: relative;
 	@include m.desktop(1050px) {
-		@include m.grid((minmax(250px, 1fr) 2fr), (auto auto 1fr auto));
+		@include m.grid((minmax(250px, 1fr) 2fr), (auto 1fr auto));
 		grid-template-areas:
-			"card name"
-            "card info"
+			"card info"
 			"card recipes"
 			". recipes";
 		align-items: start;
@@ -28,44 +27,47 @@
 		grid-area: card;
 	}
 
-	&-name {
-		grid-area: name;
-		@include m.flex(v.$default, wrap, v.$default, center);
-		gap: 0.4rem;
-		font: 400 27px Coming Soon;
-
-		h3,
-        h3 span,
-		> div {
-            padding: 0 0.4rem;
-            font: inherit;
+	&-info {
+		grid-area: info;
+		&__group {
+			@include m.flex(column);
+			gap: 3rem;
+			&--hide {
+				position: absolute;
+				visibility: hidden;
+			}
 		}
+		&__name {
+			@include m.flex(v.$default, wrap, v.$default, center);
+			gap: 0.5rem;
+			font: 400 27px Coming Soon;
 
-        span,
-        input {
-            display: inline-block;
-            text-transform: capitalize;
-        }
-		&::after {
-			@include m.line(100%, -0.4deg);
-			margin-top: 1rem;
+			> * {
+				padding: 0 0.4rem;
+				height: 42px;
+			}
+			&::after {
+				@include m.line(100%, -0.4deg);
+				margin-top: 1rem;
+			}
+			> span {
+				// used to smooth visual differences with inputs in edit user mode
+				@include m.border(v.$default, transparent);
+			}
+			span,
+			input {
+				text-transform: capitalize;
+			}
+		}
+		&__more {
+			@include m.flex(column, v.$default, v.$default, flex-start);
+			gap: 1.5rem;
 		}
 	}
 
-    &-info {
-        grid-area: info;
-        @include m.flex(column, v.$default, v.$default, flex-start);
-        gap: 1.5rem;
-        width: 100%;
-		font: 1rem Raleway;
-        &__email {
-            align-self: flex-end;
-        }
-    }
-
-    &-submit {
-        align-self: flex-end;
-    }
+	&-submit {
+		align-self: flex-end;
+	}
 
 	&-recipes {
 		grid-area: recipes;
