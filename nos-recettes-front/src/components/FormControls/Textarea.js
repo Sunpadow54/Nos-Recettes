@@ -1,3 +1,4 @@
+import classNames from "classnames";
 /* Import Style */
 import "./formControls.scss";
 /* Import Icons */
@@ -15,7 +16,7 @@ function Textarea(props) {
 		...inputProps
 	} = props;
 
-	const removeBtn = hasRemove ? (
+	const removeBtn = hasRemove && (
 		<BtnBrand
 			onClick={handleRemoveInput}
 			icon={<IoMdClose />}
@@ -24,7 +25,12 @@ function Textarea(props) {
 			border0
 			color="grey"
 		/>
-	) : null;
+	);
+
+	const labelClass = classNames(
+		"input-group__label",
+		light && "input-group__label--light"
+	);
 
 	return (
 		<div className="input-group">
@@ -35,13 +41,7 @@ function Textarea(props) {
 				onChange={onChange}
 			></textarea>
 			{removeBtn}
-			<label
-				className={`input-group__label 
-                    ${light ? "input-group__label--light" : ""}
-                `}
-			>
-				{label}
-			</label>
+			<label className={labelClass}>{label}</label>
 		</div>
 	);
 }

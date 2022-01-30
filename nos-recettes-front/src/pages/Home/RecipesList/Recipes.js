@@ -17,14 +17,14 @@ function Recipes() {
 
 	return (
 		<div className="recipes-list">
-			{data
-				? data.map((recipe) => (
+			{data &&
+				data.map((recipe) => (
 						<article key={recipe.id} className="card">
 							<HeaderCard recipe={recipe} />
 							<IngredientsList ingredients={recipe.ingredients} />
 						</article>
 				  ))
-				: null}
+            }
 			{error ? <p>{error}</p> : null}
 		</div>
 	);

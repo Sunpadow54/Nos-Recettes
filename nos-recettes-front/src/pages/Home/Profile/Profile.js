@@ -1,6 +1,7 @@
 import useFetch from "../../../apiFetch/useFetch";
 import { useRef } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import classNames from "classnames";
 /* Import Style */
 import "./profile.scss";
 /* Import Icons */
@@ -79,9 +80,10 @@ function Profile() {
 
 			<section className="profile-info">
 				<header
-					className={`profile-info__group ${
-						isEdit && " profile-info__group--hide"
-					}`}
+					className={classNames(
+						"profile-info__group",
+						isEdit && "profile-info__group--hide"
+					)}
 				>
 					<h3 className={"profile-info__name"}>
 						<span ref={firstnameDiv}>{user && user.firstname}</span>

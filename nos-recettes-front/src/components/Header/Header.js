@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import { /* Link, */ NavLink } from "react-router-dom";
 /* Import Style */
 import "./header.scss";
@@ -26,26 +27,24 @@ const Header = ({ sidebarState }) => {
 		},
 	];
 
+	const hasGrowClass = (name) => {
+		return classNames(name, !sidebarState && name + "--grow");
+	};
+
 	return (
 		<header className="header">
-			<h1
-				className={`header__title  
-					${sidebarState ? "header__title--shrink" : "header__title--grow"}`}
-			>
-				Nos Recettes
-			</h1>
+			<h1 className={hasGrowClass("header__title")}>Nos Recettes</h1>
 			<nav>
-				<ul
-					className={`breadcrumb   
-					${sidebarState ? "breadcrumb--shrink" : "breadcrumb--grow"}`}
-				>
+				<ul className={hasGrowClass("breadcrumb")}>
 					{links.map((link, id) => (
 						<li key={id}>
 							<NavLink
-                                to={link.src}
-								className={({ isActive }) => isActive ?
-                                    "breadcrumb__link breadcrumb__link--active"
-                                    : "breadcrumb__link"
+								to={link.src}
+								className={({ isActive }) =>
+									classNames(
+										"breadcrumb__link",
+										isActive && "breadcrumb__link--active"
+									)
 								}
 							>
 								{link.txt}

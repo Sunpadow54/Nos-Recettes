@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import classNames from "classnames";
 /* Import Style */
 import "./sidebar.scss";
 /* Import Icons */
@@ -30,25 +31,22 @@ function Sidebar({ sidebarState, setSidebarState }) {
 		setSidebarState(!sidebarState);
 	};
 
+	const getClasses = (name) => {
+		return classNames(
+			name,
+			sidebarState ? name + "--show" : name + "--hide"
+		);
+	};
+
 	return (
 		<div>
 			<button
-				className={`${
-					sidebarState
-						? "sidebar-btn sidebar-btn--show"
-						: "sidebar-btn sidebar-btn--hide"
-				}`}
+				className={getClasses("sidebar-btn")}
 				onClick={toogleSidebar}
 			>
 				{sidebarState ? "X" : <IoMenuOutline />}
 			</button>
-			<nav
-				className={`${
-					sidebarState
-						? "sidebar sidebar--show"
-						: "sidebar sidebar--hide"
-				}`}
-			>
+			<nav className={getClasses("sidebar")}>
 				<h2 className="sidebar__title">Bon Appétit Username !</h2>
 				<ul className="sidebar__nav">
 					{links.map((link, id) => (

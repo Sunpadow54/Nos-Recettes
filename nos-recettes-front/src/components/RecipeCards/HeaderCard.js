@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import classNames from "classnames";
 /* Import Style */
 import "./recipeCards.scss";
 // Import img placeholder
@@ -31,9 +32,11 @@ function HeaderCard({ recipe, alone }) {
 					/>
 					<New />
 				</div>
-				<h3 className={`card-header__title ${
-						alone ? "card-header__title--center" : null
-					}`}
+				<h3
+					className={classNames(
+						"card-header__title",
+						alone && "card-header__title--center"
+					)}
 				>
 					{title}
 				</h3>
