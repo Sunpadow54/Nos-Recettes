@@ -1,4 +1,5 @@
 import { useState } from "react";
+import useFetch from "../../../apiFetch/useFetch";
 /* Import Style */
 import "./createRecipe.scss";
 /* Import Icons */
@@ -25,13 +26,11 @@ function CreateRecipe() {
 	});
 
 	const [ingredientsFound, setIngredientsFound] = useState([]);
-	const allIngredients = [
-		"lasagne",
-		"tomates",
-		"fromage",
-		"lait",
-		"lentilles",
-	];
+    const allIngredients = useFetch({
+		endpoint: "/ingredient",
+		method: "GET",
+	});
+
 
 	const [unitsFound, setUnitsFound] = useState([]);
 	const allUnits = [
@@ -189,7 +188,7 @@ function CreateRecipe() {
 							onKeyUp={(event) =>
 								handleAutoComplete(
 									event,
-									allIngredients,
+									allIngredients.data,
 									setIngredientsFound
 								)
 							}

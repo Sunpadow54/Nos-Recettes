@@ -13,6 +13,7 @@ const cors = require('cors');
 // ---- Import Roads
 const authRoutes = require('./routes/auth');
 const recipeRoutes = require('./routes/recipe');
+const ingredientRoutes = require('./routes/ingredient');
 const userRoutes = require('./routes/user');
 
 // ============================================================
@@ -48,6 +49,7 @@ app.use(hpp());
 // --- Roads
 app.use('/api/auth', authRoutes);
 app.use('/api/recipe', recipeRoutes);
+app.use('/api/ingredient', ingredientRoutes);
 app.use('/api/user', userRoutes);
 
 
