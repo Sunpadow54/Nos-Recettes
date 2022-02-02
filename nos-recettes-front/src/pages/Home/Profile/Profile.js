@@ -1,4 +1,3 @@
-import useFetch from "../../../apiFetch/useFetch";
 import { useRef, useState, useEffect } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import classNames from "classnames";
@@ -8,9 +7,9 @@ import "./profile.scss";
 import { IoRestaurantOutline } from "react-icons/io5";
 import { RiEdit2Line, RiArrowGoBackLine } from "react-icons/ri";
 // Import components
+import useFetch from "../../../apiFetch/useFetch";
 import ProfileCard from "../../../components/ProfileCard/ProfileCard";
-import HeaderCard from "../../../components/RecipeCards/HeaderCard";
-import IngredientsList from "../../../components/RecipeCards/IngredientsList";
+import RecipesList from "../../../components/RecipesList/RecipesList";
 import BtnBrand from "../../../components/Buttons/BtnBrand";
 
 function Profile() {
@@ -102,27 +101,19 @@ function Profile() {
 				<Outlet context={[[user, setUser], inputWidth]} />
 			</section>
 
-			{userRecipes && userRecipes.length > 0 && (
-				<section className="profile-recipes">
-					<h2 className="profile-recipes__title">
-						<IoRestaurantOutline />
-						Toutes les recettes du chef :
-					</h2>
-					<ul className="profile-recipes__list">
-						{userRecipes.map((recipe) => (
-							<li
-								key={recipe.id}
-								className="profile-recipes__list--item"
-							>
-								<HeaderCard recipe={recipe} />
-								<IngredientsList
-									ingredients={recipe.ingredients}
-								/>
-							</li>
-						))}
-					</ul>
-				</section>
-			)}
+			<section className="profile-recipes">
+				<h2 className="profile-recipes__title">
+					<IoRestaurantOutline />
+					Toutes les recettes du chef :
+				</h2>
+				{userRecipes || userRecipes.length > 0 ? (
+					<div className="profile-recipes__list">
+						<RecipesList recipes={userRecipes} small border />
+					</div>
+				) : (
+					<p>aucune recette</p>
+				)}
+			</section>
 		</div>
 	);
 }

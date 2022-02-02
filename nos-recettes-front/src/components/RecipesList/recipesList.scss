@@ -1,0 +1,30 @@
+// -----------------------------------------------------------
+/*  List recipes */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../style/sass/variables" as v;
+@use "../../style/sass/mixins" as m;
+
+.card {
+	@include m.grid(1fr, (300px 1fr));
+	gap: v.$card-gap;
+	transition: transform 0.5s;
+	&:after {
+		@include m.line(40vw, -0.4deg);
+		margin: auto;
+		@include m.desktop {
+			display: none;
+		}
+	}
+	&--small {
+		@include m.grid(1fr, (200px auto));
+		gap: 1.5rem;
+	}
+	&--border {
+		@include m.border(v.$default, v.$color-lightgrey);
+		padding: 10px;
+		&:hover {
+			border-color: v.$color-grey;
+		}
+	}
+}

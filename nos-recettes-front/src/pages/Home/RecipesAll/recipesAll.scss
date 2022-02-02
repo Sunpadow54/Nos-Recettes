@@ -7,21 +7,10 @@
 
 .recipes-list {
 	@include m.flex(column);
-    gap: 3rem;
+	gap: 3rem;
 	@include m.desktop {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-        gap: 5rem 3.5rem;
-	}
-}
-.card {
-    @include m.grid(1fr, (300px 1fr));
-    gap: v.$card-gap;
-	&:after {
-		@include m.line(40vw, -0.4deg);
-		margin: auto;
-		@include m.desktop {
-			display: none;
-		}
+		gap: 5rem 3.5rem;
 	}
 }
