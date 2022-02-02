@@ -1,5 +1,5 @@
 import useFetch from "../../../apiFetch/useFetch";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import classNames from "classnames";
 /* Import Style */
@@ -12,25 +12,27 @@ import ProfileCard from "../../../components/ProfileCard/ProfileCard";
 import HeaderCard from "../../../components/RecipeCards/HeaderCard";
 import IngredientsList from "../../../components/RecipeCards/IngredientsList";
 import BtnBrand from "../../../components/Buttons/BtnBrand";
-import { useEffect, useState } from "react";
 
 function Profile() {
 	// ---- Tools
 	const userId = 2; // test
 	const navigate = useNavigate();
 	const location = useLocation();
+	const [user, setUser] = useState();
 
 	// ---- Fetchs User & recipes
-	const getUser = useFetch({
+	const { data: userFetched } = useFetch({
 		endpoint: "/user/" + userId,
 		method: "GET",
 	});
-	const getUserRecipes = useFetch({
+	const { data: userRecipes } = useFetch({
 		endpoint: "/recipe?id_user=" + userId,
 		method: "GET",
 	});
-	const user = getUser.data;
-	const userRecipes = getUserRecipes.data;
+
+	useEffect(() => {
+		setUser(userFetched);
+	}, [userFetched]);
 
 	// ---- Button edit or profile
 	const isEdit = location.pathname.includes("edit");
@@ -49,6 +51,16 @@ function Profile() {
 		  };
 
 	// ---- Width of inputs if edit mode
+
+	const firstnameDiv = useRef(null);
+	const lastnameDiv = useRef(null);
+	const emailDiv = useRef(null);
+	const [inputWidth, setInputWidth] = useState({
+		lastname: { minWidth: "1rem" },
+		firstname: { minWidth: "1rem" },
+		email: { minWidth: "1rem" },
+	});
+
 	const getInputWidth = (div) => {
 		const divPadding = window.getComputedStyle(div.current).paddingRight;
 		const finalDivWidth =
@@ -56,17 +68,11 @@ function Profile() {
 		return Math.round(finalDivWidth) + "px";
 	};
 
-	const firstnameDiv = useRef(null);
-	const lastnameDiv = useRef(null);
-	const [inputWidth, setInputWidth] = useState({
-		lastname: { minWidth: "1rem" },
-		firstname: { minWidth: "1rem" },
-	});
-
 	useEffect(() => {
 		setInputWidth({
 			lastname: { minWidth: getInputWidth(lastnameDiv) },
 			firstname: { minWidth: getInputWidth(firstnameDiv) },
+			email: { minWidth: getInputWidth(emailDiv) },
 		});
 	}, [user]);
 
@@ -90,11 +96,10 @@ function Profile() {
 						<span ref={lastnameDiv}>{user && user.lastname}</span>
 					</h3>
 					<div className="profile-info__more">
-						<p>{user && user.email}</p>
+						<p ref={emailDiv}>{user && user.email}</p>
 					</div>
 				</header>
-
-				<Outlet context={{ user, inputWidth }} />
+				<Outlet context={[[user, setUser], inputWidth]} />
 			</section>
 
 			{userRecipes && userRecipes.length > 0 && (

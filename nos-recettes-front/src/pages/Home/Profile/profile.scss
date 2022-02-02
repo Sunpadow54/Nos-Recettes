@@ -5,6 +5,15 @@
 @use "../../../style/sass/variables" as v;
 @use "../../../style/sass/mixins" as m;
 
+@mixin resize-box($height) {
+	padding: 0 0.4rem;
+	height: $height;
+	line-height: $height;
+	&:not(div) {
+		@include m.border(v.$default, transparent);
+	}
+}
+
 .profile {
 	@include m.flex(column, v.$default, v.$default, center);
 	gap: 2rem;
@@ -43,16 +52,11 @@
 			font: 400 27px Coming Soon;
 
 			> * {
-				padding: 0 0.4rem;
-				height: 42px;
+				@include resize-box(42px);
 			}
 			&::after {
 				@include m.line(100%, -0.4deg);
 				margin-top: 1rem;
-			}
-			> span {
-				// used to smooth visual differences with inputs in edit user mode
-				@include m.border(v.$default, transparent);
 			}
 			span,
 			input {
@@ -62,11 +66,11 @@
 		&__more {
 			@include m.flex(column, v.$default, v.$default, flex-start);
 			gap: 1.5rem;
+			> p,
+			div {
+				@include resize-box(30px);
+			}
 		}
-	}
-
-	&-submit {
-		align-self: flex-end;
 	}
 
 	&-recipes {
@@ -98,5 +102,44 @@
 				}
 			}
 		}
+	}
+}
+
+.profile-form {
+	&__popup {
+		@include m.position(fixed, 0, 0, 0, 0);
+		background-color: darken(v.$color-blue, 20%);
+		opacity: 0.92;
+		z-index: 2;
+		padding: 5rem 3rem;
+		@include m.flex(column, v.$default, center, center);
+		gap: 2rem;
+		@include m.desktop {
+			max-width: 600px;
+			max-height: 300px;
+			margin: auto;
+		}
+		p {
+			color: white;
+			text-align: center;
+			&::first-letter {
+				text-transform: capitalize;
+			}
+		}
+		&--hide {
+			display: none;
+		}
+	}
+	&__btns {
+		width: 100%;
+		@include m.flex(v.$default, v.$default, center);
+		gap: 1rem;
+		max-width: 400px;
+		& > button {
+			flex: 1;
+		}
+	}
+	&__submit {
+		align-self: end;
 	}
 }

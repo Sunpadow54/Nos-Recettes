@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import classNames from "classnames";
 /* Import Style */
 import "./profile.scss";
 // Import components
@@ -8,9 +9,18 @@ import BtnBrand from "../../../components/Buttons/BtnBrand";
 
 function EditProfile() {
 	const userId = 2; // test
+	const [user, setUser] = useOutletContext()[0];
+	const inputWidth = useOutletContext()[1];
 	const navigate = useNavigate();
 	const [userForm, setUserForm] = useState({});
-	const { user, inputWidth } = useOutletContext();
+	const [hidePopup, setHidePopup] = useState(true);
+
+	// ---- Inputs
+
+	// inputs values are by default user, or from userform (if they changed)
+	const getValues = (key) => {
+		return userForm.hasOwnProperty(key) ? userForm[key] : user[key];
+	};
 	const inputsName = [
 		{
 			type: "text",
@@ -19,6 +29,8 @@ function EditProfile() {
 			light: true,
 			resizable: true,
 			size: "1",
+			value: user && getValues("firstname"),
+			style: inputWidth.firstname,
 		},
 		{
 			type: "text",
@@ -27,39 +39,41 @@ function EditProfile() {
 			light: true,
 			resizable: true,
 			size: "1",
+			value: user && getValues("lastname"),
+			style: inputWidth.lastname,
 		},
 	];
 	const inputsMore = [
-		{
-			type: "text",
-			name: "username",
-			label: "Username",
-			light: true,
-			resizable: true,
-		},
 		{
 			type: "email",
 			name: "email",
 			label: "email",
 			light: true,
 			resizable: true,
+			value: user && getValues("email"),
+		},
+		{
+			type: "text",
+			name: "username",
+			label: "Username",
+			light: true,
+			resizable: true,
+			value: user && getValues("username"),
 		},
 		{
 			type: "password",
-			name: "oldPassword",
-			label: "mot de passe pour valider",
+			name: "newPassword",
+			label: "nouveau mot de passe",
 			light: true,
+			resizable: true,
+			value: userForm.newPassword,
 		},
 	];
 
-	// ---- Functions
-	// -> inputs values showned are default or input change
-	const getValues = (key) => {
-		return userForm.hasOwnProperty(key) ? userForm[key] : user[key];
-	};
+	// ---- Handles
 
 	const handleInputChange = (e) => {
-		// populate form
+		// populate Form
 		const { name, value } = e.target;
 		setUserForm({
 			...userForm,
@@ -69,30 +83,48 @@ function EditProfile() {
 		if (e.target.type !== "password") {
 			e.target.parentNode.dataset.value = value;
 		}
+		// change color of input if modified
+		if (value === user[name] || name === "oldPassword") {
+			e.target.classList.remove("blue-txt");
+		} else {
+			e.target.classList.add("blue-txt");
+		}
 	};
 
 	const handleSubmit = (e) => {
-		e.preventDefault(userForm); // stop refreshing page
+		e.preventDefault(); // stop refreshing page
 		fetch("http://localhost:3000/api/user/" + userId, {
 			method: "PUT",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify(userForm),
 		})
 			.then((res) => {
+				return res.json();
+			})
+			.then((newUser) => {
+				// change user displayed
+				setUser({
+					...user,
+					...newUser,
+				});
+				// return to profile
 				navigate("/profil");
-				console.log(res.json());
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	};
 
+	const handlePopup = (e) => {
+		e.preventDefault();
+		setHidePopup(!hidePopup);
+	};
+
 	return (
 		<form
 			autoComplete="off"
 			id="edit-profile"
-			onSubmit={handleSubmit}
-			className="profile-info__group"
+			className="profile-info__group profile-form"
 		>
 			{user && (
 				<>
@@ -101,8 +133,7 @@ function EditProfile() {
 							<Input
 								key={i}
 								{...input}
-								value={getValues(input.name)}
-								style={inputWidth[input.name]}
+								noRequired
 								onChange={handleInputChange}
 							/>
 						))}
@@ -112,18 +143,49 @@ function EditProfile() {
 							<Input
 								key={i}
 								{...input}
-								value={getValues(input.name)}
+								noRequired
 								onChange={handleInputChange}
 							/>
 						))}
 					</div>
-					<div>
+
+					<div className="profile-form__submit">
 						<BtnBrand
-							form="edit-profile"
-							type="submit"
 							text="Enregistrer"
 							color="green"
+							onClick={handlePopup}
 						/>
+					</div>
+					<div
+						className={classNames(
+							"profile-form__popup",
+							hidePopup && "profile-form__popup--hide"
+						)}
+					>
+						<p>êtes vous sûr de vouloir modifier votre profil ?</p>
+						<Input
+							type="password"
+							name="oldPassword"
+							label="mot de passe"
+							light
+							color="white"
+							value={userForm.newPassword}
+							onChange={handleInputChange}
+						/>
+						<div className="profile-form__btns">
+							<BtnBrand
+								form="edit-profile"
+								type="submit"
+								text="oui"
+								color="green"
+								onClick={handleSubmit}
+							/>
+							<BtnBrand
+								text="annuler"
+								color="light"
+								onClick={handlePopup}
+							/>
+						</div>
 					</div>
 				</>
 			)}

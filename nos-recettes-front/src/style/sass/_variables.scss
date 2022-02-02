@@ -7,10 +7,31 @@ $color-green: #92c24c;
 $color-blue: #1d6f88;
 $color-red: #af3b15;
 $color-yellow: #fcd949;
-
 $color-darkgrey: lighten(black, 20%);
 $color-grey: lighten(black, 60%);
 $color-lightgrey: lighten(black, 85%);
+
+// auto create colors class for text and background
+$colors-map: (
+	"green": $color-green,
+	"blue": $color-blue,
+	"red": $color-red,
+	"yellow": color-yellow,
+	"darkgrey": color-darkgrey,
+	"grey": color-grey,
+	"lightgrey": color-lightgrey,
+	"white": white,
+);
+
+@each $name, $color in $colors-map {
+	.#{$name}-bg {
+		background-color: $color;
+	}
+	.#{$name}-txt {
+		color: $color;
+	}
+}
+// size
 
 $sidebar-btn-color: $color-green, $color-blue, transparent;
 /* 

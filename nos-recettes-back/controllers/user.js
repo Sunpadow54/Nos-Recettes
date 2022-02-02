@@ -75,9 +75,9 @@ exports.editUser = (req, res, next) => {
             return User.edit(userEdited, req.params.id) // ! use res.locals
         })
         // SUCESS : send message
-        .then(message => {
+        .then(user => {
             res.status(201).json({
-                ...message, newEmail: decryptEmail(message.newEmail)
+                ...user, email: decryptEmail(user.email)
             })
         })
         // ERRORS

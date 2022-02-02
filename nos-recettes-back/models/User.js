@@ -73,13 +73,15 @@ User.edit = (user, userId) => {
     for (let key in user) {
         inserts.push(format('%s = %L', key, user[key]));
     }
+    const returning = Object.keys(user).filter(e => e!== "pass");
+
     // define the query
     const query = format(`
             UPDATE users 
             SET %s 
             WHERE id =%L
-            RETURNING lastname AS "newLastname", firstname AS "newFirstname", email AS "newEmail"
-            `, inserts, userId
+            RETURNING %s
+            `, inserts, userId, returning
     );
 
     // ask client
