@@ -5,7 +5,19 @@
 @use "../../style/sass/variables" as v;
 @use "../../style/sass/mixins" as m;
 
-.card {
+.recipes-title {
+	@include m.flex(v.$default, wrap, v.$default, center);
+	gap: 1rem;
+	margin-bottom: 1.5rem;
+	white-space: nowrap;
+	font-weight: normal;
+	font-size: 1.2rem;
+	svg {
+		font-size: 1.5rem;
+	}
+}
+
+.recipe-card {
 	@include m.grid(1fr, (300px 1fr));
 	gap: v.$card-gap;
 	transition: transform 0.5s;

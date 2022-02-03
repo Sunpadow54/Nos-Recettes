@@ -18,7 +18,7 @@ function Sidebar({ sidebarState, setSidebarState }) {
 		{
 			txt: "mon profil",
 			icon: RiUserSmileLine,
-			src: "/profil",
+			src: "/profil/2", // use token
 		},
 		{
 			txt: "recherche",

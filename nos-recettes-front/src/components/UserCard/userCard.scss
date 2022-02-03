@@ -1,12 +1,11 @@
 // -----------------------------------------------------------
-/*  Cards */
+/*  User Card */
 // -----------------------------------------------------------
 /* Import Sass utils */
 @use "../../style/sass/variables" as v;
 @use "../../style/sass/mixins" as m;
 
-
-.profile-card {
+.user-card {
 	@include m.flex(column, v.$default, v.$default, center);
 	background-color: white;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 4px 4px rgba(0, 0, 0, 0.23);
@@ -37,12 +36,18 @@
 		border-radius: 50%;
 		border: 3px solid white;
 		path {
-		stroke: white;
+			stroke: white;
 		}
 	}
 	&__info {
 		text-align: center;
-		text-transform: capitalize;
 		line-height: 23px;
+		:first-of-type {
+			text-transform: capitalize;
+		}
+		p > strong {
+			margin-right: 0.3rem;
+			font-weight: normal;
+		}
 	}
 }

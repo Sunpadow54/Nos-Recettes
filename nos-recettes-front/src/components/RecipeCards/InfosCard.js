@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 /* Import Style */
 import "./recipeCards.scss";
 /* Import Icons */
@@ -6,20 +7,22 @@ import { GrRestaurant } from "react-icons/gr";
 import { BiDish } from "react-icons/bi";
 
 function InfosCard(props) {
-	const { duration, author, category } = props.recipe;
+	const { duration, author, authorId, category } = props.recipe;
 
 	const timeFormat = (string) => {
 		const hours = string.split(":")[0];
 		const min = string.split(":")[1];
 		return hours === "00" ? `${min}min` : `${hours}h${min}`;
 	};
+	const urlFormated = `/profil/${authorId}`;
+
 	const infos = [
 		{
 			text: timeFormat(duration),
 			icon: RiTimerLine,
 		},
 		{
-			text: author,
+			text: <Link to={urlFormated}>{author}</Link>,
 			icon: GrRestaurant,
 		},
 		{

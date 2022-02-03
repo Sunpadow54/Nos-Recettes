@@ -1,119 +1,106 @@
-import { useRef, useState, useEffect } from "react";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import classNames from "classnames";
-/* Import Style */
-import "./profile.scss";
 /* Import Icons */
 import { IoRestaurantOutline } from "react-icons/io5";
 import { RiEdit2Line, RiArrowGoBackLine } from "react-icons/ri";
+/* Import Style */
+import "./profile.scss";
 // Import components
 import useFetch from "../../../apiFetch/useFetch";
-import ProfileCard from "../../../components/ProfileCard/ProfileCard";
+import UserCard from "../../../components/UserCard/UserCard";
+import UserInfo from "../../../components/User/UserInfo";
+import UserForm from "../../../components/User/UserForm";
 import RecipesList from "../../../components/RecipesList/RecipesList";
 import BtnBrand from "../../../components/Buttons/BtnBrand";
 
 function Profile() {
-	// ---- Tools
-	const userId = 2; // test
-	const navigate = useNavigate();
-	const location = useLocation();
-	const [user, setUser] = useState();
+	const { id } = useParams();
+	const isMyProfile = id === "2" && true; // need to compare with token
+	const [isEdit, setEdit] = useState(false);
+	const [nameWidth, setNameWidth] = useState({});
+	const [user, setUser] = useState(null);
 
-	// ---- Fetchs User & recipes
+	// ---- Fetchs user & recipes
 	const { data: userFetched } = useFetch({
-		endpoint: "/user/" + userId,
+		endpoint: "/user/" + id,
 		method: "GET",
 	});
 	const { data: userRecipes } = useFetch({
-		endpoint: "/recipe?id_user=" + userId,
+		endpoint: "/recipe?id_user=" + id,
 		method: "GET",
 	});
-
 	useEffect(() => {
 		setUser(userFetched);
 	}, [userFetched]);
 
-	// ---- Button edit or profile
-	const isEdit = location.pathname.includes("edit");
-	const button = isEdit
+	// ---- Button
+
+	const editButton = isEdit
 		? {
-				onClick: () => navigate(""),
 				icon: <RiArrowGoBackLine />,
 				label: "retour au profil",
 				color: "blue",
 		  }
 		: {
-				onClick: () => navigate("edit"),
 				icon: <RiEdit2Line />,
 				label: "modifier son profil",
 				color: "red",
 		  };
 
-	// ---- Width of inputs if edit mode
+	// ---- Handles
 
-	const firstnameDiv = useRef(null);
-	const lastnameDiv = useRef(null);
-	const emailDiv = useRef(null);
-	const [inputWidth, setInputWidth] = useState({
-		lastname: { minWidth: "1rem" },
-		firstname: { minWidth: "1rem" },
-		email: { minWidth: "1rem" },
-	});
-
-	const getInputWidth = (div) => {
-		const divPadding = window.getComputedStyle(div.current).paddingRight;
-		const finalDivWidth =
-			div.current.clientWidth - divPadding.replace("px", "") * 2;
-		return Math.round(finalDivWidth) + "px";
+	const handleToogleEdit = (e) => {
+		setEdit(!isEdit);
 	};
-
-	useEffect(() => {
-		setInputWidth({
-			lastname: { minWidth: getInputWidth(lastnameDiv) },
-			firstname: { minWidth: getInputWidth(firstnameDiv) },
-			email: { minWidth: getInputWidth(emailDiv) },
-		});
-	}, [user]);
 
 	return (
 		<div className="profile">
-			<div className="profile-edit-btn">
-				<BtnBrand {...button} round border0 />
-			</div>
-
-			{user && <ProfileCard className="profile-card" user={user} />}
-
-			<section className="profile-info">
-				<header
-					className={classNames(
-						"profile-info__group",
-						isEdit && "profile-info__group--hide"
+			{user && (
+				<>
+					{isMyProfile && (
+						<div className="profile__edit-btn">
+							<BtnBrand
+								{...editButton}
+								onClick={handleToogleEdit}
+								border0
+								round
+							/>
+						</div>
 					)}
-				>
-					<h3 className={"profile-info__name"}>
-						<span ref={firstnameDiv}>{user && user.firstname}</span>
-						<span ref={lastnameDiv}>{user && user.lastname}</span>
-					</h3>
-					<div className="profile-info__more">
-						<p ref={emailDiv}>{user && user.email}</p>
-					</div>
-				</header>
-				<Outlet context={[[user, setUser], inputWidth]} />
-			</section>
+					<UserCard className="profile__card" user={user} />
+					<UserInfo
+						className={classNames(
+							"profile__info",
+							isEdit && "profile__info--hide"
+						)}
+						user={user}
+						setNameWidth={setNameWidth}
+						hideEmail={!isMyProfile}
+					/>
+					{isEdit && (
+						<UserForm
+							user={user}
+							setUser={setUser}
+							userId={id}
+							nameWidth={nameWidth}
+							setEdit={setEdit}
+						/>
+					)}
+				</>
+			)}
 
-			<section className="profile-recipes">
-				<h2 className="profile-recipes__title">
-					<IoRestaurantOutline />
-					Toutes les recettes du chef :
-				</h2>
-				{userRecipes || userRecipes.length > 0 ? (
-					<div className="profile-recipes__list">
-						<RecipesList recipes={userRecipes} small border />
-					</div>
-				) : (
-					<p>aucune recette</p>
-				)}
-			</section>
+			{userRecipes && userRecipes.length > 0 && (
+				<section className="profile__recipes">
+					<RecipesList
+						recipes={userRecipes}
+						titleIcon={<IoRestaurantOutline />}
+						title={"Toutes les recettes du chef"}
+						small
+						border
+					/>
+				</section>
+			)}
 		</div>
 	);
 }

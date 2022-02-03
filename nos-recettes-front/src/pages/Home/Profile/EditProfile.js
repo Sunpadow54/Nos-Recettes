@@ -10,7 +10,7 @@ import BtnBrand from "../../../components/Buttons/BtnBrand";
 function EditProfile() {
 	const userId = 2; // test
 	const [user, setUser] = useOutletContext()[0];
-	const inputWidth = useOutletContext()[1];
+	const nameWidth = useOutletContext()[1];
 	const navigate = useNavigate();
 	const [userForm, setUserForm] = useState({});
 	const [hidePopup, setHidePopup] = useState(true);
@@ -30,7 +30,7 @@ function EditProfile() {
 			resizable: true,
 			size: "1",
 			value: user && getValues("firstname"),
-			style: inputWidth.firstname,
+			style: nameWidth.firstname,
 		},
 		{
 			type: "text",
@@ -40,7 +40,7 @@ function EditProfile() {
 			resizable: true,
 			size: "1",
 			value: user && getValues("lastname"),
-			style: inputWidth.lastname,
+			style: nameWidth.lastname,
 		},
 	];
 	const inputsMore = [

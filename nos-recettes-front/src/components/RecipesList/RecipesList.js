@@ -5,15 +5,21 @@ import "./recipesList.scss";
 import HeaderCard from "../RecipeCards/HeaderCard";
 import IngredientsList from "../RecipeCards/IngredientsList";
 
-function RecipesList({ recipes, small, border }) {
+function RecipesList({ recipes, title, titleIcon, small, border }) {
 	const cardClass = classNames(
-		"card",
-		small && "card--small",
-		border && "card--border"
+		"recipe-card",
+		small && "recipe-card--small",
+		border && "recipe-card--border"
 	);
 
 	return (
 		<>
+			{title && (
+				<h3 className="recipes-title">
+					{titleIcon && titleIcon}
+					{title}
+				</h3>
+			)}
 			{recipes &&
 				recipes.map((recipe) => (
 					<article key={recipe.id} className={cardClass}>
