@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useOutletContext } from "react-router-dom";
 import classNames from "classnames";
 /* Import Icons */
 import { IoRestaurantOutline } from "react-icons/io5";
@@ -20,6 +20,16 @@ function Profile() {
 	const [isEdit, setEdit] = useState(false);
 	const [nameWidth, setNameWidth] = useState({});
 	const [user, setUser] = useState(null);
+
+	const { setTitle } = useOutletContext();
+	useEffect(() => {
+		if (isMyProfile) {
+			let pageTitle = isEdit ? "Modifier votre Profil" : "Votre Profil";
+			setTitle(pageTitle);
+		} else {
+			setTitle("Le Profil du Chef");
+		}
+	}, [setTitle, isMyProfile, isEdit]);
 
 	// ---- Fetchs user & recipes
 	const { data: userFetched } = useFetch({

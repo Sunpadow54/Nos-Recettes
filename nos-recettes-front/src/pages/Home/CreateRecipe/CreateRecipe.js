@@ -1,19 +1,22 @@
-import { useState } from "react";
-import useFetch from "../../../apiFetch/useFetch";
+import { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 /* Import Style */
 import "./createRecipe.scss";
 /* Import Icons */
 import { IoMdAdd } from "react-icons/io";
 import { IoMdClose } from "react-icons/io";
 /* Import Components */
+import useFetch from "../../../apiFetch/useFetch";
 import Input from "../../../components/FormControls/Input";
 import Textarea from "../../../components/FormControls/Textarea";
 import Select from "../../../components/FormControls/Select";
 import BtnBrand from "../../../components/Buttons/BtnBrand";
 
-
 function CreateRecipe() {
-	// ------ Variables
+	const { setTitle } = useOutletContext();
+	useEffect(() => {
+		setTitle("Créer sa recette");
+	}, [setTitle]);
 
 	const [formValues, setFormValues] = useState({
 		recipe: {
@@ -26,11 +29,10 @@ function CreateRecipe() {
 	});
 
 	const [ingredientsFound, setIngredientsFound] = useState([]);
-    const allIngredients = useFetch({
+	const allIngredients = useFetch({
 		endpoint: "/ingredient",
 		method: "GET",
 	});
-
 
 	const [unitsFound, setUnitsFound] = useState([]);
 	const allUnits = [
@@ -104,17 +106,17 @@ function CreateRecipe() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault(); // stop refreshing page
-        fetch('http://localhost:3000/api/recipe', {
-            method: 'POST',
-            headers : {"Content-Type": "application/json"},
-            body: JSON.stringify(formValues)
-        })
-        .then((res) => {
-            console.log("res : " + res.json());
-        })
-        .catch(error => {
-            console.log("erreur : " + error);
-        });
+		fetch("http://localhost:3000/api/recipe", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify(formValues),
+		})
+			.then((res) => {
+				console.log("res : " + res.json());
+			})
+			.catch((error) => {
+				console.log("erreur : " + error);
+			});
 	};
 
 	return (
@@ -209,7 +211,7 @@ function CreateRecipe() {
 							name={`ingredients-${i}-2`}
 							label=" unité de mesure"
 							value={formValues.ingredients[i][2]}
-                            noRequired
+							noRequired
 							onChange={handleInputChange}
 							onKeyUp={(event) =>
 								handleAutoComplete(

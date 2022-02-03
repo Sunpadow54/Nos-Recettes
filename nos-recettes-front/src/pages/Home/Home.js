@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 /* Import Style */
 import "./home.scss";
 /* Import Components */
@@ -7,51 +7,29 @@ import Header from "../../components/Header/Header";
 import Sidebar from "../../components/Sidebar/Sidebar";
 
 function Home() {
-    const [sidebarState, setSidebarState] = useState(false);
-    const location = useLocation();
-    const getTitle = () => {
-        switch (location.pathname) {
-            case "/":
-                return "Toutes les recettes";
-            case "/entrees":
-                return "Toutes les entrées";
-            case "/plats":
-                return "Tous les plats";
-            case "/desserts":
-                return "Tous les desserts";
-            case "/autres":
-                return "Les autres recettes";
-            case "/create":
-                return "Créer sa recette";
-            case "/profil":
-                return "Votre Profil";
-            case "/profil/edit":
-                return "Modifier votre Profil";
-            default:
-                return "";
-        }
-    };
+	const [sidebarState, setSidebarState] = useState(false);
+	const [title, setTitle] = useState("");
 
-    return (
-        <>
-            <Header sidebarState={sidebarState} />
-            <Sidebar
-                setSidebarState={setSidebarState}
-                sidebarState={sidebarState}
-            />
-            <main
-                className={
-                    "main-home " +
-                    (sidebarState ? "main-home--shrink" : "main-home--grow")
-                }
-            >
-                <section className="main-container">
-                    <h2 className="main-container__title">{getTitle()}</h2>
-                    <Outlet />
-                </section>
-            </main>
-        </>
-    );
+	return (
+		<>
+			<Header sidebarState={sidebarState} />
+			<Sidebar
+				setSidebarState={setSidebarState}
+				sidebarState={sidebarState}
+			/>
+			<main
+				className={
+					"main-home " +
+					(sidebarState ? "main-home--shrink" : "main-home--grow")
+				}
+			>
+				<section className="main-container">
+					<h2 className="main-container__title">{title}</h2>
+					<Outlet context={{ setTitle }} />
+				</section>
+			</main>
+		</>
+	);
 }
 
 export default Home;
