@@ -20,29 +20,14 @@ function Profile() {
 	const [isEdit, setEdit] = useState(false);
 	const [nameWidth, setNameWidth] = useState({});
 	const [user, setUser] = useState(null);
-
 	const { setTitle } = useOutletContext();
-	useEffect(() => {
-		if (isMyProfile) {
-			let pageTitle = isEdit ? "Modifier votre Profil" : "Votre Profil";
-			setTitle(pageTitle);
-		} else {
-			setTitle("Le Profil du Chef");
-		}
-	}, [setTitle, isMyProfile, isEdit]);
 
-	// ---- Fetchs user & recipes
+	// ---- Fetchs
+
 	const { data: userFetched } = useFetch({
 		endpoint: "/user/" + id,
 		method: "GET",
 	});
-	const { data: userRecipes } = useFetch({
-		endpoint: "/recipe?id_user=" + id,
-		method: "GET",
-	});
-	useEffect(() => {
-		setUser(userFetched);
-	}, [userFetched]);
 
 	// ---- Button
 
@@ -63,6 +48,20 @@ function Profile() {
 	const handleToogleEdit = (e) => {
 		setEdit(!isEdit);
 	};
+
+	useEffect(() => {
+		if (isMyProfile) {
+			let pageTitle = isEdit ? "Modifier votre Profil" : "Votre Profil";
+			setTitle(pageTitle);
+		} else {
+			setTitle("Le Profil du Chef");
+		}
+	}, [setTitle, isMyProfile, isEdit]);
+
+	useEffect(() => {
+		setUser(userFetched);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [userFetched]);
 
 	return (
 		<div className="profile">
@@ -97,19 +96,16 @@ function Profile() {
 							setEdit={setEdit}
 						/>
 					)}
+					<section className="profile__recipes">
+						<RecipesList
+							query={{ id_user: id }}
+							titleIcon={<IoRestaurantOutline />}
+							title={"Toutes les recettes du chef"}
+							small
+							border
+						/>
+					</section>
 				</>
-			)}
-
-			{userRecipes && userRecipes.length > 0 && (
-				<section className="profile__recipes">
-					<RecipesList
-						recipes={userRecipes}
-						titleIcon={<IoRestaurantOutline />}
-						title={"Toutes les recettes du chef"}
-						small
-						border
-					/>
-				</section>
 			)}
 		</div>
 	);

@@ -15,6 +15,7 @@ $input-padding: 0.75rem;
 .input-group {
 	position: relative;
 	@include m.flex(v.$default, v.$default, v.$default, center);
+    z-index:0;
 	&__label {
 		@include m.position(
 			absolute,
@@ -23,7 +24,7 @@ $input-padding: 0.75rem;
 		transition: all 0.5s ease-in-out;
 		display: block; // to make the uppercase works on ::first-letter
 		padding-left: $input-padding;
-		z-index: -1;
+		z-index: -1; // fix user focus of input
 		font: 1rem Raleway;
 		overflow: hidden;
 		white-space: nowrap;
@@ -40,7 +41,7 @@ $input-padding: 0.75rem;
 		@include m.border(v.$default, v.$color-lightgrey);
 		padding: $input-padding;
 		font: inherit;
-		background-color: transparent;
+		/* background-color: transparent; */
 		&:focus {
 			border-color: #32a1ce;
 		}

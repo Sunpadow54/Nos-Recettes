@@ -1,14 +1,13 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 /* Import Style */
 import "./recipesAll.scss";
 /* Import Components */
 import RecipesList from "../../../components/RecipesList/RecipesList";
-import useFetch from "../../../apiFetch/useFetch";
 
 function RecipesAll() {
 	const { category } = useParams();
-	const endpoint = category ? "?category=" + category.slice(0, -1) : "";
+	const [query, setQuery] = useState(null);
 	const { setTitle } = useOutletContext();
 
 	const getTitle = (param) => {
@@ -28,17 +27,13 @@ function RecipesAll() {
 
 	useEffect(() => {
 		setTitle(getTitle(category));
+		let params = category ? { category: category.slice(0, -1) } : null;
+		setQuery(params);
 	}, [category, setTitle]);
-
-	const { data, error } = useFetch({
-		endpoint: "/recipe" + endpoint,
-		method: "GET",
-	});
 
 	return (
 		<div className="recipes-list">
-			{data && <RecipesList recipes={data} />}
-			{error ? <p>{error}</p> : null}
+			<RecipesList query={query} />
 		</div>
 	);
 }

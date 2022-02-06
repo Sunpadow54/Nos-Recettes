@@ -1,37 +1,67 @@
 import { useEffect, useState } from "react";
 
-function useFetch(props) {
-	const baseUrl = "http://localhost:3000/api";
-	const { endpoint, method } = props;
-
+function useFetch({ endpoint, method, body, wait }) {
+	const url = "http://localhost:3000/api" + endpoint;
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
+	const [immediate, setImmediate] = useState(wait ? false : true);
+
+	// function to make post/put req on submit
+	const sendToApi = () => {
+		setImmediate(true);
+	};
+
+	// Create Fetch request
+
+	const customRequest = () => {
+		const myHeaders = new Headers();
+		if (method !== "GET") {
+			myHeaders.append("Content-Type", "application/json");
+		}
+		const myInit = {
+			method: method,
+			headers: myHeaders,
+		};
+		if (body) {
+			Object.assign(myInit, { body: JSON.stringify(body) });
+		}
+		return new Request(url, myInit);
+	};
+
+	// Fetch
+
+	const fetchAction = async () => {
+		const request = customRequest();
+		setLoading(true);
+		try {
+			const response = await fetch(request);
+			if (!response.ok) {
+				const err = await response.json();
+				throw err;
+			}
+			const dataFetched = await response.json();
+			setData(dataFetched);
+            console.log(dataFetched);
+			setError(null);
+		} catch (err) {
+			setError(err);
+			console.log(err);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	// Effect
 
 	useEffect(() => {
-		setLoading(true);
-		fetch(baseUrl + endpoint, { method: method })
-			.then((res) => {
-				if (!res.ok) {
-					const err = `Désolé, il est impossible d'accéder à l'API. (erreur status: ${res.status})`;
-					throw err;
-				}
-				return res.json();
-			})
-			.then((dataFetched) => {
-				setData(dataFetched);
-			})
-			.catch((err) => {
-				setError(err);
-				console.log("erreur : " + error);
-			})
-			.finally(() => {
-				setLoading(false);
-			});
+		if (immediate) {
+			fetchAction();
+		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [endpoint]); // each time the props endpoint change -> fetch
+	}, [url, method, body, immediate]);
 
-	return { data, loading, error };
+	return { data, loading, error, sendToApi };
 }
 
 export default useFetch;

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import classNames from "classnames";
 /* Import Style */
 import "./user.scss";
 // Import components
+import useFetch from "../../apiFetch/useFetch";
 import Input from "../FormControls/Input";
 import BtnBrand from "../Buttons/BtnBrand";
 
@@ -10,7 +11,19 @@ function UserForm({ user, setUser, userId, nameWidth, setEdit }) {
 	const [userForm, setUserForm] = useState({});
 	const [hidePopup, setHidePopup] = useState(true);
 
+	const {
+		data: userChange,
+		error,
+		sendToApi,
+	} = useFetch({
+		endpoint: "/user/" + userId,
+		method: "PUT",
+		body: userForm,
+		wait: true,
+	});
+
 	// ---- Inputs
+
 	const getValues = (key) => {
 		if (userForm.hasOwnProperty(key)) return userForm[key];
 		if (user.hasOwnProperty(key)) return user[key];
@@ -83,28 +96,8 @@ function UserForm({ user, setUser, userId, nameWidth, setEdit }) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault(); // stop refreshing page
-		fetch("http://localhost:3000/api/user/" + userId, {
-			method: "PUT",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(userForm),
-		})
-			.then((res) => {
-				return res.json();
-			})
-			.then((changes) => {
-				// change user displayed
-				setUser({
-					...user,
-					...changes,
-				});
-				//
-				setUserForm({});
-				// return to profile
-				setEdit(false);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		sendToApi();
+		setHidePopup(!hidePopup);
 	};
 
 	const handlePopup = (e) => {
@@ -112,74 +105,96 @@ function UserForm({ user, setUser, userId, nameWidth, setEdit }) {
 		setHidePopup(!hidePopup);
 	};
 
-	return (
-		<form
-			autoComplete="off"
-			id="edit-profile"
-			className="user-form user-info"
-		>
-			<div className="user-info__name">
-				{inputsName.map((input, i) => (
-					<Input
-						key={i}
-						{...input}
-						noRequired
-						onChange={handleInputChange}
-						value={user && getValues(input.name)}
-					/>
-				))}
-			</div>
-			<div className="user-info__more">
-				{inputsMore.map((input, i) => (
-					<Input
-						key={i}
-						{...input}
-						noRequired
-						onChange={handleInputChange}
-						value={user && getValues(input.name)}
-					/>
-				))}
-			</div>
+	// ---- Effects
 
-			<div className="user-form__submit">
-				<BtnBrand
-					text="Enregistrer"
-					color="green"
-					onClick={handlePopup}
-				/>
-			</div>
-			<div
-				className={classNames(
-					"user-form__popup",
-					hidePopup && "user-form__popup--hide"
-				)}
+	// cleanup to fix state updated on unmounted
+	useEffect(() => {
+		return () => {};
+	}, []);
+
+	// change user with modified data
+	useEffect(() => {
+		if (userChange) {
+			console.log("user changed");
+			setUser({
+				...user,
+				...userChange,
+			});
+			setEdit(false);
+		}
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [userChange]);
+
+	return (
+		<>
+			<form
+				autoComplete="off"
+				id="edit-profile"
+				className="user-form user-info"
 			>
-				<p>êtes vous sûr de vouloir modifier votre profil ?</p>
-				<Input
-					type="password"
-					name="oldPassword"
-					label="mot de passe"
-					light
-					color="white"
-					value={userForm.oldPassword ? userForm.oldPassword : ""}
-					onChange={handleInputChange}
-				/>
-				<div className="user-form__btns">
+				<div className="user-info__name">
+					{inputsName.map((input, i) => (
+						<Input
+							key={i}
+							{...input}
+							noRequired
+							onChange={handleInputChange}
+							value={user && getValues(input.name)}
+						/>
+					))}
+				</div>
+				<div className="user-info__more">
+					{inputsMore.map((input, i) => (
+						<Input
+							key={i}
+							{...input}
+							noRequired
+							onChange={handleInputChange}
+							value={user && getValues(input.name)}
+						/>
+					))}
+				</div>
+				<p>{error && error.error}</p>
+				<div className="user-form__submit">
 					<BtnBrand
-						form="edit-profile"
-						type="submit"
-						text="oui"
+						text="Enregistrer"
 						color="green"
-						onClick={handleSubmit}
-					/>
-					<BtnBrand
-						text="annuler"
-						color="light"
 						onClick={handlePopup}
 					/>
 				</div>
-			</div>
-		</form>
+				<div
+					className={classNames(
+						"user-form__popup",
+						hidePopup && "user-form__popup--hide"
+					)}
+				>
+					<p>êtes vous sûr de vouloir modifier votre profil ?</p>
+					<Input
+						type="password"
+						name="oldPassword"
+						label="mot de passe"
+						light
+						color="white"
+						value={userForm.oldPassword ? userForm.oldPassword : ""}
+						onChange={handleInputChange}
+					/>
+					<div className="user-form__btns">
+						<BtnBrand
+							form="edit-profile"
+							type="submit"
+							text="oui"
+							color="green"
+							onClick={handleSubmit}
+						/>
+						<BtnBrand
+							text="annuler"
+							color="light"
+							onClick={handlePopup}
+						/>
+					</div>
+				</div>
+			</form>
+		</>
 	);
 }
 

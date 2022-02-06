@@ -14,7 +14,7 @@ function Inputs(props) {
 		...inputProps
 	} = props;
 
-    // Classes
+	// Classes
 	const divClass = classNames(
 		"input-group",
 		resizable && "input-group--resize"
@@ -38,7 +38,9 @@ function Inputs(props) {
 				required={!noRequired && true}
 				onChange={onChange}
 			/>
-			<label className={labelClass}>{label}</label>
+			<label htmlFor={inputProps.name} className={labelClass}>
+				{label}
+			</label>
 			{options && (
 				<datalist id={inputProps.list}>
 					{options.map((option, i) => (

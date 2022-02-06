@@ -2,10 +2,25 @@ import classNames from "classnames";
 /* Import Style */
 import "./recipesList.scss";
 /* Import Components */
+import useFetch from "../../apiFetch/useFetch";
 import HeaderCard from "../RecipeCards/HeaderCard";
 import IngredientsList from "../RecipeCards/IngredientsList";
 
-function RecipesList({ recipes, title, titleIcon, small, border }) {
+function RecipesList({ query, title, titleIcon, small, border }) {
+	const createEndpoint = () => {
+		let string = "/recipe";
+		for (const property in query) {
+			string += `?${property}=${query[property]}`;
+		}
+		return string;
+	};
+	const endpoint = createEndpoint();
+
+	const { data: recipes } = useFetch({
+		endpoint: endpoint,
+		method: "GET",
+	});
+
 	const cardClass = classNames(
 		"recipe-card",
 		small && "recipe-card--small",

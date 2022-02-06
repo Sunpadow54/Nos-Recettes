@@ -14,10 +14,8 @@ import BtnBrand from "../../../components/Buttons/BtnBrand";
 
 function CreateRecipe() {
 	const { setTitle } = useOutletContext();
-	useEffect(() => {
-		setTitle("Créer sa recette");
-	}, [setTitle]);
-
+	const [ingredientsFound, setIngredientsFound] = useState([]);
+	const [unitsFound, setUnitsFound] = useState([]);
 	const [formValues, setFormValues] = useState({
 		recipe: {
 			title: "",
@@ -27,14 +25,11 @@ function CreateRecipe() {
 		},
 		ingredients: [["", "", ""]],
 	});
-
-	const [ingredientsFound, setIngredientsFound] = useState([]);
-	const allIngredients = useFetch({
+	const { data: allIngredients } = useFetch({
 		endpoint: "/ingredient",
 		method: "GET",
 	});
 
-	const [unitsFound, setUnitsFound] = useState([]);
 	const allUnits = [
 		"mg",
 		"g",
@@ -49,6 +44,12 @@ function CreateRecipe() {
 		"noix",
 		"noisette",
 	];
+	const { data: recipeCreated, sendToApi } = useFetch({
+		endpoint: "/recipe",
+		method: "POST",
+		body: formValues,
+		wait: true,
+	});
 
 	// ------ Handle Functions
 
@@ -106,18 +107,12 @@ function CreateRecipe() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault(); // stop refreshing page
-		fetch("http://localhost:3000/api/recipe", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(formValues),
-		})
-			.then((res) => {
-				console.log("res : " + res.json());
-			})
-			.catch((error) => {
-				console.log("erreur : " + error);
-			});
+		sendToApi();
 	};
+
+	useEffect(() => {
+		setTitle("Créer sa recette");
+	}, [setTitle]);
 
 	return (
 		<form
