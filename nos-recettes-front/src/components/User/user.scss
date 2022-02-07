@@ -16,14 +16,12 @@
 }
 
 .user-info {
-	@include m.flex(column);
-	gap: 2rem;
+	@include m.flex(column, $g: 2rem);
 	@include m.desktop(1050px) {
 		gap: 3rem;
 	}
 	&__name {
-		@include m.flex(v.$default, wrap, center, center);
-		gap: 0.5rem;
+		@include m.flex($wrap: wrap, $axis:(center, center), $g: 0.5rem);
 		font: 400 27px Coming Soon;
 		@include m.desktop(1050px) {
 			justify-content: flex-start;
@@ -43,8 +41,7 @@
 		}
 	}
 	&__more {
-		@include m.flex(column, v.$default, v.$default, center);
-		gap: 1.5rem;
+		@include m.flex(column, (null, center), 1.5rem);
 		@include m.desktop(1050px) {
 			align-items: flex-start;
 		}
@@ -62,7 +59,7 @@
 		opacity: 0.92;
 		z-index: 2;
 		padding: 5rem 3rem;
-		@include m.flex(column, v.$default, center, center);
+		@include m.flex(column, $axis:(center, center));
 		gap: 2rem;
 		@include m.desktop {
 			max-width: 600px;
@@ -82,8 +79,7 @@
 	}
 	&__btns {
 		width: 100%;
-		@include m.flex(v.$default, v.$default, center);
-		gap: 1rem;
+		@include m.flex($axis: center, $g: 1rem);
 		max-width: 400px;
 		& > button {
 			flex: 1;

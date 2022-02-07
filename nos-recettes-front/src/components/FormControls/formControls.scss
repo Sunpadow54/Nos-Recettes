@@ -14,7 +14,7 @@ $input-padding: 0.75rem;
 
 .input-group {
 	position: relative;
-	@include m.flex(v.$default, v.$default, v.$default, center);
+	@include m.flex($axis: (null, center));
     z-index:0;
 	&__label {
 		@include m.position(

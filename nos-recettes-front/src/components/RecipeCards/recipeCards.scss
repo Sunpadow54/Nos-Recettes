@@ -40,7 +40,7 @@
 	}
 	&__title {
 		@include m.position(relative,v.$default, v.$default, 42px);
-		@include m.flex(v.$default, wrap, center, center);
+		@include m.flex($axis:(center, center), $wrap:wrap);
 		padding: 0.5rem 4rem 0.5rem 2rem;
 		width: 320px;
 		height: 85px;
@@ -57,12 +57,10 @@
 }
 
 .card-infos {
-    @include m.flex(v.$default, wrap, center);
-    gap: 1.4rem;
+    @include m.flex($axis:center, $g: 1.4rem, $wrap: wrap);
     margin-top: -2rem;
     &__item {
-        @include m.flex(v.$default, v.$default, v.$default, center);
-        gap:0.5rem;
+        @include m.flex($axis:center, $g:0.5rem);
         min-width: 100px;
         svg {
             font-size: 2rem;
@@ -70,7 +68,7 @@
         }
         &::before {
             content: "";
-            @include m.flex(v.$default, v.$default, center, center);
+            @include m.centered();
             width: 4px;
             height: 4px;
             background-color: black;
@@ -83,9 +81,8 @@
 }
 
 .card-pills {
-	@include m.flex(v.$default, wrap);
+	@include m.flex($wrap: wrap, $g: 0.8rem);
 	align-content: flex-start;
-	gap: 0.8rem;
 	&__item {
 		background-color: v.$color-lightgrey;
 		padding: 0.2rem 1.4rem;
@@ -95,8 +92,7 @@
 }
 
 .card-list {
-	@include m.flex(column);
-	gap: 1.7rem;
+	@include m.flex(column, $g: 1.7rem);
 	&__item {
 		font: 15px Raleway;
 	}

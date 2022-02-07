@@ -5,20 +5,15 @@
 
 // ------------ FLEXBOX Mixins
 
-@mixin flex(
-	$direction,
-	$wrap: v.$default,
-	$main_axis: v.$default,
-	$cross_axis: v.$default
-) {
+@mixin flex($direction: null, $axis: null, $g: null, $wrap: null) {
 	display: flex;
 
 	// Create a list from parameters of the mixin
 	$new-flex: (
 		flex-direction: $direction,
 		flex-wrap: $wrap,
-		justify-content: $main_axis,
-		align-items: $cross_axis,
+		gap: $g,
+		justify-content: nth($axis, 1),
 	);
 
 	// Check the list in order to insert or not, the flex rules
@@ -28,12 +23,25 @@
 			#{$property}: $value;
 		}
 	}
+	// add cross axis if there is one
+	@if (type-of($axis) == "list") {
+		align-items: nth($axis, 2);
+	}
+}
+
+@mixin centered() {
+	@include flex(
+		$axis: (
+			center,
+			center,
+		)
+	);
 }
 
 // ------------ GRID Mixins
 
 @mixin grid($columns, $rows) {
-	display:grid;
+	display: grid;
 	grid-template-columns: $columns;
 	grid-template-rows: $rows;
 }
@@ -66,7 +74,12 @@
 }
 
 // ------------ Borders
-@mixin border($positions: v.$default, $color: v.$color-darkgrey, $radius:0, $size: 1px) {
+@mixin border(
+	$positions: v.$default,
+	$color: v.$color-darkgrey,
+	$radius: 0,
+	$size: 1px
+) {
 	@if ($positions) {
 		@each $position in $positions {
 			border-#{$position}: $size solid $color;
@@ -74,7 +87,7 @@
 	} @else {
 		border: $size solid $color;
 	}
-    border-radius: $radius;
+	border-radius: $radius;
 }
 
 @mixin funky-border($style, $color: rgba(255, 255, 255, 0.8)) {
@@ -95,7 +108,7 @@
 
 // ------------ MediaQueries
 
-@mixin desktop($min-width:700px) {
+@mixin desktop($min-width: 700px) {
 	@media screen and (min-width: $min-width) {
 		@content;
 	}
@@ -128,10 +141,9 @@
 	}
 }
 
-@mixin brand-btn($width, $height, $border-color:black, $flex-content: center) {
+@mixin brand-btn($width, $height, $border-color: black, $flex-content: center) {
 	position: relative;
-	@include flex(v.$default, v.$default, $flex-content, center);
-	gap: 1rem;
+	@include flex( $axis: ($flex-content,center), $g: 1rem);
 	width: $width;
 	height: $height;
 	border: 2px solid $border-color;

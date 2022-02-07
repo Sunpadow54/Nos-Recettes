@@ -6,12 +6,10 @@
 @use "../../../style/sass/mixins" as m;
 
 .form {
-	@include m.flex(column);
-	gap: 1.3rem;
+	@include m.flex(column, $g: 1.3rem);
 
 	&-group {
-		@include m.flex(column);
-		gap: 1.5rem;
+		@include m.flex(column, $g: 1.5rem );
         @include m.border(v.$default,v.$color-grey, 4px );
 		padding: 1.2rem;
 		&__legend {
@@ -21,8 +19,7 @@
 			text-transform: capitalize;
 		}
 		&__row {
-            @include m.flex(v.$default, wrap, v.$default, center);
-			gap: 1.5rem;
+            @include m.flex($axis:(null,center), $g: 1.5rem, $wrap: wrap);
             @include m.border(v.$default,v.$color-grey, 4px );
 			padding: 1.5rem 1.2rem;
 			@include m.desktop {

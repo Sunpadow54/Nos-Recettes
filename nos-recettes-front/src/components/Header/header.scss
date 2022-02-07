@@ -20,14 +20,13 @@
 
 // Links
 .breadcrumb {
-    @include m.flex(v.$default, wrap, center, center);
-        gap: 1rem;
+    @include m.flex($axis: (center, center), $g: 1rem, $wrap: wrap);
 		padding: 1rem 0;
 		text-transform: capitalize;
         color: v.$color-darkgrey;
 		@include m.grow-shrink();
         &__link {
-			@include m.flex(v.$default, v.$default, center, center);
+			@include m.centered();
             gap:0.3rem;
             // triangle
 			&::before {

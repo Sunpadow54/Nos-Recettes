@@ -6,7 +6,7 @@
 @use "../../style/sass/mixins" as m;
 
 .user-card {
-	@include m.flex(column, v.$default, v.$default, center);
+	@include m.flex(column,$axis: (null,center));
 	background-color: white;
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 4px 4px rgba(0, 0, 0, 0.23);
 	padding: 1rem;
@@ -28,7 +28,7 @@
 		}
 	}
 	&__icon {
-		@include m.flex(v.$default, v.$default, center, center);
+		@include m.centered();
 		margin-top: -28px;
 		font-size: 48px;
 		padding: 6px;

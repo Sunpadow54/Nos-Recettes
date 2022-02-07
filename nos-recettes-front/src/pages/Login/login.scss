@@ -7,8 +7,8 @@
 
 .container {
 	@include m.position(fixed, 0, 0, 0, 0);
-	@include m.flex(v.$default, v.$default, center, center);
-	background-color: v.$color-green;
+    @include m.centered();
+    background-color: v.$color-green;
 }
 
 .login-card {
@@ -23,8 +23,8 @@
 	&__header {
 		padding: 2rem 0;
 		span {
-			@include m.flex(v.$default, v.$default, center, center);
-			height: 50px;
+            @include m.centered();
+            height: 50px;
 			width: 50px;
 			padding: 9px;
 			@include m.border(v.$default, v.$color-blue, v.$default, 4px);
@@ -42,7 +42,7 @@
 	}
 	&__form {
 		flex: 1;
-		@include m.flex(column, v.$default);
+		@include m.flex(column);
 		h2 {
 			font-size: 1.3rem;
 		}
@@ -53,6 +53,5 @@
 }
 
 .login-form {
-	@include m.flex(column, v.$default, center, center);
-	gap: 2rem;
+	@include m.flex(column, (center, center), 2rem);
 }

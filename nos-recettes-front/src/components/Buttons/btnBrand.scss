@@ -95,7 +95,7 @@
 	}
 	&__popup {
 		@include m.position(absolute, 0, 38px, 0);
-		@include m.flex(v.$default, v.$default, space-between, center);
+		@include m.flex($axis: (space-between, center));
 		@include m.border(v.$default, v.$color-lightgrey, 5px);
 		white-space: nowrap;
 		width: auto;

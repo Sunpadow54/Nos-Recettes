@@ -6,8 +6,7 @@
 @use "../../style/sass/mixins" as m;
 
 .recipes-title {
-	@include m.flex(v.$default, wrap, v.$default, center);
-	gap: 1rem;
+	@include m.flex($axis:(null,center), $g: 1rem, $wrap: wrap);
 	margin-bottom: 1.5rem;
 	white-space: nowrap;
 	font-weight: normal;

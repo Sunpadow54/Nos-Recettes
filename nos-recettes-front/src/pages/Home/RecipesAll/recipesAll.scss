@@ -6,8 +6,7 @@
 @use "../../../style/sass/mixins" as m;
 
 .recipes-list {
-	@include m.flex(column);
-	gap: 3rem;
+	@include m.flex(column, $g: 3rem);
 	@include m.desktop {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
