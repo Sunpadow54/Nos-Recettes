@@ -23,7 +23,7 @@
 }
 
 .sidebar {
-	@include m.position(fixed, 0, 0, 0, 0);
+	@include m.position(fixed, $full: full);
 	background: no-repeat url("../../style/images/sidebar3.png");
 	background-size: 100% 100vh;
 	z-index: 1;

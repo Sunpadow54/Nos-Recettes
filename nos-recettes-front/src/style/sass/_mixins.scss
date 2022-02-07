@@ -17,7 +17,7 @@
 	);
 
 	// Check the list in order to insert or not, the flex rules
-	// ( if the parameter in the list is not $d, then add the css rule )
+	// ( if the parameter in the list is not null, then add the css rule )
 	@each $property, $value in $new-flex {
 		@if ($value) {
 			#{$property}: $value;
@@ -50,22 +50,31 @@
 
 @mixin position(
 	$position,
-	$top: v.$default,
-	$right: v.$default,
-	$bottom: v.$default,
-	$left: v.$default
+	$t: null,
+	$r: null,
+	$b: null,
+	$l: null,
+    $full: null
 ) {
 	position: $position;
+
+    @if ($full) {
+        $t: 0;
+	    $r: 0;
+	    $b: 0;
+	    $l: 0;
+    }
+
 	// Create a list from parameters of the mixin
 	$axis: (
-		top: $top,
-		right: $right,
-		bottom: $bottom,
-		left: $left,
+		top: $t,
+		right: $r,
+		bottom: $b,
+		left: $l,
 	);
 
 	// Check the list in order to insert or not, the rules
-	// ( if the parameter in the list is not $default, then add the css rule )
+	// ( if the parameter in the list is not null, then add the css rule )
 	@each $axis-property, $axis-value in $axis {
 		@if ($axis-value) {
 			#{$axis-property}: $axis-value;
@@ -150,7 +159,7 @@
 	transition: all 0.17s ease-in-out;
 	&::after {
 		@include before-after();
-		@include position(absolute, 4px, v.$default, v.$default, 4px);
+		@include position(absolute, 4px, $l: 4px);
 		width: calc(100% + 2px);
 		height: calc(100% + 2px);
 		z-index: -1;

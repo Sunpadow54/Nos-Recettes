@@ -6,7 +6,7 @@
 @use "../../style/sass/mixins" as m;
 
 .container {
-	@include m.position(fixed, 0, 0, 0, 0);
+	@include m.position(fixed, $full: full);
     @include m.centered();
     background-color: v.$color-green;
 }

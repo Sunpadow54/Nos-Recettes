@@ -54,7 +54,7 @@
 
 .user-form {
 	&__popup {
-		@include m.position(fixed, 0, 0, 0, 0);
+		@include m.position(fixed, $full: full);
 		background-color: darken(v.$color-blue, 20%);
 		opacity: 0.92;
 		z-index: 2;

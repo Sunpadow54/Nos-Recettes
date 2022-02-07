@@ -113,7 +113,7 @@
 
 		&::after {
 			content: "";
-			@include m.position(absolute, v.$default, -5px, v.$default);
+			@include m.position(absolute, $r: -5px);
 			transform: rotate(45deg);
 			height: 7px;
 			width: 7px;

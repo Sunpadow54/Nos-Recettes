@@ -39,7 +39,7 @@
 		font-size: 0.9rem;
 	}
 	&__title {
-		@include m.position(relative,v.$default, v.$default, 42px);
+		@include m.position(relative, $b: 42px);
 		@include m.flex($axis:(center, center), $wrap:wrap);
 		padding: 0.5rem 4rem 0.5rem 2rem;
 		width: 320px;
