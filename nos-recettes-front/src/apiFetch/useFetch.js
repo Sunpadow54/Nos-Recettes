@@ -42,7 +42,6 @@ function useFetch({ endpoint, method, body, wait }) {
 			}
 			const dataFetched = await response.json();
 			setData(dataFetched);
-            console.log(dataFetched);
 			setError(null);
 		} catch (err) {
 			setError(err);

@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 /* Import Style */
 import "./login.scss";
 /* Import Components */
+import { UserContext } from "../../store/Store";
 import useFetch from "../../apiFetch/useFetch";
 import Input from "../../components/FormControls/Input";
 import BtnBrand from "../../components/Buttons/BtnBrand";
@@ -12,7 +14,10 @@ function Login() {
 		password: "",
 	});
 
-	const { data, error, sendToApi } = useFetch({
+	const navigate = useNavigate();
+	const [currentUser, setCurrentUser] = useContext(UserContext);
+
+	const { data, sendToApi } = useFetch({
 		endpoint: "/auth/login",
 		method: "POST",
 		body: loginForm,
@@ -34,6 +39,22 @@ function Login() {
 		e.preventDefault(); // stop refreshing page
 		sendToApi();
 	};
+
+	useEffect(() => {
+		if (data) {
+			setCurrentUser({
+				...data,
+			});
+		}
+	}, [data]);
+
+	useEffect(() => {
+		if (currentUser.token) {
+			navigate("/");
+		}
+		//setCurrentUser(userLogged);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [currentUser.token]);
 
 	return (
 		<div className="container">

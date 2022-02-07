@@ -10,25 +10,26 @@ import useFetch from "../../../apiFetch/useFetch";
 
 function Recipe() {
 	const { id } = useParams();
-	const { data, loading, error } = useFetch({
+	const {
+		data: recipe,
+		loading,
+		error,
+	} = useFetch({
 		endpoint: "/recipe/" + id,
 		method: "GET",
 	});
 
 	return (
 		<div className="recipe-alone">
-			{data && !loading && (
+			{recipe && !loading && (
 				<>
-					<HeaderCard recipe={data} alone/>
-					<InfosCard recipe={data} />
-					<IngredientsList
-						ingredients={data.ingredients}
-						alone
-					/>
-					<StepsList steps={data.preparation} />
+					<HeaderCard recipe={recipe} alone />
+					<InfosCard recipe={recipe} />
+					<IngredientsList ingredients={recipe.ingredients} alone />
+					<StepsList steps={recipe.preparation} />
 				</>
 			)}
-			{error ? <p>{error}</p> : null}
+			{error && <p>{error}</p>}
 		</div>
 	);
 }

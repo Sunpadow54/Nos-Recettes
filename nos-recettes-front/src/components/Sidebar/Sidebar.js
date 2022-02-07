@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 /* Import Style */
@@ -7,8 +8,11 @@ import { IoMdAdd } from "react-icons/io";
 import { RiUserSmileLine } from "react-icons/ri";
 import { IoSearchSharp } from "react-icons/io5";
 import { IoMenuOutline } from "react-icons/io5";
+/* Import components */
+import { UserContext } from "../../store/Store";
 
 function Sidebar({ sidebarState, setSidebarState }) {
+	const [currentUser] = useContext(UserContext);
 	const links = [
 		{
 			txt: "créer une recette",
@@ -47,7 +51,9 @@ function Sidebar({ sidebarState, setSidebarState }) {
 				{sidebarState ? "X" : <IoMenuOutline />}
 			</button>
 			<nav className={getClasses("sidebar")}>
-				<h2 className="sidebar__title">Bon Appétit Username !</h2>
+				<h2 className="sidebar__title">
+					Bon Appétit {currentUser.username} !
+				</h2>
 				<ul className="sidebar__nav">
 					{links.map((link, id) => (
 						<li key={id}>

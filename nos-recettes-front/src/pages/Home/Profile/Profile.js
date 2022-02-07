@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 import classNames from "classnames";
 /* Import Icons */
@@ -7,6 +7,7 @@ import { RiEdit2Line, RiArrowGoBackLine } from "react-icons/ri";
 /* Import Style */
 import "./profile.scss";
 // Import components
+import { UserContext } from "../../../store/Store";
 import useFetch from "../../../apiFetch/useFetch";
 import UserCard from "../../../components/UserCard/UserCard";
 import UserInfo from "../../../components/User/UserInfo";
@@ -16,10 +17,11 @@ import BtnBrand from "../../../components/Buttons/BtnBrand";
 
 function Profile() {
 	const { id } = useParams();
-	const isMyProfile = id === "2" && true; // need to compare with token
+	const [currentUser] = useContext(UserContext);
+	const [user, setUser] = useState(null);
+	const isMyProfile = parseInt(id) === currentUser.id && true;
 	const [isEdit, setEdit] = useState(false);
 	const [nameWidth, setNameWidth] = useState({});
-	const [user, setUser] = useState(null);
 	const { setTitle } = useOutletContext();
 
 	// ---- Fetchs
@@ -29,7 +31,7 @@ function Profile() {
 		method: "GET",
 	});
 
-	// ---- Button
+	// ---- Button Edit || Profile
 
 	const editButton = isEdit
 		? {
@@ -48,6 +50,8 @@ function Profile() {
 	const handleToogleEdit = (e) => {
 		setEdit(!isEdit);
 	};
+
+	// ---- Effects
 
 	useEffect(() => {
 		if (isMyProfile) {

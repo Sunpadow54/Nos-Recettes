@@ -115,14 +115,13 @@ function UserForm({ user, setUser, userId, nameWidth, setEdit }) {
 	// change user with modified data
 	useEffect(() => {
 		if (userChange) {
-			console.log("user changed");
 			setUser({
 				...user,
 				...userChange,
 			});
 			setEdit(false);
 		}
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [userChange]);
 
 	return (
