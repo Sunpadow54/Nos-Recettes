@@ -38,7 +38,7 @@ $input-padding: 0.75rem;
 	}
 	&__control {
 		width: 100%;
-		@include m.border(v.$default, v.$color-lightgrey);
+		@include m.border(v.$color-lightgrey);
 		padding: $input-padding;
 		font: inherit;
 		/* background-color: transparent; */
@@ -97,7 +97,7 @@ $input-padding: 0.75rem;
 	display: inline-grid;
 	grid-template-areas: "input";
 	align-items: center;
-	@include m.border(v.$default, v.$color-lightgrey);
+	@include m.border(v.$color-lightgrey);
 	padding: $input-padding;
 	&::after {
 		content: attr(data-value) "";

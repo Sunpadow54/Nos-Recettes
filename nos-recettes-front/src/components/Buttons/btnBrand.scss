@@ -96,14 +96,13 @@
 	&__popup {
 		@include m.position(absolute, 0, 38px, 0);
 		@include m.flex($axis: (space-between, center));
-		@include m.border(v.$default, v.$color-lightgrey, 5px);
+		@include m.border(v.$color-lightgrey, $radius: 4px);
 		white-space: nowrap;
 		width: auto;
 		height: inherit;
 		padding: 0 0.5rem;
 		color: black;
 		background-color: white;
-		border: 1px solid v.$color-grey;
 		pointer-events: none;
 		z-index: 1;
 		opacity: 0;
@@ -118,9 +117,7 @@
 			height: 7px;
 			width: 7px;
 			background-color: inherit;
-			border: 1px solid v.$color-grey;
-			border-bottom: none;
-			border-left: none;
+            @include m.border(v.$color-lightgrey, $positions: (top, right));
 		}
 	}
 	&:hover &__popup {

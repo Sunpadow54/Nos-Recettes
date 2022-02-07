@@ -27,8 +27,7 @@
             height: 50px;
 			width: 50px;
 			padding: 9px;
-			@include m.border(v.$default, v.$color-blue, v.$default, 4px);
-			border-radius: 50%;
+			@include m.border(v.$color-blue, 4px, 50%);
 			margin: auto;
 			> * {
 				font-size: 2rem;

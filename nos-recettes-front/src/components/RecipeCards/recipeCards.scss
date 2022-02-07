@@ -58,9 +58,9 @@
 
 .card-infos {
     @include m.flex($axis:center, $g: 1.4rem, $wrap: wrap);
-    margin-top: -2rem;
+    //margin-top: -2rem;
     &__item {
-        @include m.flex($axis:center, $g:0.5rem);
+        @include m.flex($axis:(center, center), $g:0.5rem);
         min-width: 100px;
         svg {
             font-size: 2rem;

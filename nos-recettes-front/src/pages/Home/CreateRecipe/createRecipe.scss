@@ -10,7 +10,7 @@
 
 	&-group {
 		@include m.flex(column, $g: 1.5rem );
-        @include m.border(v.$default,v.$color-grey, 4px );
+        @include m.border(v.$color-grey, $radius: 4px);
 		padding: 1.2rem;
 		&__legend {
 			padding: 0.5rem 1rem 0.5rem 0;
@@ -20,7 +20,7 @@
 		}
 		&__row {
             @include m.flex($axis:(null,center), $g: 1.5rem, $wrap: wrap);
-            @include m.border(v.$default,v.$color-grey, 4px );
+            @include m.border(v.$color-grey, 4px);
 			padding: 1.5rem 1.2rem;
 			@include m.desktop {
 				padding: 0;

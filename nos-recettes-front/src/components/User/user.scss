@@ -11,7 +11,7 @@
 	height: $height;
 	line-height: $height;
 	&:not(div) {
-		@include m.border(v.$default, transparent);
+		@include m.border(transparent);
 	}
 }
 

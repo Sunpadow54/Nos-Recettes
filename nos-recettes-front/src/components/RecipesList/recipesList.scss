@@ -32,7 +32,7 @@
 		gap: 1.5rem;
 	}
 	&--border {
-		@include m.border(v.$default, v.$color-lightgrey);
+		@include m.border(v.$color-lightgrey);
 		padding: 10px;
 		&:hover {
 			border-color: v.$color-grey;

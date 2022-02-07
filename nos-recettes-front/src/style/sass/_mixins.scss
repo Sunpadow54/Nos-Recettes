@@ -84,10 +84,10 @@
 
 // ------------ Borders
 @mixin border(
-	$positions: v.$default,
 	$color: v.$color-darkgrey,
-	$radius: 0,
-	$size: 1px
+	$size: 1px,
+    $radius: null,
+    $positions: null
 ) {
 	@if ($positions) {
 		@each $position in $positions {
@@ -96,7 +96,9 @@
 	} @else {
 		border: $size solid $color;
 	}
-	border-radius: $radius;
+    @if ($radius) {
+        border-radius: $radius;
+    }
 }
 
 @mixin funky-border($style, $color: rgba(255, 255, 255, 0.8)) {
