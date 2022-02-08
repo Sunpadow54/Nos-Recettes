@@ -2,13 +2,10 @@
 // ------------------------- IMPORTS -------------------------
 
 const express = require('express');
-
 // ----- Create router
 const router = new express.Router();
-
 // ---- Import middelwares
-
-
+const { authUser } = require('../middleware/auth');
 // ----- Import Controlls
 const recipeCtrl = require('../controllers/recipe');
 
@@ -16,11 +13,11 @@ const recipeCtrl = require('../controllers/recipe');
 // ============================================================
 // ------------------------- ROADS ----------------------------
 
-router.get('/', recipeCtrl.getAllRecipes);
-router.post('/', recipeCtrl.createRecipe);
-router.get('/:id', recipeCtrl.getOneRecipe);
-router.put('/:id', recipeCtrl.editRecipe);
-router.delete('/:id', recipeCtrl.deleteRecipe);
+router.get('/', authUser, recipeCtrl.getAllRecipes);
+router.post('/', authUser, recipeCtrl.createRecipe);
+router.get('/:id', authUser, recipeCtrl.getOneRecipe);
+router.put('/:id', authUser, recipeCtrl.editRecipe);
+router.delete('/:id', authUser, recipeCtrl.deleteRecipe);
 
 // ============================================================
 // ------------------------- EXPORT ---------------------------

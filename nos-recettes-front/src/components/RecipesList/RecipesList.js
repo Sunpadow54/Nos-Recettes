@@ -19,6 +19,7 @@ function RecipesList({ query, title, titleIcon, small, border }) {
 	const { data: recipes } = useFetch({
 		endpoint: endpoint,
 		method: "GET",
+		auth: true,
 	});
 
 	const cardClass = classNames(

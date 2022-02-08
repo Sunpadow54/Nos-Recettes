@@ -17,6 +17,7 @@ function Recipe() {
 	} = useFetch({
 		endpoint: "/recipe/" + id,
 		method: "GET",
+        auth: true,
 	});
 
 	return (

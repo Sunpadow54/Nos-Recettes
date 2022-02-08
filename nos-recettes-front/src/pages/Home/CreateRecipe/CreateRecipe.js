@@ -28,6 +28,7 @@ function CreateRecipe() {
 	const { data: allIngredients } = useFetch({
 		endpoint: "/ingredient",
 		method: "GET",
+        auth: true,
 	});
 
 	const allUnits = [
@@ -49,6 +50,7 @@ function CreateRecipe() {
 		method: "POST",
 		body: formValues,
 		wait: true,
+        auth: true,
 	});
 
 	// ------ Handle Functions

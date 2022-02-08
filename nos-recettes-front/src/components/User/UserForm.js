@@ -20,6 +20,7 @@ function UserForm({ user, setUser, userId, nameWidth, setEdit }) {
 		method: "PUT",
 		body: userForm,
 		wait: true,
+		auth: true,
 	});
 
 	// ---- Inputs
@@ -106,11 +107,6 @@ function UserForm({ user, setUser, userId, nameWidth, setEdit }) {
 	};
 
 	// ---- Effects
-
-	// cleanup to fix state updated on unmounted
-	useEffect(() => {
-		return () => {};
-	}, []);
 
 	// change user with modified data
 	useEffect(() => {

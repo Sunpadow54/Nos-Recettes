@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "../store/Store";
 
-function useFetch({ endpoint, method, body, wait }) {
+function useFetch({ endpoint, method, body, wait, auth }) {
 	const url = "http://localhost:3000/api" + endpoint;
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const [immediate, setImmediate] = useState(wait ? false : true);
+	const [currentUser] = useContext(UserContext);
 
 	// function to make post/put req on submit
 	const sendToApi = () => {
@@ -19,6 +21,10 @@ function useFetch({ endpoint, method, body, wait }) {
 		if (method !== "GET") {
 			myHeaders.append("Content-Type", "application/json");
 		}
+		if (auth) {
+			myHeaders.append("Authorization", `Bearer ${currentUser.token}`);
+		}
+
 		const myInit = {
 			method: method,
 			headers: myHeaders,
@@ -59,6 +65,11 @@ function useFetch({ endpoint, method, body, wait }) {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [url, method, body, immediate]);
+
+	// Cleanup to fix state updated on unmounted
+	useEffect(() => {
+		return () => {};
+	}, []);
 
 	return { data, loading, error, sendToApi };
 }

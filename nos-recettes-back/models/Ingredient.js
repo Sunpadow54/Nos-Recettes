@@ -23,7 +23,6 @@ Ingredient.findAll = () => {
             // error
             if (err) return reject(err);
             // success
-            console.log(typeof(res.rows));
             resolve(res.rows);
         });
     })

@@ -29,6 +29,7 @@ function Profile() {
 	const { data: userFetched } = useFetch({
 		endpoint: "/user/" + id,
 		method: "GET",
+        auth: true,
 	});
 
 	// ---- Button Edit || Profile
