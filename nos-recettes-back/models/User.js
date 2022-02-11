@@ -45,8 +45,8 @@ User.findOne = (user) => {
 	const query = format(
 		`SELECT u.*, nbr
         FROM users AS u
-        RIGHT JOIN (
-            SELECT id_user, COUNT(id)::int AS nbr
+        FULL OUTER JOIN (
+            SELECT id_user, COUNT(*)::int AS nbr
             FROM recipes
             GROUP BY id_user
         ) r ON r.id_user = u.id
@@ -55,7 +55,7 @@ User.findOne = (user) => {
 		insert,
 		value
 	);
-
+	
 	// ask client
 	return new Promise((resolve, reject) => {
 		db.query(query, (err, res) => {
