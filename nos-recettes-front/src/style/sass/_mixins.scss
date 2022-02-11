@@ -6,169 +6,191 @@
 // ------------ FLEXBOX Mixins
 
 @mixin flex($direction: null, $axis: null, $g: null, $wrap: null) {
-	display: flex;
+    display: flex;
 
-	// Create a list from parameters of the mixin
-	$new-flex: (
-		flex-direction: $direction,
-		flex-wrap: $wrap,
-		gap: $g,
-		justify-content: nth($axis, 1),
-	);
+    // Create a list from parameters of the mixin
+    $new-flex: (
+        flex-direction: $direction,
+        flex-wrap: $wrap,
+        gap: $g,
+        justify-content: nth($axis, 1),
+    );
 
-	// Check the list in order to insert or not, the flex rules
-	// ( if the parameter in the list is not null, then add the css rule )
-	@each $property, $value in $new-flex {
-		@if ($value) {
-			#{$property}: $value;
-		}
-	}
-	// add cross axis if there is one
-	@if (type-of($axis) == "list") {
-		align-items: nth($axis, 2);
-	}
+    // Check the list in order to insert or not, the flex rules
+    // ( if the parameter in the list is not null, then add the css rule )
+    @each $property, $value in $new-flex {
+        @if ($value) {
+            #{$property}: $value;
+        }
+    }
+    // add cross axis if there is one
+    @if (type-of($axis) == "list") {
+        align-items: nth($axis, 2);
+    }
 }
 
 @mixin centered() {
-	@include flex(
-		$axis: (
-			center,
-			center,
-		)
-	);
+    @include flex(
+        $axis: (
+            center,
+            center,
+        )
+    );
 }
 
 // ------------ GRID Mixins
 
-@mixin grid($columns, $rows) {
-	display: grid;
-	grid-template-columns: $columns;
-	grid-template-rows: $rows;
+@mixin grid(
+    $columns: 1fr,
+    $rows: null,
+    $g: null,
+    $align: null,
+    $justify: null
+) {
+    display: grid;
+    $new-grid: (
+        grid-template-columns: $columns,
+        grid-template-rows: $rows,
+        gap: $g,
+        justify-items: $justify,
+        align-items: $align,
+    );
+    @each $property, $value in $new-grid {
+        @if ($value) {
+            #{$property}: $value;
+        }
+    }
 }
 
 // ------------ Position Mixins
 
 @mixin position(
-	$position,
-	$t: null,
-	$r: null,
-	$b: null,
-	$l: null,
+    $position,
+    $t: null,
+    $r: null,
+    $b: null,
+    $l: null,
     $full: null
 ) {
-	position: $position;
+    position: $position;
 
     @if ($full) {
         $t: 0;
-	    $r: 0;
-	    $b: 0;
-	    $l: 0;
+        $r: 0;
+        $b: 0;
+        $l: 0;
     }
 
-	// Create a list from parameters of the mixin
-	$axis: (
-		top: $t,
-		right: $r,
-		bottom: $b,
-		left: $l,
-	);
+    // Create a list from parameters of the mixin
+    $axis: (
+        top: $t,
+        right: $r,
+        bottom: $b,
+        left: $l,
+    );
 
-	// Check the list in order to insert or not, the rules
-	// ( if the parameter in the list is not null, then add the css rule )
-	@each $axis-property, $axis-value in $axis {
-		@if ($axis-value) {
-			#{$axis-property}: $axis-value;
-		}
-	}
+    // Check the list in order to insert or not, the rules
+    // ( if the parameter in the list is not null, then add the css rule )
+    @each $axis-property, $axis-value in $axis {
+        @if ($axis-value) {
+            #{$axis-property}: $axis-value;
+        }
+    }
 }
 
 // ------------ Borders
 @mixin border(
-	$color: v.$color-darkgrey,
-	$size: 1px,
+    $color: v.$color-darkgrey,
+    $size: 1px,
     $radius: null,
     $positions: null
 ) {
-	@if ($positions) {
-		@each $position in $positions {
-			border-#{$position}: $size solid $color;
-		}
-	} @else {
-		border: $size solid $color;
-	}
+    @if ($positions) {
+        @each $position in $positions {
+            border-#{$position}: $size solid $color;
+        }
+    } @else {
+        border: $size solid $color;
+    }
     @if ($radius) {
         border-radius: $radius;
     }
 }
 
 @mixin funky-border($style, $color: rgba(255, 255, 255, 0.8)) {
-	border: solid $color;
-	@if ($style == "1") {
-		border-width: 3px 4px 3px 5px;
-		border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
-	}
-	@if ($style == "2") {
-		border-width: 3px 3px 5px 5px;
-		border-radius: 4% 95% 6% 95%/95% 4% 92% 5%;
-	}
-	@if ($style == "3") {
-		border-width: 5px 3px 3px 5px;
-		border-radius: 95% 4% 97% 5%/4% 94% 3% 95%;
-	}
+    border: solid $color;
+    @if ($style == "1") {
+        border-width: 3px 4px 3px 5px;
+        border-radius: 95% 4% 92% 5%/4% 95% 6% 95%;
+    }
+    @if ($style == "2") {
+        border-width: 3px 3px 5px 5px;
+        border-radius: 4% 95% 6% 95%/95% 4% 92% 5%;
+    }
+    @if ($style == "3") {
+        border-width: 5px 3px 3px 5px;
+        border-radius: 95% 4% 97% 5%/4% 94% 3% 95%;
+    }
 }
 
 // ------------ MediaQueries
 
 @mixin desktop($min-width: 700px) {
-	@media screen and (min-width: $min-width) {
-		@content;
-	}
+    @media screen and (min-width: $min-width) {
+        @content;
+    }
 }
 
 // ------------ PSEUDO-ELEMENT Mixins
 @mixin before-after {
-	content: "";
-	display: block;
+    content: "";
+    display: block;
 }
 
 // ------------ SKETCH LINE Mixins
 
-@mixin line($width: 100%, $deg: 0.3deg) {
-	@include before-after();
-	height: 1px;
-	width: $width;
-	background-color: v.$color-darkgrey;
-	transform: rotate($deg);
+@mixin line($width: 100%, $deg: 0.3deg, $color: v.$color-darkgrey) {
+    @include before-after();
+    height: 1px;
+    width: $width;
+    background-color: $color;
+    transform: rotate($deg);
 }
 
 @mixin grow-shrink() {
-	@include desktop {
-		will-change: translate;
-		width: calc(100% - v.$sidebar-size);
-		transition: transform 0.4s ease-in-out;
-		&--grow {
-			transform: translateX(calc(v.$sidebar-size / 2));
-		}
-	}
+    @include desktop {
+        will-change: translate;
+        width: calc(100% - v.$sidebar-size);
+        transition: transform 0.4s ease-in-out;
+        &--grow {
+            transform: translateX(calc(v.$sidebar-size / 2));
+        }
+    }
 }
 
 @mixin brand-btn($width, $height, $border-color: black, $flex-content: center) {
-	position: relative;
-	@include flex( $axis: ($flex-content,center), $g: 1rem);
-	width: $width;
-	height: $height;
-	border: 2px solid $border-color;
-	transition: all 0.17s ease-in-out;
-	&::after {
-		@include before-after();
-		@include position(absolute, 4px, $l: 4px);
-		width: calc(100% + 2px);
-		height: calc(100% + 2px);
-		z-index: -1;
-		transition: all 0.17s ease-in-out;
-	}
-	&:hover::after {
-		top: 0;
-		left: 0;
-	}
+    position: relative;
+    @include flex(
+        $axis: (
+            $flex-content,
+            center,
+        ),
+        $g: 1rem
+    );
+    width: $width;
+    height: $height;
+    border: 2px solid $border-color;
+    transition: all 0.17s ease-in-out;
+    &::after {
+        @include before-after();
+        @include position(absolute, 4px, $l: 4px);
+        width: calc(100% + 2px);
+        height: calc(100% + 2px);
+        z-index: -1;
+        transition: all 0.17s ease-in-out;
+    }
+    &:hover::after {
+        top: 0;
+        left: 0;
+    }
 }

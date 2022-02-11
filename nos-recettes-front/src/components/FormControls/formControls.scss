@@ -5,8 +5,8 @@
 @use "../../style/sass/variables" as v;
 @use "../../style/sass/mixins" as m;
 
-$input-padding: 0.75rem;
-@mixin label-focus() {
+$input-padding: 12px;
+@mixin label-top() {
 	transform: translate(-($input-padding), -1.9rem);
 	font-size: 14px;
 	color: v.$color-grey;
@@ -22,18 +22,18 @@ $input-padding: 0.75rem;
 			calc($input-padding + 1px)
 		); // 1px for the border
 		transition: all 0.5s ease-in-out;
-		display: block; // to make the uppercase works on ::first-letter
+		//display: block; // to make the uppercase works on ::first-letter
 		padding-left: $input-padding;
 		z-index: -1; // fix user focus of input
 		font: 1rem Raleway;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		&--light {
-			color: v.$color-grey;
-		}
 		&::first-letter {
 			text-transform: uppercase;
+		}
+		&--top {
+			@include label-top;
 		}
 	}
 	&__control {
@@ -41,18 +41,21 @@ $input-padding: 0.75rem;
 		@include m.border(v.$color-lightgrey);
 		padding: $input-padding;
 		font: inherit;
-		/* background-color: transparent; */
+		background-color: transparent;
 		&:focus {
 			border-color: #32a1ce;
 		}
 
 		&:focus ~ label,
-		&:valid ~ label {
-			@include label-focus;
+		&:valid ~ label,
+		&[type="time"] ~ label {
+			@include label-top;
 		}
+	}
 
-		&[type="time"] {
-			width: 195px;
+	input {
+		&[type="time"],
+		&[type="number"] {
 			color: transparent;
 			text-align: center;
 			&:focus,
@@ -60,36 +63,22 @@ $input-padding: 0.75rem;
 				color: black;
 			}
 		}
+		&[type="time"] {
+			&::-webkit-calendar-picker-indicator {
+				background: none; // chrome
+			}
+		}
 		&[type="number"] {
-			color: transparent;
-			text-align: center;
-			width: 87px;
-			padding: 0.75rem 0.1rem;
-			// --- delete increment button
 			-moz-appearance: textfield; // firefox
 			appearance: textfield; // firefox
 			&::-webkit-inner-spin-button {
 				-webkit-appearance: none; // chrome
-			}
-			@include m.desktop {
-				width: 87px;
-			}
-			&:focus,
-			&:valid {
-				color: black;
 			}
 		}
 	}
 
 	textarea {
 		resize: none;
-		& ~ label {
-			bottom: initial;
-		}
-	}
-
-	select {
-		width: 195px;
 	}
 }
 
@@ -105,11 +94,12 @@ $input-padding: 0.75rem;
 		white-space: pre-wrap;
 	}
 	label {
-		@include label-focus;
+		@include label-top;
 		width: auto;
 	}
 	&::after,
 	input,
+	select,
 	textarea {
 		grid-area: input;
 		width: auto;

@@ -6,51 +6,51 @@
 @use "../../style/sass/mixins" as m;
 
 .container {
-	@include m.position(fixed, $full: full);
+    @include m.position(fixed, $full: full);
     @include m.centered();
     background-color: v.$color-green;
 }
 
 .login-card {
-	@include m.flex(column);
-	border-radius: 8px;
-	height: 600px;
-	width: 460px;
-	background-color: white;
-	padding: 3rem;
-	text-align: center;
-	z-index: 1; // cause of btn brand ::after
-	&__header {
-		padding: 2rem 0;
-		span {
+    @include m.flex(column);
+    border-radius: 8px;
+    height: 600px;
+    width: 460px;
+    background-color: white;
+    padding: 3rem;
+    text-align: center;
+    z-index: 1; // cause of btn brand ::after
+    &__header {
+        padding: 2rem 0;
+        span {
             @include m.centered();
             height: 50px;
-			width: 50px;
-			padding: 9px;
-			@include m.border(v.$color-blue, 4px, 50%);
-			margin: auto;
-			> * {
-				font-size: 2rem;
-				color: v.$color-blue;
-			}
-		}
-		h1 {
-			font: 2.5rem Coming Soon;
-			padding: 1rem 0;
-		}
-	}
-	&__form {
-		flex: 1;
-		@include m.flex(column);
-		h2 {
-			font-size: 1.3rem;
-		}
-		form {
-			flex: 1;
-		}
-	}
+            width: 50px;
+            padding: 9px;
+            @include m.border(v.$color-blue, 4px, 50%);
+            margin: auto;
+            > * {
+                font-size: 2rem;
+                color: v.$color-blue;
+            }
+        }
+        h1 {
+            font: 2.5rem Coming Soon;
+            padding: 1rem 0;
+        }
+    }
+    &__form {
+        flex: 1;
+        @include m.flex(column);
+        h2 {
+            font-size: 1.3rem;
+        }
+        form {
+            flex: 1;
+        }
+    }
 }
 
 .login-form {
-	@include m.flex(column, (center, center), 2rem);
+    @include m.flex(column, (center, center), 2rem);
 }

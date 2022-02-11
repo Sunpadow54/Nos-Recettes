@@ -4,7 +4,7 @@ import classNames from "classnames";
 import "./user.scss";
 // Import components
 import useFetch from "../../apiFetch/useFetch";
-import Input from "../FormControls/Input";
+import FormControls from "../FormControls/FormControls";
 import BtnBrand from "../Buttons/BtnBrand";
 
 function UserForm({ user, setUser, userId, nameWidth, setEdit }) {
@@ -129,7 +129,7 @@ function UserForm({ user, setUser, userId, nameWidth, setEdit }) {
 			>
 				<div className="user-info__name">
 					{inputsName.map((input, i) => (
-						<Input
+						<FormControls
 							key={i}
 							{...input}
 							noRequired
@@ -140,7 +140,7 @@ function UserForm({ user, setUser, userId, nameWidth, setEdit }) {
 				</div>
 				<div className="user-info__more">
 					{inputsMore.map((input, i) => (
-						<Input
+						<FormControls
 							key={i}
 							{...input}
 							noRequired
@@ -164,7 +164,7 @@ function UserForm({ user, setUser, userId, nameWidth, setEdit }) {
 					)}
 				>
 					<p>êtes vous sûr de vouloir modifier votre profil ?</p>
-					<Input
+					<FormControls
 						type="password"
 						name="oldPassword"
 						label="mot de passe"

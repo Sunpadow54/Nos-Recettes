@@ -6,10 +6,16 @@
 @use "../../../style/sass/mixins" as m;
 
 .form {
-	@include m.flex(column, $g: 1.3rem);
-
+	@include m.flex(column, $g: 1.7rem);
+	max-width: 750px;
+	/* margin:auto; */
+	@include m.desktop {
+		> div:nth-child(1n + 2) {
+			width: 170px;
+		}
+	}
 	&-group {
-		@include m.flex(column, $g: 1.5rem );
+		@include m.flex(column, $g: 2.3rem );
         @include m.border(v.$color-grey, $radius: 4px);
 		padding: 1.2rem;
 		&__legend {
@@ -19,22 +25,46 @@
 			text-transform: capitalize;
 		}
 		&__row {
-            @include m.flex($axis:(null,center), $g: 1.5rem, $wrap: wrap);
-            @include m.border(v.$color-grey, 4px);
-			padding: 1.5rem 1.2rem;
-			@include m.desktop {
-				padding: 0;
-				border: none;
+			@include m.grid((5px repeat(3, 1fr) 24px), $g: (0 0.5rem), $align:center );
+			> div:first-of-type {
+				grid-column: 2 / 5;
 			}
-			div:first-child {
-				width: 100%;
-				@include m.desktop {
-					width: auto;
+			> div:nth-child(2) {
+				margin-top: 1.5rem;
+				grid-column: 2 / 3;
+			}
+			> div:nth-child(3) {
+				margin-top: 1.5rem;
+				grid-column: 3 / 5;
+			}
+			> button {
+				grid-row: 1 / span 2;
+				grid-column: 5 / 6;
+			}
+			&::before {
+				@include m.before-after;
+				grid-column: 1 / 2;
+				grid-row: 1 / span 2;
+				background-color: lighten(v.$color-blue, 50%);
+				height: 100%;
+			}
+			@include m.desktop (785px) {
+				@include m.flex();
+				> div:first-of-type {
 					flex: 3;
 				}
-			}
-			div:nth-child(3) {
-				flex: 2;
+				> div:nth-child(2) {
+					flex:1;
+				}
+				> div:nth-child(3) {
+					flex:2;
+				}
+				> div:nth-child(2),div:nth-child(3) {
+					margin:0;
+				}
+				&::before {
+					display:none;
+				}
 			}
 		}
 		&__btn {

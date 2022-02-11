@@ -6,74 +6,36 @@
 @use "../../../style/sass/mixins" as m;
 
 .profile {
-	@include m.flex(column, (center, center), 2rem);
-	position: relative;
-	@include m.desktop(1050px) {
-		@include m.grid((minmax(250px, 1fr) 2fr), (auto 1fr auto));
-		grid-template-areas:
-			"card info"
-			"card recipes"
-			". recipes";
-		align-items: start;
-		gap: 4rem 4rem;
-	}
-	&__edit-btn {
-		@include m.position(absolute, 0, 0);
-	}
-	&__card {
-		grid-area: card;
-		@include m.flex(column, (null, center));
-	}
-	&__info {
-		grid-area: info;
-		&--hide {
-			position: absolute;
-			visibility: hidden;
-		}
-	}
-
-	&__recipes {
-		grid-area: recipes;
-		@include m.flex(column, $g: 1rem);
-		@include m.desktop(1050px) {
-			margin-left: 3rem;
-		}
-	}
-}
-
-.profile-form {
-	&__popup {
-		@include m.position(fixed, $full: full);
-		background-color: darken(v.$color-blue, 20%);
-		opacity: 0.92;
-		z-index: 2;
-		padding: 5rem 3rem;
-		@include m.flex(column, (center, center), 2rem);
-		@include m.desktop {
-			max-width: 600px;
-			max-height: 300px;
-			margin: auto;
-		}
-		p {
-			color: white;
-			text-align: center;
-			&::first-letter {
-				text-transform: capitalize;
-			}
-		}
-		&--hide {
-			display: none;
-		}
-	}
-	&__btns {
-		width: 100%;
-		@include m.flex($axis: center, $g: 1rem);
-		max-width: 400px;
-		& > button {
-			flex: 1;
-		}
-	}
-	&__submit {
-		align-self: end;
-	}
+    @include m.flex(column, (center, center), 2rem);
+    position: relative;
+    @include m.desktop(1050px) {
+        @include m.grid((minmax(250px, 1fr) 2fr), (auto 1fr auto));
+        grid-template-areas:
+            "card info"
+            "card recipes"
+            ". recipes";
+        align-items: start;
+        gap: 4rem 4rem;
+    }
+    &__edit-btn {
+        @include m.position(absolute, 0, 0);
+    }
+    &__card {
+        grid-area: card;
+        @include m.flex(column, (null, center));
+    }
+    &__info {
+        grid-area: info;
+        &--hide {
+            position: absolute;
+            visibility: hidden;
+        }
+    }
+    &__recipes {
+        grid-area: recipes;
+        @include m.flex(column, $g: 1rem);
+        @include m.desktop(1050px) {
+            margin-left: 3rem;
+        }
+    }
 }
