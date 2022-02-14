@@ -99,37 +99,6 @@ Recipe.findAll = (filter) => {
 	});
 };
 
-Recipe.findByCategory = (category) => {
-	const query = format(
-		`SELECT 
-            id, r.id_user, r.created_at AS date, r.img, r.duration, r.title, r.category,
-            i.ingredients
-        FROM  recipes AS r
-        LEFT JOIN (
-            SELECT  
-                ri.id_recipe AS id,
-                ARRAY_AGG(i.name) AS ingredients
-            FROM   recipe_ingredients AS ri
-            JOIN   ingredients AS i  ON i.id = ri.id_ingredient
-            GROUP  BY ri.id_recipe
-        ) i USING (id)
-        WHERE r.category = %L
-        ORDER BY r.created_at DESC
-        ;`,
-		category
-	);
-
-	// ask db
-	return new Promise((resolve, reject) => {
-		db.query(query, (err, res) => {
-			// error
-			if (err) return reject(err);
-			// success
-			resolve(res.rows);
-		});
-	});
-};
-
 Recipe.findOne = (id) => {
 	const query = format(
 		`SELECT 
@@ -202,7 +171,10 @@ Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
                 ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
                 RETURNING name, id AS id_ingredient
             ),
-            recipeIngr AS (
+            deleteRecipeIngr AS (
+                DELETE FROM recipe_ingredients WHERE id_recipe = %L
+            ),
+            insertRecipeIngr AS (
                 INSERT INTO recipe_ingredients (id_recipe, id_ingredient, quantity, unit)
                 SELECT %L, i.id_ingredient, d.quantity::INTEGER, d.unit
                 FROM data AS d
@@ -216,11 +188,15 @@ Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
             )
             `,
 			newIngredients,
+			idRecipe,
 			idRecipe
 		);
 	}
 
 	// format the inserts for the recipe
+	if (newRecipe.preparation) {
+		newRecipe.preparation = "{" + newRecipe.preparation.join(",") + "}";
+	}
 	let recipeInserts = [];
 	for (let key in newRecipe) {
 		recipeInserts.push(format("%s = %L", key, newRecipe[key]));
