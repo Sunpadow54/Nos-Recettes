@@ -1,12 +1,14 @@
 /* Import Style */
 import "./recipeCards.scss";
 
-function IngredientsList({ ingredients, alone }) {
+function IngredientsList({ ingredients, alone, children }) {
 	const concat = (el) => {
 		let article = el.name[0].match(/[aeiouh]/) ? "d'" : "de ";
 		article = el.unit ? article : "";
 		return el.quantity + " " + el.unit + " " + article + el.name;
 	};
+
+	const ingredientsList = children ? children : ingredients;
 
 	return (
 		<>
@@ -22,12 +24,12 @@ function IngredientsList({ ingredients, alone }) {
 				<div className="card__body">
 					<h4 className="card__heading">Ingrédients</h4>
 					<ul className="card-list card-list--styled">
-						{ingredients.map((ingredient) => (
+						{ingredientsList.map((ingredient, i) => (
 							<li
 								key={ingredient.name}
 								className="card-list__item"
 							>
-								{concat(ingredient)}
+								{children ? children[i] : concat(ingredient)}
 							</li>
 						))}
 					</ul>

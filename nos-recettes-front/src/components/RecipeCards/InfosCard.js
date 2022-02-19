@@ -6,27 +6,25 @@ import { RiTimerLine } from "react-icons/ri";
 import { GrRestaurant } from "react-icons/gr";
 import { BiDish } from "react-icons/bi";
 
-function InfosCard(props) {
-	const { duration, author, authorId, category } = props.recipe;
-
+function InfosCard({ recipe, children }) {
+	const { duration, author, authorId, category } = recipe;
 	const timeFormat = (string) => {
 		const hours = string.split(":")[0];
 		const min = string.split(":")[1];
 		return hours === "00" ? `${min}min` : `${hours}h${min}`;
 	};
 	const urlFormated = `/profil/${authorId}`;
-
 	const infos = [
 		{
-			text: timeFormat(duration),
+			content: children ? children[0] : timeFormat(duration),
 			icon: RiTimerLine,
 		},
 		{
-			text: <Link to={urlFormated}>{author}</Link>,
+			content: <Link to={urlFormated}>{author}</Link>,
 			icon: GrRestaurant,
 		},
 		{
-			text: category,
+			content: children ? children[1] : category,
 			icon: BiDish,
 		},
 	];
@@ -36,7 +34,7 @@ function InfosCard(props) {
 			{infos.map((info, i) => (
 				<div key={i} className="card-infos__item">
 					<info.icon />
-					{info.text}
+					{info.content}
 				</div>
 			))}
 		</div>

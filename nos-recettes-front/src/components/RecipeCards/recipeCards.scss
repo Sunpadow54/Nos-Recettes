@@ -40,44 +40,56 @@
 	}
 	&__title {
 		@include m.position(relative, $b: 42px);
-		@include m.flex($axis:(center, center), $wrap:wrap);
+		@include m.flex(
+			$axis: (
+				center,
+				center,
+			),
+			$wrap: wrap
+		);
 		padding: 0.5rem 4rem 0.5rem 2rem;
 		width: 320px;
 		height: 85px;
-		font-weight: 500;
-		font-size: 1.25rem;
+		/* font-weight: 500;
+		font-size: 1.25rem; */
 		background-color: white;
+		> * {
+			font-weight: 500;
+			font-size: 1.25rem;
+		}
 		&--center {
 			margin: auto;
 			width: 450px;
 			padding: 0.5rem 2rem;
-			font-size: 1.5rem;
+			/* font-size: 1.5rem; */
+			> * {
+				font-size: 1.5rem;
+			}
 		}
 	}
 }
 
 .card-infos {
-    @include m.flex($axis:center, $g: 1.4rem, $wrap: wrap);
-    //margin-top: -2rem;
-    &__item {
-        @include m.flex($axis:(center, center), $g:0.5rem);
-        min-width: 100px;
-        svg {
-            font-size: 2rem;
-            font-weight: normal;
-        }
-        &::before {
-            content: "";
-            @include m.centered();
-            width: 4px;
-            height: 4px;
-            background-color: black;
-            border-radius: 50%;
-        }
-        &:nth-child(2) {
-            text-transform: capitalize;
-        }
-    }
+	@include m.flex($axis: center, $g: 1.4rem, $wrap: wrap);
+	//margin-top: -2rem;
+	&__item {
+		@include m.flex(
+			$axis: (
+				center,
+				center,
+			),
+			$g: 0.5rem
+		);
+		min-width: 100px;
+		@include m.list-style-disk();
+		svg {
+			font-size: 2rem;
+			font-weight: normal;
+		}
+		&:nth-child(2) {
+			text-transform: capitalize;
+		}
+	}
 }
 
 .card-pills {
@@ -99,13 +111,15 @@
 	&--styled {
 		gap: 0.8rem;
 		li {
-			list-style: initial;
-			list-style-position: inside;
+			@include m.flex(
+				$axis: (
+					null,
+					center,
+				),
+				$g: 0.5rem
+			);
 			margin-left: 1rem;
-			&::marker {
-				font-size: 10px;
-				color: v.$color-grey;
-			}
+			@include m.list-style-disk(v.$color-grey);
 		}
 	}
 }

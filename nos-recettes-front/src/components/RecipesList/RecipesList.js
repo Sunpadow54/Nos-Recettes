@@ -2,7 +2,7 @@ import classNames from "classnames";
 /* Import Style */
 import "./recipesList.scss";
 /* Import Components */
-import useFetch from "../../apiFetch/useFetch";
+import useFetch from "../../hooks/useFetch";
 import HeaderCard from "../RecipeCards/HeaderCard";
 import IngredientsList from "../RecipeCards/IngredientsList";
 

@@ -5,7 +5,7 @@ import "./recipeCards.scss";
 // Import img placeholder
 import placeholderImg from "../../style/images/lukas-blazek-f-TWhXOrLiU-unsplash.jpg";
 
-function HeaderCard({ recipe, alone }) {
+function HeaderCard({ recipe, alone, children }) {
 	const { id, img, title, date } = recipe;
 
 	const urlFormated = `/${title.toLowerCase().replace(/\s/g, "-")}/${id}`;
@@ -13,14 +13,14 @@ function HeaderCard({ recipe, alone }) {
 	const ConditionalLink = ({ children }) =>
 		alone ? <>{children}</> : <Link to={urlFormated}>{children}</Link>;
 
-	const New = () => {
+	const NewFlag = () => {
 		const month = 2629746000; // in ms
 		const diff = Date.now() - new Date(date);
 		const isNew = diff > month ? false : true;
 		return isNew ? <span className="card-header__new">New</span> : null;
 	};
 
-	return (
+	const test = (
 		<div className="card-header">
 			<ConditionalLink>
 				<div className="card-header__img">
@@ -30,19 +30,20 @@ function HeaderCard({ recipe, alone }) {
 						width="400px"
 						height={alone ? "444px" : "300px"}
 					/>
-					<New />
+					<NewFlag />
 				</div>
-				<h3
+				<div
 					className={classNames(
 						"card-header__title",
 						alone && "card-header__title--center"
 					)}
 				>
-					{title}
-				</h3>
+					{children ? children : <h3>{title}</h3>}
+				</div>
 			</ConditionalLink>
 		</div>
 	);
+	return test;
 }
 
 export default HeaderCard;

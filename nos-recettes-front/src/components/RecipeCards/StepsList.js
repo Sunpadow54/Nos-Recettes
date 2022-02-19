@@ -1,15 +1,21 @@
 /* Import Style */
 import "./recipeCards.scss";
 
-function StepsList({ steps }) {
+function StepsList({ steps, children }) {
+	const stepsList = children ? children : steps;
+
 	return (
 		<div className="card__body">
 			<h4 className="card__heading">Préparation</h4>
 			<ul className="card-list">
-				{steps.map((step, i) => (
+				{stepsList.map((step, i) => (
 					<li key={i} className="card-list__item">
 						<h5 className="card__subtitle">{`étape ${i + 1}:`}</h5>
-						<p className="card__text">{step}</p>
+						{children ? (
+							children[i]
+						) : (
+							<p className="card__text">{step}</p>
+						)}
 					</li>
 				))}
 			</ul>

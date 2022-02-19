@@ -45,14 +45,12 @@ $input-padding: 12px;
 		&:focus {
 			border-color: #32a1ce;
 		}
-
 		&:focus ~ label,
 		&:valid ~ label,
 		&[type="time"] ~ label {
 			@include label-top;
 		}
 	}
-
 	input {
 		&[type="time"],
 		&[type="number"] {
@@ -76,18 +74,65 @@ $input-padding: 12px;
 			}
 		}
 	}
-
 	textarea {
 		resize: none;
 	}
 }
 
-.input-group--resize {
+.input-group-row {
+    @include m.grid((5px repeat(3, 1fr) 24px), $g: (0 0.5rem), $align:center );
+    &--resizable {
+        @include m.flex($axis:(null,center), $g:0.5rem);
+    }
+        > div:first-of-type {
+            grid-column: 2 / 5;
+        }
+        > div:nth-child(2) {
+            margin-top: 1.5rem;
+            grid-column: 2 / 3;
+        }
+        > div:nth-child(3) {
+            margin-top: 1.5rem;
+            grid-column: 3 / 5;
+        }
+        > button {
+            grid-row: 1 / span 2;
+            grid-column: 5 / 6;
+        }
+        &::before {
+            @include m.before-after;
+            grid-column: 1 / 2;
+            grid-row: 1 / span 2;
+            background-color: lighten(v.$color-blue, 50%);
+            height: 100%;
+        }
+        @include m.desktop (785px) {
+            @include m.flex();
+            > div:first-of-type {
+                flex: 3;
+            }
+            > div:nth-child(2) {
+                flex:1;
+            }
+            > div:nth-child(3) {
+                flex:2;
+            }
+            > div:nth-child(2),div:nth-child(3) {
+                margin:0;
+            }
+            &::before {
+                display:none;
+            }
+        }
+}
+
+.input-group--resizable {
 	display: inline-grid;
 	grid-template-areas: "input";
 	align-items: center;
 	@include m.border(v.$color-lightgrey);
-	padding: $input-padding;
+	//padding: $input-padding;
+    padding: 0.3rem;
 	&::after {
 		content: attr(data-value) "";
 		visibility: hidden;
@@ -103,7 +148,7 @@ $input-padding: 12px;
 	textarea {
 		grid-area: input;
 		width: auto;
-		//min-width: 1em;
+		min-width: 1em;
 		font: inherit;
 		margin: 0;
 		padding: 0;
