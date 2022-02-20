@@ -16,6 +16,7 @@ $input-padding: 12px;
 	position: relative;
 	@include m.flex($axis: (null, center));
     z-index:0;
+    font: inherit;
 	&__label {
 		@include m.position(
 			absolute,
@@ -132,7 +133,7 @@ $input-padding: 12px;
 	align-items: center;
 	@include m.border(v.$color-lightgrey);
 	//padding: $input-padding;
-    padding: 0.3rem;
+    padding: v.$input-resize-pad;
 	&::after {
 		content: attr(data-value) "";
 		visibility: hidden;

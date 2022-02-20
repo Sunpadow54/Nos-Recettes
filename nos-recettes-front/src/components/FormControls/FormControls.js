@@ -13,13 +13,20 @@ const FormControls = forwardRef((props, ref) => {
 		options,
 		noRequired,
 		labelTop,
+		color,
 		...inputProps
 	} = props;
 
 	// Classes
 	const divClass = classNames(
 		"input-group",
-		resizable && "input-group--resizable"
+		resizable && inputProps.type !== "password" && "input-group--resizable"
+	);
+	const inputClass = classNames("input-group__control", color && color);
+	const labelClass = classNames(
+		"input-group__label",
+		labelTop && "input-group__label--top",
+		color && color
 	);
 
 	//
@@ -40,7 +47,7 @@ const FormControls = forwardRef((props, ref) => {
 			e.target.parentNode.dataset.value = ref.current.value;
 		}
 		if (onChange) {
-			onChange(e);
+			onChange(e); // ! remove later when use refs for all inputs ?
 		}
 		// change color of input if modified
 		e.target.classList.add("blue-txt");
@@ -50,24 +57,16 @@ const FormControls = forwardRef((props, ref) => {
 		<div className={divClass} data-value={inputProps.defaultValue}>
 			<CustomTagControl
 				{...inputProps}
-				//value={value}
 				required={!noRequired && true}
-				//onChange={onChange}
 				onChange={handleChange}
-				className="input-group__control"
+				className={inputClass}
 				ref={ref}
-				size={resizable && 1}
+				size={resizable && inputProps.type !== "password" ? 1 : "auto"}
 			>
 				{isSelect ? optionsMap : null}
 			</CustomTagControl>
 
-			<label
-				className={classNames(
-					"input-group__label",
-					labelTop && "input-group__label--top"
-				)}
-				htmlFor={inputProps.name}
-			>
+			<label className={labelClass} htmlFor={inputProps.name}>
 				{label}
 			</label>
 

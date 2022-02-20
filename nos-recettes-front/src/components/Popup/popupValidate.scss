@@ -1,0 +1,44 @@
+// -----------------------------------------------------------
+/*  popup validate */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../style/sass/variables" as v;
+@use "../../style/sass/mixins" as m;
+
+.popup-validate {
+	button {
+		margin: auto;
+	}
+}
+
+.popup {
+	@include m.position(fixed, $full: full);
+	@include m.flex(column, $axis: (center, center), $g: 2rem);
+	background-color: darken(v.$color-blue, 20%);
+	opacity: 0.92;
+	z-index: 2;
+	padding: 3rem;
+	@include m.desktop {
+		max-width: 600px;
+		max-height: 300px;
+		margin: auto;
+	}
+	p {
+		color: white;
+		text-align: center;
+		&::first-letter {
+			text-transform: capitalize;
+		}
+	}
+	&--hide {
+		display: none;
+	}
+	&__btns {
+		width: 100%;
+		@include m.flex($axis: center, $g: 1rem);
+		max-width: 400px;
+		& > button {
+			flex: 1;
+		}
+	}
+}

@@ -67,7 +67,7 @@ const userEditRules = () => {
 			.isLength({ min: 5 })
 			.matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[\w@\-%]+$/),
 		// Rules for new password
-		body("oldPassword")
+		body("password")
 			.notEmpty()
 			    .withMessage("this field is empty")
 			// if the new password is provided...

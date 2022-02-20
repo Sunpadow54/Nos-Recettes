@@ -50,7 +50,7 @@ exports.editUser = (req, res, next) => {
 	User.findOne({ id: req.params.id }) // ! use res.locals
 		// 1 : Confirm password
 		.then((user) => {
-			return checkPassword(req.body.oldPassword, user.pass);
+			return checkPassword(req.body.password, user.pass);
 		})
 		// 2 : If user send a new password Hash it
 		.then(() => {
@@ -63,7 +63,7 @@ exports.editUser = (req, res, next) => {
 			let userEdited = {
 				...req.body,
 			};
-			delete userEdited.oldPassword;
+			delete userEdited.password;
 			delete userEdited.newPassword;
 			// If user change password:
 			if (newPass) {
