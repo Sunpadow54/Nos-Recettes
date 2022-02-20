@@ -3,7 +3,6 @@
 ## Projet 
 
 Site de recettes pour les partager avec ses amis .
-(Apprentissage de React & exercices Postgresql :wink:)
 
 
 (work in progress :see_no_evil: :tada:)
@@ -18,16 +17,37 @@ node version 16.7.0
 npm install 
 ```
 
-### Lancer le projet
+### Environment variable
+
+Créer un fichier 📄 .env dans le dossier 📁 backend, pour tester en local.
+
+
+sample[^1] :
+
+```
+PORT=YOUR_PORT
+
+DB_HOST=YOUR_HOST
+DB_NAME=YOUR_DB_USERNAME
+DB_USER=YOUR_DB_USERNAME
+DB_PASS=YOUR_DB_PASWWORD
+
+TOKEN_KEY=YOUR_SECRET_JWTOKEN_KEY
+
+EMAIL_CRYPTO_KEY=SECRET_22_LENGTH_KEY
+```
+
+[^1]: :warning: l' EMAIL_CRYPTO_KEY doit contenir exactement 22 caractères
+
+## Lancer le projet en local
 
 <kbd> :file_folder: nos-recettes-front </kbd> :
 
-- Pour avoir accès au serveur de développement : `npm run start` 
-(définir un port différent du back dans un fichier .env)
+- Pour avoir accès au serveur de développement : `npm run start`
 
 <kbd> :file_folder: nos-recettes-back </kbd> :
 
-- `npm run start` 
+- `npm run start`
 
 
 ## Docs
