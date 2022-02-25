@@ -185,32 +185,39 @@ Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
                     SET
                         quantity = EXCLUDED.quantity::INTEGER,
                         unit = EXCLUDED.unit
-            )
-            `,
+                RETURNING quantity, unit
+            )`,
 			newIngredients,
 			idRecipe,
 			idRecipe
 		);
 	}
 
-	// format the inserts for the recipe
-	if (newRecipe.preparation) {
-		newRecipe.preparation = "{" + newRecipe.preparation.join(",") + "}";
-	}
-	let recipeInserts = [];
-	for (let key in newRecipe) {
-		recipeInserts.push(format("%s = %L", key, newRecipe[key]));
+    // Populate Query if other part changed
+	if (Object.keys(newRecipe).length !== 0) {
+		// format the inserts for the recipe
+		if (newRecipe.preparation) {
+			newRecipe.preparation = "{" + newRecipe.preparation.join(",") + "}";
+		}
+		let recipeInserts = [];
+		for (let key in newRecipe) {
+			recipeInserts.push(format("%s = %L", key, newRecipe[key]));
+		}
+		// Populate Query to change the recipe
+		query += format(
+			`updateRecipe AS (
+                UPDATE recipes 
+                    SET %s
+                WHERE id = %L
+                RETURNING %s as recipe
+            )`,
+			recipeInserts,
+			idRecipe
+		);
 	}
 
-	// Populate Query to change the recipe
-	query += format(
-		`UPDATE recipes 
-            SET %s
-        WHERE id = %L
-        ;`,
-		recipeInserts,
-		idRecipe
-	);
+    // Query return new Recipe;
+	query += format(`SELECT * FROM recipes WHERE id = %s ;`, idRecipe);
 
 	// ask db
 	return new Promise((resolve, reject) => {

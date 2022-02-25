@@ -21,10 +21,12 @@ exports.getOneRecipe = (req, res, next) => {
 
 exports.createRecipe = (req, res, next) => {
 	const newRecipe = new Recipe({
-		...req.body.recipe,
-		userId: 1, // ! use res.locals
+		...req.body,
+		userId: res.locals.userId,
 	}); // ! need to add file format
-
+	if (req.body.ingredients) {
+		delete newRecipe.ingredients;
+	}
 	Recipe.create(newRecipe, req.body.ingredients)
 		.then((newRecipe) => res.status(201).json({ newRecipe }))
 		.catch((error) => res.status(500).json({ error }));
@@ -43,8 +45,11 @@ exports.editRecipe = (req, res, next) => {
 
 			// user is author
 			const newRecipe = {
-				...req.body.recipe,
+				...req.body,
 			};
+			if (req.body.ingredients) {
+				delete newRecipe.ingredients;
+			}
 			const newIngredients = req.body.ingredients
 				? req.body.ingredients
 				: null;
