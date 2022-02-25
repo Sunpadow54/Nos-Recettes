@@ -4,7 +4,7 @@ import "./recipesList.scss";
 /* Import Components */
 import useFetch from "../../hooks/useFetch";
 import HeaderCard from "../RecipeCards/HeaderCard";
-import IngredientsList from "../RecipeCards/IngredientsList";
+import IngredientsPills from "../RecipeCards/IngredientsPills";
 
 function RecipesList({ query, title, titleIcon, small, border }) {
 	const createEndpoint = () => {
@@ -40,7 +40,7 @@ function RecipesList({ query, title, titleIcon, small, border }) {
 				recipes.map((recipe) => (
 					<article key={recipe.id} className={cardClass}>
 						<HeaderCard recipe={recipe} />
-						<IngredientsList ingredients={recipe.ingredients} />
+						<IngredientsPills ingredients={recipe.ingredients} />
 					</article>
 				))}
 		</>

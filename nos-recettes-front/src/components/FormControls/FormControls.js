@@ -1,18 +1,19 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 /* Import Style */
 import "./formControls.scss";
 
-const FormControls = forwardRef((props, ref) => {
+function FormControls(props) {
 	const {
 		resizable,
 		label,
 		onChange,
+		onKeyUp,
 		value,
 		formType,
 		options,
 		noRequired,
 		labelTop,
+		noLabel,
 		color,
 		...inputProps
 	} = props;
@@ -26,6 +27,7 @@ const FormControls = forwardRef((props, ref) => {
 	const labelClass = classNames(
 		"input-group__label",
 		labelTop && "input-group__label--top",
+		noLabel && "input-group__label--hide",
 		color && color
 	);
 
@@ -42,25 +44,27 @@ const FormControls = forwardRef((props, ref) => {
 
 	const CustomTagControl = formType ? formType : "input";
 
-	const handleChange = (e) => {
+	const handleStyle = (e) => {
 		if (resizable) {
-			e.target.parentNode.dataset.value = ref.current.value;
-		}
-		if (onChange) {
-			onChange(e); // ! remove later when use refs for all inputs ?
+			e.target.parentNode.dataset.value = e.target.value;
 		}
 		// change color of input if modified
 		e.target.classList.add("blue-txt");
 	};
 
 	return (
-		<div className={divClass} data-value={inputProps.defaultValue}>
+		<div className={divClass} data-value={value}>
 			<CustomTagControl
-				{...inputProps}
-				required={!noRequired && true}
-				onChange={handleChange}
 				className={inputClass}
-				ref={ref}
+				{...inputProps}
+				value={value}
+				required={!noRequired && true}
+				onChange={(e) => {
+					e.preventDefault();
+					onChange(e);
+					handleStyle(e);
+				}}
+				onKeyUp={onKeyUp}
 				size={resizable && inputProps.type !== "password" ? 1 : "auto"}
 			>
 				{isSelect ? optionsMap : null}
@@ -81,6 +85,6 @@ const FormControls = forwardRef((props, ref) => {
 			)}
 		</div>
 	);
-});
+}
 
 export default FormControls;

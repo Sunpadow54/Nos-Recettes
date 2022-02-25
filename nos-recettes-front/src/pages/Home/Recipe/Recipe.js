@@ -2,6 +2,8 @@ import { useContext } from "react";
 import { useParams } from "react-router-dom";
 /* Import Style */
 import "./recipe.scss";
+/* Import Icons */
+import { IoMdAdd } from "react-icons/io";
 /* Import Components */
 import { UserContext } from "../../../store/Store";
 import useFetch from "../../../hooks/useFetch";
@@ -15,7 +17,6 @@ import BtnBrand from "../../../components/Buttons/BtnBrand";
 import FormControls from "../../../components/FormControls/FormControls";
 import FormControlsList from "../../../components/FormControls/FormControlsList";
 
-
 function Recipe() {
 	const { id } = useParams();
 	const [currentUser] = useContext(UserContext);
@@ -25,17 +26,31 @@ function Recipe() {
 		auth: true,
 	});
 	const isMyRecipe = recipe && recipe.authorId === currentUser.id && true;
-    const { btnEdit, isEdit } = useToggleEdit();
+	const { btnEdit, isEdit } = useToggleEdit();
 
 	const {
-		inputsProps,
-		ingredients,
-		preparations,
+		state,
+		inputs,
+		inputStep,
+		inputIngredient,
+		handleAddInput,
 		handleRemoveInput,
-		handleSubmit,
-	} = useRecipeForm({ recipe });
-    
-	const inputsInfo = [inputsProps.duration, inputsProps.category];
+		handleEdit,
+	} = useRecipeForm(recipe);
+
+	const inputsInfo = [inputs.duration, inputs.category];
+
+	const BtnAdd = ({ label, type }) => {
+		return (
+			<BtnBrand
+				icon={<IoMdAdd />}
+				round
+				color="blue"
+				label={label}
+				onClick={() => handleAddInput(type)}
+			/>
+		);
+	};
 
 	return (
 		<div className="recipe-alone">
@@ -43,60 +58,84 @@ function Recipe() {
 				<>
 					<HeaderCard recipe={recipe} alone>
 						{isEdit && (
-							<FormControls {...inputsProps.title} resizable />
+							<FormControls {...inputs.title} resizable noLabel />
 						)}
 					</HeaderCard>
+					<InfosCard recipe={recipe}>
+						{isEdit &&
+							inputsInfo.map((input, i) => (
+								<FormControls
+									key={i}
+									{...input}
+									resizable
+									noLabel
+								/>
+							))}
+					</InfosCard>
 
 					{isMyRecipe && (
 						<div className="recipe-alone__edit-btn">{btnEdit}</div>
 					)}
 
-					<InfosCard recipe={recipe}>
-						{isEdit &&
-							inputsInfo.map((input, i) => (
-								<FormControls key={i} {...input} resizable />
-							))}
-					</InfosCard>
-
-					<IngredientsList ingredients={recipe.ingredients} alone>
-						{isEdit &&
-							ingredients.map((ingredient, i) => (
-								<FormControlsList
-									key={ingredient}
-									index={i}
-									inputprops={inputsProps.ingredients[i]}
-									resizable
-									handleRemoveInput={(e) => {
-										handleRemoveInput("ingredients", i);
-									}}
+					<div className="recipe-alone__ing">
+						<IngredientsList ingredients={recipe.ingredients}>
+							{isEdit &&
+								state.ingredients.map((ingredient, i) => (
+									<FormControlsList
+										key={i}
+										inputprops={inputIngredient[i]}
+										resizable
+										noLabel
+										handleRemoveInput={(e) => {
+											handleRemoveInput("removeIng", i);
+										}}
+									/>
+								))}
+						</IngredientsList>
+						{isEdit && (
+							<div className="btn-add">
+								<BtnAdd
+									label="Ajouter un ingrédient"
+									type="addIng"
 								/>
-							))}
-					</IngredientsList>
+							</div>
+						)}
+					</div>
 
-					<StepsList steps={recipe.preparation}>
-						{isEdit &&
-							preparations.map((step, i) => (
-								<FormControlsList
-									key={step}
-									index={i}
-									inputprops={inputsProps.preparation[i]}
-									handleRemoveInput={(e) => {
-										handleRemoveInput("preparations", i);
-									}}
+					<div className="recipe-alone__prep">
+						<StepsList steps={recipe.preparation}>
+							{isEdit &&
+								state.preparation.map((step, i) => (
+									<FormControlsList
+										key={i}
+										noLabel
+										inputprops={inputStep[i]}
+										handleRemoveInput={(e) => {
+											handleRemoveInput("removeSteps", i);
+										}}
+									/>
+								))}
+						</StepsList>
+						{isEdit && (
+							<div className="btn-add">
+								<BtnAdd
+									label="Ajouter une étape"
+									type="addSteps"
 								/>
-							))}
-					</StepsList>
+							</div>
+						)}
+					</div>
+
 					{isEdit && (
 						<BtnBrand
 							type="submit"
 							text="Enregistrer"
 							color="green"
-							onClick={handleSubmit}
+							onClick={handleEdit}
 						/>
 					)}
 				</>
 			)}
-			{error && <p>{error}</p>}
 		</div>
 	);
 }

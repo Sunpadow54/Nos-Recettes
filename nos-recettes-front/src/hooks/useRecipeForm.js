@@ -1,153 +1,274 @@
-import { useState, createRef, useMemo, useEffect } from "react";
+import { useEffect, useReducer, useState, useMemo } from "react";
+import useFetch from "./useFetch";
 
-function useRecipeForm({ recipe }) {
-	const [preparations, setPreparations] = useState([""]);
-	const [ingredients, setIngredients] = useState([]);
-
-	// ----- Refs create
-	const stepsRefs = useMemo(() => {
-		let refs = [];
-		preparations.forEach((step, i) => {
-			refs[i] = createRef(null);
+// function compare (for edit)
+function hasChange(obj, oldObj) {
+	if (obj.length !== oldObj.length) return true;
+	const array = Object.values(obj); // cause obj is collection array
+	if (array.some((e) => Array.isArray(e))) {
+		let result = false;
+		array.forEach((element, i) => {
+			result = element.some((el, j) => el !== oldObj[i][j]);
 		});
-		return refs;
-	}, [preparations]);
+		return result;
+	}
+	return array.some((element, i) => element !== oldObj[i]);
+}
 
-	const ingredientsRefs = useMemo(() => {
-		let refs = [];
-		ingredients.forEach((ingredient, i) => {
-			refs[i] = [];
-			ingredient.forEach((part, x) => {
-				refs[i][x] = createRef(null);
+function reducerRecipeForm(state, action) {
+	switch (action.type) {
+		case "update_all": {
+			return { ...action.old };
+		}
+		case "update":
+			return { ...state, [action.key]: action.value };
+		case "updateSteps":
+			return {
+				...state,
+				preparation: state.preparation.map((el, i) =>
+					i === action.i ? action.value : el
+				),
+			};
+		case "updateIngr":
+			return {
+				...state,
+				ingredients: state.ingredients.map((ing, i) =>
+					i === action.i
+						? ing.map((e, j) => (j === action.j ? action.value : e))
+						: ing
+				),
+			};
+		case "addSteps":
+			return {
+				...state,
+				preparation: [...state.preparation, ""],
+			};
+		case "addIng":
+			return {
+				...state,
+				ingredients: [...state.ingredients, ["", "", ""]],
+			};
+		case "removeSteps":
+			let newSteps = [...state.preparation];
+			newSteps.splice(action.index, 1);
+			return { ...state, preparation: newSteps };
+		case "removeIng":
+			let newIng = [...state.ingredients];
+			newIng.splice(action.index, 1);
+			return { ...state, ingredients: newIng };
+		default:
+			return;
+	}
+}
+
+const initialForm = {
+	title: "",
+	duration: "",
+	category: "",
+	preparation: [""],
+	ingredients: [["", "", ""]],
+};
+
+function useRecipeForm(recipe) {
+	const [state, dispatch] = useReducer(reducerRecipeForm, initialForm);
+	const [recipeForm, setRecipeForm] = useState(null);
+	const [suggestedOptions, setsuggestedOptions] = useState([]);
+	const { data: allIngredients } = useFetch({
+		endpoint: "/ingredient",
+		method: "GET",
+		auth: true,
+	});
+	const allUnits = [
+		"mg",
+		"g",
+		"kg",
+		"ml",
+		"cl",
+		"l",
+		"tasse",
+		"pincée",
+		"cuillère à café",
+		"cuillère à soupe",
+		"noix",
+		"noisette",
+	];
+	const { data: newRecipe, sendToApi } = useFetch({
+		endpoint: recipe ? "/recipe/" + recipe.id : "/recipe",
+		method: recipe ? "PUT" : "POST",
+		body: recipeForm,
+		wait: true,
+		auth: true,
+	});
+
+	// --------- Handles
+
+	const handleInputChange = (e) => {
+		const { value } = e.target;
+		const arrayName = e.target.name.split("-");
+		const name = arrayName[0];
+		// for ingredients
+		if (arrayName[2]) {
+			dispatch({
+				type: "updateIngr",
+				i: parseInt(arrayName[1]),
+				j: parseInt(arrayName[2]),
+				value: value,
 			});
-		});
-		return refs;
-	}, [ingredients]);
-
-	const formRefs = {
-		title: createRef(null),
-		duration: createRef(null),
-		category: createRef(null),
-		preparation: stepsRefs,
-		ingredients: ingredientsRefs,
-	};
-
-	// ----- Functions Create inputs Props
-	const createPropsPreps = () => {
-		let props = [];
-		preparations.forEach((step, i) => {
-			props.push({
-				formType: "textarea",
-				name: `preparation-${i}`,
-				ref: formRefs.preparation[i],
-				defaultValue: step,
+			// for preparations
+		} else if (arrayName[1]) {
+			dispatch({
+				type: "updateSteps",
+				i: parseInt(arrayName[1]),
+				value: value,
 			});
-		});
-		return props;
-	};
-	const createPropsIngr = () => {
-		let props = [];
-		ingredients.forEach((ing, i) => {
-			props.push([
-				{
-					type: "text",
-					name: `ingredients-${i}-0`,
-					//label: `ingrédient ${i + 1}`,
-					ref: formRefs.ingredients[i][0],
-					options: ["truc", "chose", "bidule"],
-					list: "ingredients",
-					defaultValue: ing[0],
-				},
-				{
-					type: "number",
-					name: `ingredients-${i}-1`,
-					//label: `qté`,
-					ref: formRefs.ingredients[i][1],
-					//labelTop: true,
-					defaultValue: ing[1],
-				},
-				{
-					type: "text",
-					name: `ingredients-${i}-2`,
-					//label: "mesure",
-					ref: formRefs.ingredients[i][2],
-					options: ["truc", "chose", "bidule"],
-					list: "units",
-					noRequired: true,
-					defaultValue: ing[2],
-				},
-			]);
-		});
-		return props;
+		} else {
+			dispatch({ type: "update", key: name, value: value });
+		}
 	};
 
-	// All inputs props
-	const inputsProps = {
+	const handleAutoComplete = (e, arrayToSearch) => {
+		if (e.target.value !== "") {
+			const result = arrayToSearch.filter((element) =>
+				element.startsWith(e.target.value)
+			);
+			setsuggestedOptions(result);
+		}
+	};
+
+	const handleAddInput = (type) => {
+		dispatch({ type: type });
+	};
+
+	const handleRemoveInput = (type, index) => {
+		dispatch({ type: type, index: index });
+	};
+
+	const handleCreate = (e) => {
+		e.preventDefault();
+		setRecipeForm(state);
+		sendToApi();
+	};
+
+	const handleEdit = (e) => {
+		e.preventDefault();
+		let data = {};
+		for (const [key, value] of Object.entries(state)) {
+			if (typeof value === "string" && value !== recipe[key]) {
+				data[key] = value;
+			} else if (hasChange(value, recipe[key])) {
+				data[key] = value;
+			}
+		}
+		setRecipeForm(data);
+		sendToApi();
+	};
+
+	// --------- Props
+
+	const inputs = {
 		title: {
 			type: "text",
 			name: "title",
-			//label: "Titre",
-			defaultValue: recipe && recipe.title,
-			ref: formRefs.title,
+			label: "Titre",
+			value: state.title,
+			onChange: handleInputChange,
 		},
 		duration: {
 			type: "time",
 			name: "duration",
-			//label: "durée",
-			defaultValue: recipe && recipe.duration,
-			ref: formRefs.duration,
+			label: "temps de préparation :",
+			value: state.duration,
+			onChange: handleInputChange,
 		},
 		category: {
 			formType: "select",
 			name: "category",
-			//label: "catégorie",
-			defaultValue: recipe && recipe.category,
+			label: "choisissez une catégorie",
+			value: state.category,
 			options: ["entrée", "plat", "dessert", "autre"],
-			ref: formRefs.category,
+			onChange: handleInputChange,
 		},
-		preparation: createPropsPreps(),
-		ingredients: createPropsIngr(),
 	};
 
-	// -------- Handles
+	const inputStep = useMemo(() => {
+		let props = [];
+		state.preparation.forEach((step, i) => {
+			props.push({
+				formType: "textarea",
+				name: `preparation-${i}`,
+				label: `étape ${i + 1}`,
+				value: state.preparation[i],
+				onChange: handleInputChange,
+			});
+		});
+		return props;
+	}, [state.preparation]);
 
-	const handleRemoveInput = (inputType, index) => {
-		let newData;
-		if (inputType === "ingredients") {
-			newData = ingredients;
-			newData.splice(index, 1); // remove
-			setIngredients([...newData]);
-		}
-		if (inputType === "preparations") {
-			newData = preparations;
-			newData.splice(index, 1); // remove
-			setPreparations([...newData]);
-		}
-	};
-
-	const handleSubmit = () => {
-		console.log("submit");
-	};
+	const inputIngredient = useMemo(() => {
+		let props = [];
+		state.ingredients.forEach((ing, i) => {
+			props.push([
+				{
+					type: "text",
+					name: `ingredients-${i}-0`,
+					label: `ingrédient ${i + 1}`,
+					value: state.ingredients[i][0],
+					options: suggestedOptions,
+					list: "ingredients",
+					onChange: handleInputChange,
+					onKeyUp: (e) => handleAutoComplete(e, allIngredients),
+				},
+				{
+					type: "number",
+					name: `ingredients-${i}-1`,
+					label: `quantité`,
+					value: state.ingredients[i][1],
+					onChange: handleInputChange,
+				},
+				{
+					type: "text",
+					name: `ingredients-${i}-2`,
+					label: "unité de mesure",
+					value: state.ingredients[i][2],
+					options: suggestedOptions,
+					list: "units",
+					noRequired: true,
+					onChange: handleInputChange,
+					onKeyUp: (e) => handleAutoComplete(e, allUnits),
+				},
+			]);
+		});
+		return props;
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [state.ingredients, suggestedOptions]);
 
 	// --------- Effects
+
 	useEffect(() => {
 		if (recipe) {
-			setPreparations(recipe.preparation);
-			setIngredients(
-				recipe.ingredients.map((e) => {
-					return Object.values(e);
-				})
+			const formatIngr = recipe.ingredients.map((ing) =>
+				Object.values(ing)
 			);
+			const oldRecipeState = {
+				title: recipe.title,
+				duration: recipe.duration,
+				category: recipe.category,
+				preparation: recipe.preparation,
+				ingredients: formatIngr,
+			};
+			dispatch({ type: "update_all", old: oldRecipeState });
 		}
 	}, [recipe]);
 
 	return {
-		formRefs,
-		inputsProps,
-		ingredients,
-		preparations,
+		state,
+		inputs,
+		handleAddInput,
 		handleRemoveInput,
-		handleSubmit,
+		inputStep,
+		inputIngredient,
+		handleCreate,
+		handleEdit,
 	};
 }
 

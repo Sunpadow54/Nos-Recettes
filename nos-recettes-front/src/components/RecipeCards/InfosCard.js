@@ -16,7 +16,7 @@ function InfosCard({ recipe, children }) {
 	const urlFormated = `/profil/${authorId}`;
 	const infos = [
 		{
-			content: children ? children[0] : timeFormat(duration),
+			content: children ? children[0] : <p>{timeFormat(duration)}</p>,
 			icon: RiTimerLine,
 		},
 		{
@@ -24,7 +24,7 @@ function InfosCard({ recipe, children }) {
 			icon: GrRestaurant,
 		},
 		{
-			content: children ? children[1] : category,
+			content: children ? children[1] : <p>{category}</p>,
 			icon: BiDish,
 		},
 	];

@@ -6,6 +6,24 @@
 @use "../../../style/sass/mixins" as m;
 
 .recipe-alone {
-	@include m.grid(1fr, (500px auto));
-	gap: v.$card-gap;
+	@include m.grid(1fr, (500px auto), $g: v.$card-gap);
+	// gap: v.$card-gap;
+	&__edit-btn {
+		justify-self: end;
+	}
+	&__ing,
+	&__prep {
+		//@include m.flex(column);
+		position: relative;
+		//padding: 2rem 0;
+	}
+	> button:last-of-type {
+		margin-top: 1rem;
+		justify-self: center;
+	}
+}
+
+.btn-add {
+	align-self: flex-end;
+	@include m.position(absolute, $r: 0);
 }

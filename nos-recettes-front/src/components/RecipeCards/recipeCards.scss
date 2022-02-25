@@ -89,6 +89,9 @@
 		&:nth-child(2) {
 			text-transform: capitalize;
 		}
+		p {
+			padding: v.$input-resize-pad;
+		}
 	}
 }
 
@@ -107,6 +110,9 @@
 	@include m.flex(column, $g: 1.7rem);
 	&__item {
 		font: 15px Raleway;
+		p {
+			padding: v.$input-resize-pad;
+		}
 	}
 	&--styled {
 		gap: 0.8rem;

@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { Link } from "react-router-dom";
 import classNames from "classnames";
 /* Import Style */
@@ -7,12 +8,13 @@ import placeholderImg from "../../style/images/lukas-blazek-f-TWhXOrLiU-unsplash
 
 function HeaderCard({ recipe, alone, children }) {
 	const { id, img, title, date } = recipe;
-
 	const urlFormated = `/${title.toLowerCase().replace(/\s/g, "-")}/${id}`;
-
-	const ConditionalLink = ({ children }) =>
-		alone ? <>{children}</> : <Link to={urlFormated}>{children}</Link>;
-
+	const ConditionalLink = useCallback(
+		({ children }) =>
+			alone ? <>{children}</> : <Link to={urlFormated}>{children}</Link>,
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[alone]
+	);
 	const NewFlag = () => {
 		const month = 2629746000; // in ms
 		const diff = Date.now() - new Date(date);
@@ -20,7 +22,7 @@ function HeaderCard({ recipe, alone, children }) {
 		return isNew ? <span className="card-header__new">New</span> : null;
 	};
 
-	const test = (
+	return (
 		<div className="card-header">
 			<ConditionalLink>
 				<div className="card-header__img">
@@ -43,7 +45,6 @@ function HeaderCard({ recipe, alone, children }) {
 			</ConditionalLink>
 		</div>
 	);
-	return test;
 }
 
 export default HeaderCard;
