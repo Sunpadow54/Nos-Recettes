@@ -64,7 +64,7 @@ function Login() {
                     <h1>Nos Recettes</h1>
                 </header>
                 <main className="login-card__form">
-                    <h2>connection</h2>
+                    <h2>connexion</h2>
                     <form autoComplete="off" id="login" className="login-form">
                         <FormControls
                             type="text"
