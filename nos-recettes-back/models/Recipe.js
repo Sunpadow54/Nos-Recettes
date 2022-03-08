@@ -46,6 +46,7 @@ Recipe.create = (newRecipe, ingredients) => {
         FROM insertRecipe AS r, data AS d
         INNER JOIN insertIngredients AS ing
             ON d.ingredient = ing.name
+        RETURNING id_recipe as id
         ;`;
 	// ask db
 	return new Promise((resolve, reject) => {
@@ -53,7 +54,7 @@ Recipe.create = (newRecipe, ingredients) => {
 			// error
 			if (err) return reject(err);
 			// success
-			resolve(res);
+			resolve(res.rows[0]);
 		});
 	});
 };
@@ -193,7 +194,7 @@ Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
 		);
 	}
 
-    // Populate Query if other part changed
+	// Populate Query if other part changed
 	if (Object.keys(newRecipe).length !== 0) {
 		// format the inserts for the recipe
 		if (newRecipe.preparation) {
@@ -216,7 +217,7 @@ Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
 		);
 	}
 
-    // Query return new Recipe;
+	// Query return new Recipe;
 	query += format(`SELECT * FROM recipes WHERE id = %s ;`, idRecipe);
 
 	// ask db

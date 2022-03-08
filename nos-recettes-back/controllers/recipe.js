@@ -9,14 +9,23 @@ const Recipe = require("../models/Recipe");
 
 exports.getAllRecipes = (req, res, next) => {
 	Recipe.findAll(req.query)
-		.then((recipes) => res.status(201).json(recipes))
-		.catch((error) => res.status(500).json({ error }));
+		.then((recipes) => res.status(200).json(recipes))
+		.catch((error) => res.status(500).json(error));
 };
 
 exports.getOneRecipe = (req, res, next) => {
 	Recipe.findOne(req.params.id)
-		.then((recipe) => res.status(201).json(recipe))
-		.catch((error) => res.status(500).json({ error }));
+		.then((recipe) => {
+			if (recipe === undefined) {
+				let error = new Error("recipe not found");
+				error.status = 404;
+				throw error;
+			}
+			res.status(200).json(recipe);
+		})
+		.catch((error) => {
+			res.status(error.status || 500).json(error.message);
+		});
 };
 
 exports.createRecipe = (req, res, next) => {
@@ -24,11 +33,14 @@ exports.createRecipe = (req, res, next) => {
 		...req.body,
 		userId: res.locals.userId,
 	}); // ! need to add file format
+
 	if (req.body.ingredients) {
 		delete newRecipe.ingredients;
 	}
 	Recipe.create(newRecipe, req.body.ingredients)
-		.then((newRecipe) => res.status(201).json({ newRecipe }))
+		.then((idRecipe) => {
+			res.status(201).json(idRecipe);
+		})
 		.catch((error) => res.status(500).json({ error }));
 };
 
@@ -75,9 +87,9 @@ exports.deleteRecipe = (req, res, next) => {
 			const ids = { recipeId: req.params.id, userId: 1 }; // ! use res.locals
 
 			Recipe.delete(ids)
-				.then((deletedRecipe) =>
-					res.status(201).json({ deletedRecipe })
-				)
+				.then((deletedRecipe) => {
+					res.status(200).json("recipe deleted");
+				})
 				.catch((error) => res.status(500).json({ error }));
 		})
 		.catch((error) => res.status(500).json({ error }));
