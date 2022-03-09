@@ -16,57 +16,72 @@ describe("Recipes", () => {
 		await db.end();
 	});
 
-	it("GET /recipes ---> array of recipes", () => {
-		return request(app)
-			.get("/api/recipe")
-			.set("Authorization", `Bearer ${token}`)
-			.expect("Content-Type", /json/)
-			.expect(200)
-			.then((response) => {
-				expect(response.body).toEqual(
-					expect.arrayContaining([
-						expect.objectContaining({
-							id: expect.any(Number),
-							id_user: expect.any(Number),
-							date: expect.any(String),
-							duration: expect.any(String),
-							title: expect.any(String),
-							img: expect.any(String || null),
-							ingredients: expect.arrayContaining([
-								expect.any(String),
-							]),
-						}),
-					])
-				);
-			});
+    // Tests
+	describe("requests without Bearer token", () => {
+		it("---> 401 Unauthorized", async () => {
+			const req = request(app);
+			return Promise.all([
+				req.get("/api/recipe").expect(401),
+				req.get("/api/recipe/3").expect(401),
+				req.post("/api/recipe").expect(401),
+				req.put("/api/recipe/3").expect(401),
+				req.delete("/api/recipe/3").expect(401),
+			]);
+		});
 	});
 
-	it("GET /recipes?params ---> array of recipes", () => {
-		return request(app)
-			.get("/api/recipe?category=plat")
-			.set("Authorization", `Bearer ${token}`)
-			.expect("Content-Type", /json/)
-			.expect(200)
-			.then((response) => {
-				expect(response.body).toEqual(
-					expect.arrayContaining([
-						expect.objectContaining({
-							id: expect.any(Number),
-							id_user: expect.any(Number),
-							date: expect.any(String),
-							duration: expect.any(String),
-							title: expect.any(String),
-							img: expect.any(String || null),
-							ingredients: expect.arrayContaining([
-								expect.any(String),
-							]),
-						}),
-					])
-				);
-			});
+	describe("GET /recipe", () => {
+		it("---> array of all recipes", async () => {
+			return request(app)
+				.get("/api/recipe")
+				.set("Authorization", `Bearer ${token}`)
+				.expect("Content-Type", /json/)
+				.expect(200)
+				.then((response) => {
+					expect(response.body).toEqual(
+						expect.arrayContaining([
+							expect.objectContaining({
+								id: expect.any(Number),
+								id_user: expect.any(Number),
+								date: expect.any(String),
+								duration: expect.any(String),
+								title: expect.any(String),
+								img: expect.any(String || null),
+								ingredients: expect.arrayContaining([
+									expect.any(String),
+								]),
+							}),
+						])
+					);
+				});
+		});
+		it("?params ---> specific array of recipes", async () => {
+			return request(app)
+				.get("/api/recipe?category=plat")
+				.set("Authorization", `Bearer ${token}`)
+				.expect("Content-Type", /json/)
+				.expect(200)
+				.then((response) => {
+					expect(response.body).toEqual(
+						expect.arrayContaining([
+							expect.objectContaining({
+								id: expect.any(Number),
+								id_user: expect.any(Number),
+								date: expect.any(String),
+								duration: expect.any(String),
+								title: expect.any(String),
+								img: expect.any(String || null),
+								ingredients: expect.arrayContaining([
+									expect.any(String),
+								]),
+							}),
+						])
+					);
+				});
+		});
 	});
 
-	it("POST /recipe ----> Recipe created", () => {
+	it("POST /recipe ----> created recipe", async () => {
 		return request(app)
 			.post("/api/recipe")
 			.set("Authorization", `Bearer ${token}`)
@@ -87,49 +102,125 @@ describe("Recipes", () => {
 					id: expect.any(Number),
 				});
 				idRecipe = response.body.id;
+				console.log(idRecipe);
 			});
 	});
 
-	it("GET /recipe/id ----> specific recipe by Id", () => {
-		return request(app)
-			.get(`/api/recipe/${idRecipe}`)
-			.set("Authorization", `Bearer ${token}`)
-			.expect("Content-Type", /json/)
-			.expect(200)
-			.then((response) => {
-				expect(response.body).toEqual(
-					expect.objectContaining({
-						id: expect.any(Number),
-						author: expect.any(String),
-						authorId: expect.any(Number),
-						date: expect.any(String),
-						duration: expect.any(String),
-						title: expect.any(String),
-						img: expect.any(String || null),
-						category: expect.any(String),
-						preparation: expect.arrayContaining([
-							expect.any(String),
-						]),
-						ingredients: expect.arrayContaining([
-							expect.objectContaining({
-								name: expect.any(String),
-								quantity: expect.any(Number),
-								unit: expect.any(String),
-							}),
-						]),
-					})
-				);
-			});
+	describe("GET /recipe/id ", () => {
+		it("----> specific recipe by Id", async () => {
+			return request(app)
+				.get(`/api/recipe/${idRecipe}`)
+				.set("Authorization", `Bearer ${token}`)
+				.expect("Content-Type", /json/)
+				.expect(200)
+				.then((response) => {
+					expect(response.body).toEqual(
+						expect.objectContaining({
+							id: expect.any(Number),
+							author: expect.any(String),
+							authorId: expect.any(Number),
+							date: expect.any(String),
+							duration: expect.any(String),
+							title: expect.any(String),
+							img: expect.any(String || null),
+							category: expect.any(String),
+							preparation: expect.arrayContaining([
+								expect.any(String),
+							]),
+							ingredients: expect.arrayContaining([
+								expect.objectContaining({
+									name: expect.any(String),
+									quantity: expect.any(Number),
+									unit: expect.any(String),
+								}),
+							]),
+						})
+					);
+				});
+		});
+
+		it("----> 404 if not found", async () => {
+			return request(app)
+				.get("/api/recipe/99999999")
+				.set("Authorization", `Bearer ${token}`)
+				.expect(404);
+		});
 	});
 
-	it("GET /recipe/id ----> 404 if not found", () => {
-		return request(app)
-			.get("/api/recipe/99999999")
-			.set("Authorization", `Bearer ${token}`)
-			.expect(404);
+	describe("PUT /recipe/id", () => {
+		it("----> edited recipe", async () => {
+			return request(app)
+				.put(`/api/recipe/${idRecipe}`)
+				.set("Authorization", `Bearer ${token}`)
+				.send({
+					title: "titre de la recette edited",
+					preparation: ["étape1blablab", "étape2 : edit", "edit end"],
+					ingredients: [
+						["concombres", 2, "gros"],
+						["lasagne", 3, "boite"],
+						["tomates", 4, "grosses"],
+						["beurre", 20, "g"],
+					],
+				})
+				.expect(200)
+				.then((response) => {
+					expect(response.body).toEqual({
+						title: "titre de la recette edited",
+						preparation: [
+							"étape1blablab",
+							"étape2 : edit",
+							"edit end",
+						],
+						ingredients: [
+							{ name: "concombres", quantity: 2, unit: "gros" },
+							{ name: "lasagne", quantity: 3, unit: "boite" },
+							{ name: "tomates", quantity: 4, unit: "grosses" },
+							{ name: "beurre", quantity: 20, unit: "g" },
+						],
+					});
+				});
+		});
+
+		it("----> edited recipe only ingredients", async () => {
+			return request(app)
+				.put(`/api/recipe/${idRecipe}`)
+				.set("Authorization", `Bearer ${token}`)
+				.send({
+					ingredients: [
+						["concombres", 2, "gros"],
+						["lasagne", 3, "boite"],
+						["tomates", 4, "grosses"],
+					],
+				})
+				.expect(200)
+				.then((response) => {
+					expect(response.body).toEqual({
+						ingredients: [
+							{ name: "concombres", quantity: 2, unit: "gros" },
+							{ name: "lasagne", quantity: 3, unit: "boite" },
+							{ name: "tomates", quantity: 4, unit: "grosses" },
+						],
+					});
+				});
+		});
+
+		it("----> edited recipe without ingredients", async () => {
+			return request(app)
+				.put(`/api/recipe/${idRecipe}`)
+				.set("Authorization", `Bearer ${token}`)
+				.send({
+					title: "titre de la recette edited3",
+				})
+				.expect(200)
+				.then((response) => {
+					expect(response.body).toEqual({
+						title: "titre de la recette edited3",
+					});
+				});
+		});
 	});
 
-	it("DELETE /recipe/id --> return deleted recipe id", () => {
+	it("DELETE /recipe/id --> return deleted recipe id", async () => {
 		return request(app)
 			.delete(`/api/recipe/${idRecipe}`)
 			.set("Authorization", `Bearer ${token}`)

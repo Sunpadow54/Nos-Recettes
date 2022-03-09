@@ -4,7 +4,7 @@
   "description": "intern app to share recipes",
   "main": "server.js",
   "scripts": {
-    "test": "jest --detectOpenHandles",
+    "test": "jest",
     "start": "nodemon server"
   },
   "repository": {
