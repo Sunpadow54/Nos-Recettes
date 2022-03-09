@@ -67,8 +67,8 @@ exports.editRecipe = (req, res, next) => {
 				: null;
 
 			Recipe.edit(newIngredients, newRecipe, req.params.id)
-				.then((editedRecipe) => res.status(201).json({ editedRecipe }))
-				.catch((error) => res.status(500).json({ error }));
+				.then((editedRecipe) => res.status(200).json(editedRecipe))
+				.catch((error) => res.status(320).json({ error }));
 		})
 		.catch((error) => res.status(500).json({ error }));
 };

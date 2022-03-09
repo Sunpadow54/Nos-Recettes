@@ -160,7 +160,7 @@ Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
 	// initialize the DB Query
 	let query = "";
 
-	// Populate Query if the ingredients are changed
+	// Populate Query if the ingredients have changed
 	if (newIngredients) {
 		query += format(
 			`WITH data(ingredient, quantity, unit) AS (
@@ -186,17 +186,24 @@ Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
                     SET
                         quantity = EXCLUDED.quantity::INTEGER,
                         unit = EXCLUDED.unit
-                RETURNING quantity, unit
-            )`,
+            ) `,
 			newIngredients,
 			idRecipe,
 			idRecipe
 		);
+		// Complete query if there is no change in the recipe
+		if (Object.keys(newRecipe).length === 0) {
+			query += `SELECT 
+                    JSON_AGG(
+                        JSON_BUILD_OBJECT('name', ingredient, 'quantity', quantity::INTEGER, 'unit', unit )
+                    ) AS ingredients
+                FROM data ;`;
+		}
 	}
 
-	// Populate Query if other part changed
+	// Populate Query if the recipe changed
 	if (Object.keys(newRecipe).length !== 0) {
-		// format the inserts for the recipe
+		// format inserts preparations && || recipe
 		if (newRecipe.preparation) {
 			newRecipe.preparation = "{" + newRecipe.preparation.join(",") + "}";
 		}
@@ -204,21 +211,32 @@ Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
 		for (let key in newRecipe) {
 			recipeInserts.push(format("%s = %L", key, newRecipe[key]));
 		}
-		// Populate Query to change the recipe
+		// Start query
+		query += newIngredients ? ",updateRecipe AS (" : "";
 		query += format(
-			`updateRecipe AS (
-                UPDATE recipes 
+			`UPDATE recipes 
                     SET %s
                 WHERE id = %L
-                RETURNING %s as recipe
-            )`,
+            RETURNING ${Object.keys(newRecipe)}
+            `,
 			recipeInserts,
 			idRecipe
 		);
+		// End query
+		query += newIngredients
+			? `)
+            SELECT updateRecipe.*, data.ingredients
+            FROM updateRecipe 
+            CROSS JOIN ( 
+                SELECT
+                    JSON_AGG(
+                        JSON_BUILD_OBJECT('name', ingredient, 'quantity', quantity::INTEGER, 'unit', unit )
+                    ) AS ingredients
+                    FROM data
+                ) data
+            ;`
+			: ";";
 	}
-
-	// Query return new Recipe;
-	query += format(`SELECT * FROM recipes WHERE id = %s ;`, idRecipe);
 
 	// ask db
 	return new Promise((resolve, reject) => {
@@ -226,7 +244,7 @@ Recipe.edit = (newIngredients, newRecipe, idRecipe) => {
 			// error
 			if (err) return reject(err);
 			// success
-			resolve(res);
+			resolve(res.rows[0]);
 		});
 	});
 };
