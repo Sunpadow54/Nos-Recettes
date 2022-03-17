@@ -8,6 +8,7 @@
     "dev": "set NODE_ENV=development&& nodemon server"
   },
   "jest": {
+    "verbose": true,
     "setupFilesAfterEnv" : ["<rootDir>/tests/jestSetup.js"]
   },
   "repository": {
