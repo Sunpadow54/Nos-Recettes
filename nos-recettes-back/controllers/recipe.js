@@ -15,14 +15,7 @@ exports.getAllRecipes = (req, res, next) => {
 
 exports.getOneRecipe = (req, res, next) => {
 	Recipe.findOne(req.params.id)
-		.then((recipe) => {
-			if (recipe === undefined) {
-				let error = new Error("recipe not found");
-				error.status = 404;
-				throw error;
-			}
-			res.status(200).json(recipe);
-		})
+		.then((recipe) => res.status(200).json(recipe))
 		.catch((error) => {
 			res.status(error.status || 500).json(error.message);
 		});

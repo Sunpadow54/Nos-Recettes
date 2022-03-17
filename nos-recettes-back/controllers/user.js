@@ -43,7 +43,7 @@ exports.createUser = (req, res, next) => {
 			return User.create(newUser);
 		})
 		.then((message) => res.status(201).json({ message }))
-		.catch((error) => res.status(500).json({ error }));
+		.catch((error) => res.status(error.status || 500).json(error.message));
 };
 
 exports.editUser = (req, res, next) => {
@@ -92,7 +92,7 @@ exports.editUser = (req, res, next) => {
 			// custom error and status code
 			const code = error.code ? error.code : 500;
 			const message = error.message ? error.message : error;
-			res.status(501).json({ error: message });
+			res.status(501).json(error.message);
 		});
 };
 
@@ -101,12 +101,23 @@ exports.getOneUser = (req, res, next) => {
 		.then((user) => {
 			const userData = {
 				username: user.username,
-				email: decryptEmail(user.email),
 				lastname: user.lastname,
 				firstname: user.firstname,
-				nbrRecipes: user.nbr,
+				nbrRecipes: user.nbr === null ? 0 : user.nbr,
 			};
-			res.status(201).json(userData);
+			// add email if user searched is current user
+			if (parseInt(req.params.id) === res.locals.userId) {
+				userData["email"] = decryptEmail(user.email);
+			}
+			res.status(200).json(userData);
 		})
-		.catch((error) => res.status(500).json({ error }));
+		.catch((error) => res.status(error.status || 500).json(error.message));
+};
+
+exports.delete = (req, res, next) => {
+	User.delete(req.params.id)
+		.then((message) => {
+			res.status(200).json(message);
+		})
+		.catch((error) => res.status(error.status || 500).json(error.message));
 };

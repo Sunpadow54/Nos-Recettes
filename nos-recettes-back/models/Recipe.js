@@ -128,6 +128,11 @@ Recipe.findOne = (id) => {
 		db.query(query, (err, res) => {
 			// error
 			if (err) return reject(err);
+			if (res.rows[0] === undefined) {
+				let error = new Error("recipe not found");
+				error.status = 404;
+				return reject(error);
+			}
 			// success
 			resolve(res.rows[0]);
 		});
