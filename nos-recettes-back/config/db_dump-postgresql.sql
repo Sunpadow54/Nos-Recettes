@@ -51,4 +51,4 @@ ON recipe_ingredients(id_recipe, id_ingredient);
 
 
 INSERT INTO users (username, email, pass, is_admin, is_active, lastname, firstname) VALUES
-('admin', 'admin@email.com', '1Azer', true, true, 'admin', '1');
+('admin', 'admin@email.com', 'password', true, true, 'admin', '1');

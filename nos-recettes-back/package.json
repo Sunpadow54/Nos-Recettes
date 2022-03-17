@@ -4,8 +4,11 @@
   "description": "intern app to share recipes",
   "main": "server.js",
   "scripts": {
-    "test": "jest",
-    "start": "nodemon server"
+    "test": "set NODE_ENV=test&& jest --detectOpenHandles",
+    "dev": "set NODE_ENV=development&& nodemon server"
+  },
+  "jest": {
+    "setupFilesAfterEnv" : ["<rootDir>/tests/jestSetup.js"]
   },
   "repository": {
     "type": "git",

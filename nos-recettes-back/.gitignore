@@ -1,2 +1,4 @@
 node_modules
+development.env
+test.env
 .env
