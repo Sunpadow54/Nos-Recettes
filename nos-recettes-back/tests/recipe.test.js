@@ -1,34 +1,32 @@
 const request = require("supertest");
 const app = require("../app");
-const db = require("../config/db-connect");
-const jwToken = require("jsonwebtoken");
 
 describe("Recipes", () => {
-	// add token for all roads
-	beforeAll(async () => {
-		return (token = jwToken.sign({ userId: 1 }, process.env.TOKEN_KEY, {
-			expiresIn: "24h",
-		}));
-	});
-
-	// close db at the end
-	afterAll(async () => {
-		await db.end();
-	});
-
-    // Tests
-	describe("requests without Bearer token", () => {
-		it("---> 401 Unauthorized", async () => {
-			const req = request(app);
-			return Promise.all([
-				req.get("/api/recipe").expect(401),
-				req.get("/api/recipe/3").expect(401),
-				req.post("/api/recipe").expect(401),
-				req.put("/api/recipe/3").expect(401),
-				req.delete("/api/recipe/3").expect(401),
-			]);
-		});
-	});
+    describe("POST /recipe", () => {
+        it("----> created recipe", async () => {
+            return request(app)
+                .post("/api/recipe")
+                .set("Authorization", `Bearer ${token}`)
+                .send({
+                    title: "titre de la recette",
+                    duration: "00:45",
+                    preparation: ["étape1blablab", "étape2 : blablaba"],
+                    img: "https://images.unsplash.com/",
+                    category: "plat",
+                    ingredients: [
+                        ["lasagne", 3, "boite"],
+                        ["tomates", 4, "grosses"],
+                    ]
+                })
+                .expect(201)
+                .then((response) => {
+                    expect(response.body).toEqual({
+                        id: expect.any(Number),
+                    });
+                    idRecipe = response.body.id;
+                });
+        });
+    });
 
 	describe("GET /recipe", () => {
 		it("---> array of all recipes", async () => {
@@ -81,35 +79,10 @@ describe("Recipes", () => {
 		});
 	});
 
-	it("POST /recipe ----> created recipe", async () => {
-		return request(app)
-			.post("/api/recipe")
-			.set("Authorization", `Bearer ${token}`)
-			.send({
-				title: "titre de la recette",
-				duration: "00:45",
-				preparation: ["étape1blablab", "étape2 : blablaba"],
-				img: "https://images.unsplash.com/",
-				category: "plat",
-				ingredients: [
-					["lasagne", 3, "boite"],
-					["tomates", 4, "grosses"],
-				],
-			})
-			.expect(201)
-			.then((response) => {
-				expect(response.body).toEqual({
-					id: expect.any(Number),
-				});
-				idRecipe = response.body.id;
-				console.log(idRecipe);
-			});
-	});
-
 	describe("GET /recipe/id ", () => {
 		it("----> specific recipe by Id", async () => {
 			return request(app)
-				.get(`/api/recipe/${idRecipe}`)
+				.get(`/api/recipe/1`)
 				.set("Authorization", `Bearer ${token}`)
 				.expect("Content-Type", /json/)
 				.expect(200)
@@ -219,14 +192,15 @@ describe("Recipes", () => {
 				});
 		});
 	});
-
-	it("DELETE /recipe/id --> return deleted recipe id", async () => {
-		return request(app)
-			.delete(`/api/recipe/${idRecipe}`)
-			.set("Authorization", `Bearer ${token}`)
-			.send({
-				password: "1Azer",
-			})
-			.expect(200);
-	});
+    describe("DELETE /recipe/id", () => {
+        it("----> return deleted recipe id", async () => {
+            return request(app)
+                .delete(`/api/recipe/${idRecipe}`)
+                .set("Authorization", `Bearer ${token}`)
+                .send({
+                    password: "1Azer",
+                })
+                .expect(200);
+        });
+    });
 });
