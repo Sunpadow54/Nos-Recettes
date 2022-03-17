@@ -39,9 +39,7 @@ const initializeDbTest = async () => {
 		const password = await bcrypt.hash("password", 10);
 		await db.query(`
             INSERT INTO users (username, email, pass, is_admin, is_active, lastname, firstname) VALUES
-            ('admin', '${encryptEmail(
-				"admin@email.com"
-			)}', '${password}', true, true, 'admin', '1');`);
+            ('admin', '${encryptEmail("admin@email.com")}', '${password}', true, true, 'admin', '1');`);
 		return "test database is populated";
 	} catch (err) {
 		return false;
