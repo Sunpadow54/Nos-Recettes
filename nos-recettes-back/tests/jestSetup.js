@@ -1,6 +1,8 @@
 const db = require("../config/db-connect");
 const fs = require("fs");
 const jwToken = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const { encryptEmail } = require("../middleware/crypto.js"); // import crypto tool
 const { Client } = require("pg");
 
 const pgClient = new Client({
@@ -29,9 +31,17 @@ const createDbTest = async () => {
 };
 const initializeDbTest = async () => {
 	try {
+		// Create tables
 		await db.query(
 			`${fs.readFileSync("./config/db_dump-postgresql.sql").toString()}`
 		);
+		// Add admin 1
+		const password = await bcrypt.hash("password", 10);
+		await db.query(`
+            INSERT INTO users (username, email, pass, is_admin, is_active, lastname, firstname) VALUES
+            ('admin', '${encryptEmail(
+				"admin@email.com"
+			)}', '${password}', true, true, 'admin', '1');`);
 		return "test database is populated";
 	} catch (err) {
 		return false;

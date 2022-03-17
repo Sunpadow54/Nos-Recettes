@@ -2,32 +2,33 @@ const request = require("supertest");
 const app = require("../app");
 
 describe("Recipes", () => {
-    describe("POST /recipe", () => {
-        it("----> created recipe", async () => {
-            return request(app)
-                .post("/api/recipe")
-                .set("Authorization", `Bearer ${token}`)
-                .send({
-                    title: "titre de la recette",
-                    duration: "00:45",
-                    preparation: ["étape1blablab", "étape2 : blablaba"],
-                    img: "https://images.unsplash.com/",
-                    category: "plat",
-                    ingredients: [
-                        ["lasagne", 3, "boite"],
-                        ["tomates", 4, "grosses"],
-                    ]
-                })
-                .expect(201)
-                .then((response) => {
-                    expect(response.body).toEqual({
-                        id: expect.any(Number),
-                    });
-                    idRecipe = response.body.id;
-                });
-        });
-    });
-
+	// Create
+	describe("POST /recipe", () => {
+		it("----> created recipe", async () => {
+			return request(app)
+				.post("/api/recipe")
+				.set("Authorization", `Bearer ${token}`)
+				.send({
+					title: "titre de la recette",
+					duration: "00:45",
+					preparation: ["étape1blablab", "étape2 : blablaba"],
+					img: "https://images.unsplash.com/",
+					category: "plat",
+					ingredients: [
+						["lasagne", 3, "boite"],
+						["tomates", 4, "grosses"],
+					],
+				})
+				.expect(201)
+				.then((response) => {
+					expect(response.body).toEqual({
+						id: expect.any(Number),
+					});
+					idRecipe = response.body.id;
+				});
+		});
+	});
+	// get All recipes
 	describe("GET /recipe", () => {
 		it("---> array of all recipes", async () => {
 			return request(app)
@@ -78,7 +79,7 @@ describe("Recipes", () => {
 				});
 		});
 	});
-
+	// get One recipes
 	describe("GET /recipe/id ", () => {
 		it("----> specific recipe by Id", async () => {
 			return request(app)
@@ -111,7 +112,6 @@ describe("Recipes", () => {
 					);
 				});
 		});
-
 		it("----> 404 if not found", async () => {
 			return request(app)
 				.get("/api/recipe/99999999")
@@ -119,7 +119,7 @@ describe("Recipes", () => {
 				.expect(404);
 		});
 	});
-
+	// Edit
 	describe("PUT /recipe/id", () => {
 		it("----> edited recipe", async () => {
 			return request(app)
@@ -153,7 +153,6 @@ describe("Recipes", () => {
 					});
 				});
 		});
-
 		it("----> edited recipe only ingredients", async () => {
 			return request(app)
 				.put(`/api/recipe/${idRecipe}`)
@@ -176,7 +175,6 @@ describe("Recipes", () => {
 					});
 				});
 		});
-
 		it("----> edited recipe without ingredients", async () => {
 			return request(app)
 				.put(`/api/recipe/${idRecipe}`)
@@ -192,15 +190,16 @@ describe("Recipes", () => {
 				});
 		});
 	});
-    describe("DELETE /recipe/id", () => {
-        it("----> return deleted recipe id", async () => {
-            return request(app)
-                .delete(`/api/recipe/${idRecipe}`)
-                .set("Authorization", `Bearer ${token}`)
-                .send({
-                    password: "1Azer",
-                })
-                .expect(200);
-        });
-    });
+	// Delete
+	describe("DELETE /recipe/id", () => {
+		it("----> return deleted recipe id", async () => {
+			return request(app)
+				.delete(`/api/recipe/${idRecipe}`)
+				.set("Authorization", `Bearer ${token}`)
+				.send({
+					password: "1Azer",
+				})
+				.expect(200);
+		});
+	});
 });

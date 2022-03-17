@@ -103,12 +103,16 @@ User.edit = (user, userId) => {
 	return new Promise((resolve, reject) => {
 		db.query(query, (err, res) => {
 			// errors
-			if (err && err.constraint === "users_username_key")
-				return reject("This username already exist");
-			if (err && err.constraint === "users_email_key")
-				return reject("This email already exist");
-			if (err) return reject(err);
-			// if (res.changedRows === 0) return reject('This User has not been updated')
+			if (err) {
+				let error = new Error(err);
+				error.status = err.constraint ? 409 : null;
+				if (err.constraint) {
+					error.message = `This ${
+						err.constraint.split("_")[1]
+					} already exist`;
+				}
+				return reject(error);
+			}
 			// success
 			resolve(res.rows[0]);
 		});

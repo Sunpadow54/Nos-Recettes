@@ -82,17 +82,13 @@ exports.editUser = (req, res, next) => {
 			if (user.email) {
 				user.email = decryptEmail(user.email);
 			}
-
-			res.status(201).json({
+			res.status(200).json({
 				...user,
 			});
 		})
 		// ERRORS
 		.catch((error) => {
-			// custom error and status code
-			const code = error.code ? error.code : 500;
-			const message = error.message ? error.message : error;
-			res.status(501).json(error.message);
+			res.status(error.status || 500).json(error.message);
 		});
 };
 

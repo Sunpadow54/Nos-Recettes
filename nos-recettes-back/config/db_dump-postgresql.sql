@@ -48,7 +48,3 @@ CREATE TABLE recipe_ingredients
 
 CREATE UNIQUE INDEX ids_recipe_ingredient
 ON recipe_ingredients(id_recipe, id_ingredient);
-
-
-INSERT INTO users (username, email, pass, is_admin, is_active, lastname, firstname) VALUES
-('admin', 'admin@email.com', 'password', true, true, 'admin', '1');
