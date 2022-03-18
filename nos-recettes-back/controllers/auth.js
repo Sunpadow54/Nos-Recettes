@@ -14,14 +14,17 @@ exports.login = (req, res, next) => {
 	// Search User in db with email using User model
 	User.findOne({ username: req.body.username })
 		.then((user) => {
+			if (!user) {
+				let error = new Error("This username does not exist");
+				error.status = 404;
+				throw error;
+			}
 			// Compare password
 			bcrypt
 				.compare(req.body.password, user.pass)
 				.then((valid) => {
 					// password error
-					if (!valid) {
-						throw "Incorrect Password";
-					}
+					if (!valid) throw new Error("Incorrect Password");
 
 					// success
 					res.status(200).json({
@@ -40,7 +43,7 @@ exports.login = (req, res, next) => {
 						isAdmin: user.is_admin,
 					});
 				})
-				.catch((error) => res.status(401).json({ error }));
+				.catch((error) => res.status(401).json(error.message));
 		})
-		.catch((error) => res.status(500).json({ error }));
+		.catch((error) => res.status(error.status || 500).json(error.message));
 };
