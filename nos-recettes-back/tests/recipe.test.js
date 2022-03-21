@@ -7,7 +7,7 @@ describe("Recipes", () => {
 		it("----> created recipe", async () => {
 			return request(app)
 				.post("/api/recipe")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.send({
 					title: "titre de la recette",
 					duration: "00:45",
@@ -33,7 +33,7 @@ describe("Recipes", () => {
 		it("---> array of all recipes", async () => {
 			return request(app)
 				.get("/api/recipe")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.expect("Content-Type", /json/)
 				.expect(200)
 				.then((response) => {
@@ -57,7 +57,7 @@ describe("Recipes", () => {
 		it("?params ---> specific array of recipes", async () => {
 			return request(app)
 				.get("/api/recipe?category=plat")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.expect("Content-Type", /json/)
 				.expect(200)
 				.then((response) => {
@@ -84,7 +84,7 @@ describe("Recipes", () => {
 		it("----> specific recipe by Id", async () => {
 			return request(app)
 				.get(`/api/recipe/1`)
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.expect("Content-Type", /json/)
 				.expect(200)
 				.then((response) => {
@@ -115,7 +115,7 @@ describe("Recipes", () => {
 		it("----> 404 if not found", async () => {
 			return request(app)
 				.get("/api/recipe/99999999")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.expect(404);
 		});
 	});
@@ -124,7 +124,7 @@ describe("Recipes", () => {
 		it("----> edited recipe", async () => {
 			return request(app)
 				.put(`/api/recipe/${idRecipe}`)
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.send({
 					title: "titre de la recette edited",
 					preparation: ["étape1blablab", "étape2 : edit", "edit end"],
@@ -156,7 +156,7 @@ describe("Recipes", () => {
 		it("----> edited recipe only ingredients", async () => {
 			return request(app)
 				.put(`/api/recipe/${idRecipe}`)
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.send({
 					ingredients: [
 						["concombres", 2, "gros"],
@@ -178,7 +178,7 @@ describe("Recipes", () => {
 		it("----> edited recipe without ingredients", async () => {
 			return request(app)
 				.put(`/api/recipe/${idRecipe}`)
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.send({
 					title: "titre de la recette edited3",
 				})
@@ -195,7 +195,7 @@ describe("Recipes", () => {
 		it("----> return deleted recipe id", async () => {
 			return request(app)
 				.delete(`/api/recipe/${idRecipe}`)
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.send({
 					password: "1Azer",
 				})

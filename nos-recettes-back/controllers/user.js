@@ -26,6 +26,12 @@ async function checkPassword(password, passwordToCompare) {
 // -------------------------- CONTROLS ------------------------
 
 exports.createUser = (req, res, next) => {
+	// If user is not admin
+	if (!res.locals.isAdmin) {
+		res.status(401).json("Unauthorized admin");
+        return
+	}
+	// If user is admin
 	// hash the password sent
 	hashPassword(req.body.password)
 		.then((passwordHashed) => {
@@ -47,7 +53,7 @@ exports.createUser = (req, res, next) => {
 };
 
 exports.editUser = (req, res, next) => {
-	User.findOne({ id: req.params.id }) // ! use res.locals
+	User.findOne({ id: req.params.id })
 		// 1 : Confirm password
 		.then((user) => {
 			return checkPassword(req.body.password, user.pass);

@@ -32,7 +32,7 @@ exports.login = (req, res, next) => {
 						id: user.id,
 						token: jwToken.sign(
 							// 1rst param : payload : data we wants to encode
-							{ userId: user.id },
+							{ userId: user.id, isAdmin: user.isAdmin, isActive: user.isActive},
 							// 2nd param : secret key for encode
 							process.env.TOKEN_KEY,
 							// 3rd param : to configure duration of the token

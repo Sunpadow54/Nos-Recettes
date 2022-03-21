@@ -6,7 +6,7 @@ describe("Ingredients", () => {
 		it("----> array of all ingredients", async () => {
 			return request(app)
 				.get("/api/ingredient")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.expect(200)
 				.then((response) => {
 					expect(response.body).toEqual(

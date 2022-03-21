@@ -39,7 +39,9 @@ const initializeDbTest = async () => {
 		const password = await bcrypt.hash("password", 10);
 		await db.query(`
             INSERT INTO users (username, email, pass, is_admin, is_active, lastname, firstname) VALUES
-            ('admin', '${encryptEmail("admin@email.com")}', '${password}', true, true, 'admin', '1');`);
+            ('admin', '${encryptEmail(
+				"admin@email.com"
+			)}', '${password}', true, true, 'admin', '1');`);
 		return "test database is populated";
 	} catch (err) {
 		return false;
@@ -62,9 +64,23 @@ beforeAll(async () => {
 	await createDbTest();
 	await initializeDbTest();
 	// create a fake token for all roads
-	return (token = jwToken.sign({ userId: 1 }, process.env.TOKEN_KEY, {
-		expiresIn: "2h",
-	}));
+	return (token = {
+		admin: jwToken.sign(
+			{ userId: 1, isAdmin: true, isActive: true },
+			process.env.TOKEN_KEY,
+			{ expiresIn: "2h" }
+		),
+		user: jwToken.sign(
+			{ userId: 1, isAdmin: false, isActive: true },
+			process.env.TOKEN_KEY,
+			{ expiresIn: "2h" }
+		),
+		inactive: jwToken.sign(
+			{ userId: 1, isAdmin: false, isActive: false },
+			process.env.TOKEN_KEY,
+			{ expiresIn: "2h" }
+		),
+	});
 });
 
 afterAll(async () => {

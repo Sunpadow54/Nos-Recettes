@@ -60,4 +60,27 @@ describe("Auth", () => {
 			]);
 		});
 	});
+	describe("requests with token of inactive user", () => {
+		it("---> 401 Unauthorized", async () => {
+			const req = request(app);
+			const authorization = {
+				Authorization: `Bearer ${token.inactive}`,
+			};
+			return Promise.all([
+				// recipe
+				req.get("/api/recipe").set(authorization).expect(401),
+				req.get("/api/recipe/3").set(authorization).expect(401),
+				req.post("/api/recipe").set(authorization).expect(401),
+				req.put("/api/recipe/3").set(authorization).expect(401),
+				req.delete("/api/recipe/3").set(authorization).expect(401),
+				// user
+				req.get("/api/user/2").set(authorization).expect(401),
+				req.post("/api/user/create").set(authorization).expect(401),
+				req.put("/api/user/2").set(authorization).expect(401),
+				req.delete("/api/user/2").set(authorization).expect(401),
+				// ingredient
+				req.get("/api/ingredient").set(authorization).expect(401),
+			]);
+		});
+	});
 });

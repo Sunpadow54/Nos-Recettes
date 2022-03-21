@@ -3,11 +3,11 @@ const app = require("../app");
 
 describe("Users", () => {
 	// Create
-	describe("POST /user/create", () => {
+	describe("POST /user/create (ADMIN)", () => {
 		it("---> user created", async () => {
 			return request(app)
 				.post("/api/user/create")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.admin}`)
 				.send({
 					username: "usernameTest",
 					email: "example@email.truc",
@@ -20,7 +20,7 @@ describe("Users", () => {
 		it("---> 409 Conflict : email already exist", async () => {
 			return request(app)
 				.post("/api/user/create")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.admin}`)
 				.send({
 					username: "usernameTest2",
 					email: "example@email.truc",
@@ -33,7 +33,7 @@ describe("Users", () => {
 		it("---> 409 Conflict : username already exist", async () => {
 			return request(app)
 				.post("/api/user/create")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.admin}`)
 				.send({
 					username: "usernameTest",
 					email: "example2@email.truc",
@@ -43,13 +43,26 @@ describe("Users", () => {
 				})
 				.expect(409);
 		});
+        it("---> 401 Unauthorized : Unautorized Admin", async () => {
+			return request(app)
+				.post("/api/user/create")
+				.set("Authorization", `Bearer ${token.user}`)
+				.send({
+					username: "usernameTest",
+					email: "example2@email.truc",
+					password: "1Azer",
+					lastname: "lastnameTest2",
+					firstname: "firstnameTest2",
+				})
+				.expect(401);
+		});
 	});
 	// Edit
 	describe("PUT /user/id", () => {
 		it("---> what was modified without password", async () => {
 			return request(app)
 				.put("/api/user/2")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.send({
 					username: "usernameTestEdited",
 					email: "example@email.truc",
@@ -66,7 +79,7 @@ describe("Users", () => {
 		it("---> 409 Conflict : username already exist ", async () => {
 			return request(app)
 				.put("/api/user/2")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.send({
 					username: "admin",
 					password: "1Azer",
@@ -81,7 +94,7 @@ describe("Users", () => {
 		it("---> 409 Conflict : email already exist ", async () => {
 			return request(app)
 				.put("/api/user/2")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.send({
 					email: "admin@email.com",
 					password: "1Azer",
@@ -97,7 +110,7 @@ describe("Users", () => {
 		it("---> one user without email", async () => {
 			return request(app)
 				.get("/api/user/2")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.expect(200)
 				.then((response) => {
 					expect(response.body).toEqual(
@@ -118,7 +131,7 @@ describe("Users", () => {
 		it("---> current user with email", async () => {
 			return request(app)
 				.get("/api/user/1")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.expect(200)
 				.then((response) => {
 					expect(response.body).toEqual(
@@ -135,7 +148,7 @@ describe("Users", () => {
 		it("----> 404 if not found", async () => {
 			return request(app)
 				.get("/api/user/999999")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.expect(404);
 		});
 	});
@@ -144,7 +157,7 @@ describe("Users", () => {
 		it("---> delete user", async () => {
 			return request(app)
 				.delete("/api/user/2")
-				.set("Authorization", `Bearer ${token}`)
+				.set("Authorization", `Bearer ${token.user}`)
 				.expect(200);
 		});
 	});
