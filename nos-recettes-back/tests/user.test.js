@@ -107,42 +107,32 @@ describe("Users", () => {
 	});
 	// get One user
 	describe("GET /user/id", () => {
-		it("---> one user without email", async () => {
+		it("---> one user without email & username", async () => {
 			return request(app)
 				.get("/api/user/1")
 				.set("Authorization", `Bearer ${token.user}`)
 				.expect(200)
 				.then((response) => {
-					expect(response.body).toEqual(
-						expect.objectContaining({
-							username: expect.any(String),
-							lastname: expect.any(String),
-							firstname: expect.any(String),
-							nbrRecipes: expect.any(Number),
-						})
-					);
-					expect(response.body).toEqual(
-						expect.not.objectContaining({
-							email: expect.anything(),
-						})
-					);
+					expect(response.body).toEqual({
+						lastname: expect.any(String),
+						firstname: expect.any(String),
+						nbrRecipes: expect.any(Number),
+					});
 				});
 		});
-		it("---> current user with email", async () => {
+		it("---> current user with email & username", async () => {
 			return request(app)
 				.get("/api/user/2")
 				.set("Authorization", `Bearer ${token.user}`)
 				.expect(200)
 				.then((response) => {
-					expect(response.body).toEqual(
-						expect.objectContaining({
-							username: expect.any(String),
-							email: expect.any(String),
-							lastname: expect.any(String),
-							firstname: expect.any(String),
-							nbrRecipes: expect.any(Number),
-						})
-					);
+					expect(response.body).toEqual({
+						username: expect.any(String),
+						email: expect.any(String),
+						lastname: expect.any(String),
+						firstname: expect.any(String),
+						nbrRecipes: expect.any(Number),
+					});
 				});
 		});
 		it("----> 404 if not found", async () => {

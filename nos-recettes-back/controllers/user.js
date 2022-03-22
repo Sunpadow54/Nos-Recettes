@@ -29,7 +29,7 @@ exports.createUser = (req, res, next) => {
 	// If user is not admin
 	if (!res.locals.isAdmin) {
 		res.status(401).json("Unauthorized admin");
-        return
+		return;
 	}
 	// If user is admin
 	// hash the password sent
@@ -102,14 +102,14 @@ exports.getOneUser = (req, res, next) => {
 	User.findOne({ id: req.params.id })
 		.then((user) => {
 			const userData = {
-				username: user.username,
 				lastname: user.lastname,
 				firstname: user.firstname,
 				nbrRecipes: user.nbr === null ? 0 : user.nbr,
 			};
-			// add email if user searched is current user
+			// add email & username if user searched is current user
 			if (parseInt(req.params.id) === res.locals.userId) {
 				userData["email"] = decryptEmail(user.email);
+				userData["username"] = user.username;
 			}
 			res.status(200).json(userData);
 		})
