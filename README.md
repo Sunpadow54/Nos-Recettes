@@ -1,35 +1,35 @@
-# Nos Recettes (temporaire)
+# Nos Recettes (temporary name)
+
 
 ## Projet 
 
-Site de recettes pour les partager avec ses amis .
+Extranet to share recipes with friends & family !  
+(work in progress 🙈 🎉)
 
 
-(work in progress :see_no_evil: :tada:)
-
-## Installation
+## Install
 
 node version 16.7.0
 - front : <kbd> :file_folder: nos-recettes-front </kbd>
 - back : <kbd> :file_folder: nos-recettes-back </kbd>
 
-```
-npm install 
-```
-
-### Environment variable
-
-Créer un fichier <kbd>📄development.env</kbd> dans le dossier <kbd>📁backend</kbd>, pour tester en local.
+`npm install`
 
 
-sample[^1] :
+### Environment variables
 
+
+#### <ins>Backend</ins>
+
+Create a <kbd>📄 development.env</kbd> file at the root of <kbd>📁 nos-recettes-back</kbd> folder.
+
+sample : [^1]
 ```
 NODE_ENV=development
 PORT=YOUR_PORT
 
 DB_HOST=YOUR_HOST
-DB_NAME=YOUR_DB_USERNAME
+DB_NAME=YOUR_DB_NAME
 DB_USER=YOUR_DB_USERNAME
 DB_PASS=YOUR_DB_PASWWORD
 
@@ -38,28 +38,38 @@ TOKEN_KEY=YOUR_SECRET_JWTOKEN_KEY
 EMAIL_CRYPTO_KEY=SECRET_22_LENGTH_KEY
 ```
 
-[^1]: :warning: l' EMAIL_CRYPTO_KEY doit contenir exactement 22 caractères
+[^1]: ⚠️ EMAIL_CRYPTO_KEY must contain exactly 22 characters.
 
 
->Pour tester l'app avec *Jest* créer un autre fichier <kbd>📄test.env</kbd> (NODE_ENV=test). :warning: Attention d'utiliser une autre base de donnée (DB_NAME) pour les tests)
+>For testing with **Jest**, you must create a <kbd>📄 test.env</kbd> file and set `NODE_ENV=test`.  
+>⚠️ **Warning :** use an other database for testing purpose `DB_NAME=YOUR_DB_TEST_NAME`.
 
 
-## Lancer le projet en local
+#### <ins>Frontend</ins>
 
-<kbd> :file_folder: nos-recettes-front </kbd> :
+Create a <kbd>📄 .env</kbd> file at the root of <kbd>📁 nos-recettes-front</kbd> folder.
 
-- Pour avoir accès au serveur de développement : `npm run start`
+```
+PORT=YOUR_PORT
+REACT_APP_URL_API=URL_BACKEND_API
+```
 
-<kbd> :file_folder: nos-recettes-back </kbd> :
 
-- `npm run start`
+## Deploy Project Locally
+
+<kbd> 📂 nos-recettes-front </kbd> :  
+- To acces dev server : `npm run start`
+
+<kbd> 📂 nos-recettes-back </kbd> :  
+- `npm run dev`
 
 
 ## Docs
 
 [SQL dump](config/db_dump-postgresql.sql)
 
-[voir les routes de l'api](docs/api_specifications.pdf) (en cours)
+[see bakend queries](docs/api_specifications.pdf) (in progress)
+
 
 ## :package: Made with
 
@@ -69,13 +79,14 @@ EMAIL_CRYPTO_KEY=SECRET_22_LENGTH_KEY
     * Express
 * Database : postgresql
 
-## Auteur
 
-Sunpadow - elsa dessarps - 2021
+## Author
+
+Sunpadow54 - elsa dessarps - 2021
 
 -----------------
 
 
 ![visuel home nos Recettes](/docs/sample_nos-recettes_home.jpg "visuel exemple dashboard")
 
-![visuel form nos Recettes](/docs/sample_nos-recettes_form.jpg "visuel exemple créer une recette")
+![visuel form nos Recettes](/docs/sample_nos-recettes_form.jpg "visuel exemple create recipe")
