@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import { UserContext } from "../store/Store";
 
 function useFetch({ endpoint, method, body, wait, auth }) {
-	const url = "http://localhost:3000/api" + endpoint;
+	const url = process.env.REACT_APP_URL_API + endpoint;
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
