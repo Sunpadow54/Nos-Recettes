@@ -1,33 +1,41 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
 import classNames from "classnames";
 /* Import Style */
 import "./sidebar.scss";
 /* Import Icons */
 import { IoMdAdd } from "react-icons/io";
-import { RiUserSmileLine } from "react-icons/ri";
-import { IoSearchSharp } from "react-icons/io5";
-import { IoMenuOutline } from "react-icons/io5";
+import { RiUserSmileLine, RiVipCrownLine } from "react-icons/ri";
+import { IoSearchSharp, IoMenuOutline } from "react-icons/io5";
 /* Import components */
 import { UserContext } from "../../store/Store";
+import BtnBrand from "../Buttons/BtnBrand";
 
 function Sidebar({ sidebarState, setSidebarState }) {
 	const [currentUser] = useContext(UserContext);
 	const links = [
 		{
-			txt: "créer une recette",
+			text: "créer une recette",
 			icon: IoMdAdd,
 			src: "/create",
+			color: "green",
 		},
 		{
-			txt: "mon profil",
+			text: "mon profil",
 			icon: RiUserSmileLine,
-			src: "/profil/2", // use token
+			src: "/profil/2",
+			color: "blue",
 		},
 		{
-			txt: "recherche",
+			text: "admin",
+			icon: RiVipCrownLine,
+			src: "/",
+			color: "gold",
+		},
+		{
+			text: "recherche",
 			icon: IoSearchSharp,
 			src: "/",
+			color: "transparent",
 		},
 	];
 
@@ -54,13 +62,10 @@ function Sidebar({ sidebarState, setSidebarState }) {
 				<h2 className="sidebar__title">
 					Bon Appétit {currentUser.username} !
 				</h2>
-				<ul className="sidebar__nav">
+				<ul className="sidebar__nav ul-test">
 					{links.map((link, id) => (
 						<li key={id}>
-							<Link className="sidebar__link" to={link.src}>
-								<link.icon />
-								{link.txt}
-							</Link>
+							<BtnBrand {...link} icon={<link.icon />} />
 						</li>
 					))}
 				</ul>

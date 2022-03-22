@@ -3,10 +3,11 @@
 // -----------------------------------------------------------
 
 // ------------ COLORS
-$color-green: #92c24c;
+$color-green: #8bbd3f;
 $color-blue: #1d6f88;
 $color-red: #af3b15;
 $color-yellow: #fcd949;
+$color-gold: #d8ae23;
 $color-darkgrey: lighten(black, 20%);
 $color-grey: lighten(black, 60%);
 $color-lightgrey: lighten(black, 85%);
@@ -15,12 +16,14 @@ $color-lightgrey: lighten(black, 85%);
 $colors-map: (
 	"green": $color-green,
 	"blue": $color-blue,
+	"light-blue": desaturate(lighten($color-blue, 40%), 10),
 	"red": $color-red,
-	"yellow": color-yellow,
-	"darkgrey": color-darkgrey,
-	"grey": color-grey,
-	"lightgrey": color-lightgrey,
+	"gold": $color-gold,
+	"darkgrey": $color-darkgrey,
+	"grey": $color-grey,
+	"lightgrey": $color-lightgrey,
 	"white": white,
+	"transparent": transparent,
 );
 
 @each $name, $color in $colors-map {
@@ -30,10 +33,10 @@ $colors-map: (
 	.#{$name}-txt {
 		color: $color;
 	}
+	.#{$name}-border {
+		border-color: $color;
+	}
 }
-// size
-
-$sidebar-btn-color: $color-green, $color-blue, transparent;
 
 // ------------ SIZES
 $sidebar-size: 300px;

@@ -28,7 +28,7 @@ function CreateRecipe() {
 			<BtnBrand
 				icon={<IoMdAdd />}
 				round
-				color="blue"
+				color="light-blue"
 				label={label}
 				onClick={() => handleAddInput(type)}
 			/>

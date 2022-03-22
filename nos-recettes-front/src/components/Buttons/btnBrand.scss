@@ -11,6 +11,9 @@
 	span {
 		color: inherit;
 	}
+	&::after {
+		background-color: v.$color-grey;
+	}
 
 	&--round {
 		@include m.brand-btn(30px, 30px);
@@ -38,52 +41,17 @@
 			opacity: 1;
 		}
 	}
-
-	&--green {
-		border-color: darken(v.$color-green, 30%);
-		color: darken(v.$color-green, 40%);
-		&::after {
-			background-color: v.$color-green;
-		}
-		span {
-			background-color: lighten(v.$color-green, 70%);
-		}
-	}
-	&--blue {
-		border-color: v.$color-blue;
-		color: v.$color-blue;
-		&::after {
-			background-color: lighten(v.$color-blue, 50%);
-		}
-		span {
-			background-color: lighten(v.$color-blue, 70%);
-		}
-	}
-	&--red {
-		border-color: v.$color-red;
-		color: v.$color-red;
-		&::after {
-			background-color: lighten(v.$color-red, 50%);
-		}
-		span {
-			background-color: lighten(v.$color-red, 70%);
-		}
-	}
-	&--grey {
-		border-color: v.$color-grey;
-		color: v.$color-grey;
-		&::after {
-			background-color: v.$color-lightgrey;
-		}
-	}
-	&--light {
-		border-color: white;
-		color: white;
-		&::after {
-			background-color: rgba(255, 255, 255, 0.2);
-		}
-		span {
-			background-color: rgba(255, 255, 255, 0.2);
+	@each $name, $color in v.$colors-map {
+		&--#{$name} {
+			border-color: darken($color, 30%);
+			color: darken($color, 40%);
+			&::after {
+				background-color: $color;
+				opacity: 0.8;
+			}
+			span {
+				background-color: lighten($color, 70%);
+			}
 		}
 	}
 
@@ -92,7 +60,12 @@
 	}
 	&__popup {
 		@include m.position(absolute, 0, 38px, 0);
-		@include m.flex($axis: (space-between, center));
+		@include m.flex(
+			$axis: (
+				space-between,
+				center,
+			)
+		);
 		@include m.border(v.$color-lightgrey, $radius: 4px);
 		white-space: nowrap;
 		width: auto;
@@ -114,7 +87,7 @@
 			height: 7px;
 			width: 7px;
 			background-color: inherit;
-            @include m.border(v.$color-lightgrey, $positions: (top, right));
+			@include m.border(v.$color-lightgrey, $positions: (top, right));
 		}
 	}
 	&:hover &__popup {
