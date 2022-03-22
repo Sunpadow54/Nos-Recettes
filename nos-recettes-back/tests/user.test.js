@@ -43,7 +43,7 @@ describe("Users", () => {
 				})
 				.expect(409);
 		});
-        it("---> 401 Unauthorized : Unautorized Admin", async () => {
+		it("---> 401 Unauthorized : Unautorized Admin", async () => {
 			return request(app)
 				.post("/api/user/create")
 				.set("Authorization", `Bearer ${token.user}`)
@@ -65,14 +65,14 @@ describe("Users", () => {
 				.set("Authorization", `Bearer ${token.user}`)
 				.send({
 					username: "usernameTestEdited",
-					email: "example@email.truc",
-					password: "1Azer",
+					email: "emailEdited@email.truc",
+					password: "password",
 				})
 				.expect(200)
 				.then((response) => {
 					expect(response.body).toEqual({
 						username: "usernameTestEdited",
-						email: "example@email.truc",
+						email: "emailEdited@email.truc",
 					});
 				});
 		});
@@ -82,7 +82,7 @@ describe("Users", () => {
 				.set("Authorization", `Bearer ${token.user}`)
 				.send({
 					username: "admin",
-					password: "1Azer",
+					password: "password",
 				})
 				.expect(409)
 				.then((response) => {
@@ -97,7 +97,7 @@ describe("Users", () => {
 				.set("Authorization", `Bearer ${token.user}`)
 				.send({
 					email: "admin@email.com",
-					password: "1Azer",
+					password: "password",
 				})
 				.expect(409)
 				.then((response) => {
@@ -109,7 +109,7 @@ describe("Users", () => {
 	describe("GET /user/id", () => {
 		it("---> one user without email", async () => {
 			return request(app)
-				.get("/api/user/2")
+				.get("/api/user/1")
 				.set("Authorization", `Bearer ${token.user}`)
 				.expect(200)
 				.then((response) => {
@@ -130,7 +130,7 @@ describe("Users", () => {
 		});
 		it("---> current user with email", async () => {
 			return request(app)
-				.get("/api/user/1")
+				.get("/api/user/2")
 				.set("Authorization", `Bearer ${token.user}`)
 				.expect(200)
 				.then((response) => {

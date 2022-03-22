@@ -189,15 +189,42 @@ describe("Recipes", () => {
 					});
 				});
 		});
+		it("----> edited recipe by Admin", async () => {
+			return request(app)
+				.put(`/api/recipe/${idRecipe}`)
+				.set("Authorization", `Bearer ${token.admin}`)
+				.send({
+					title: "titre de la recette edited3",
+				})
+				.expect(200);
+		});
+		it("----> 401 Unauthorized", async () => {
+			return request(app)
+				.put(`/api/recipe/${idRecipe}`)
+				.set("Authorization", `Bearer ${token.otherUser}`)
+				.send({
+					title: "titre de la recette edited trial",
+				})
+				.expect(401);
+		});
 	});
 	// Delete
 	describe("DELETE /recipe/id", () => {
-		it("----> return deleted recipe id", async () => {
+		it("----> 401 Unauthorized", async () => {
+			return request(app)
+				.delete(`/api/recipe/${idRecipe}`)
+				.set("Authorization", `Bearer ${token.otherUser}`)
+				.send({
+					password: "password",
+				})
+				.expect(401);
+		});
+		it("----> delete recipe", async () => {
 			return request(app)
 				.delete(`/api/recipe/${idRecipe}`)
 				.set("Authorization", `Bearer ${token.user}`)
 				.send({
-					password: "1Azer",
+					password: "password",
 				})
 				.expect(200);
 		});

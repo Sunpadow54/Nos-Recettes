@@ -13,6 +13,8 @@ const pgClient = new Client({
 	database: "postgres",
 });
 
+// Functions
+
 const createDbTest = async () => {
 	try {
 		await pgClient.connect();
@@ -35,13 +37,16 @@ const initializeDbTest = async () => {
 		await db.query(
 			`${fs.readFileSync("./config/db_dump-postgresql.sql").toString()}`
 		);
-		// Add admin 1
+		// Add admin 1 & user
 		const password = await bcrypt.hash("password", 10);
 		await db.query(`
             INSERT INTO users (username, email, pass, is_admin, is_active, lastname, firstname) VALUES
             ('admin', '${encryptEmail(
 				"admin@email.com"
-			)}', '${password}', true, true, 'admin', '1');`);
+			)}', '${password}', true, true, 'admin', '1'),
+            ('user', '${encryptEmail(
+				"user@email.com"
+			)}', '${password}', false, true, 'user lastname', 'user firstname');`);
 		return "test database is populated";
 	} catch (err) {
 		return false;
@@ -60,6 +65,8 @@ const clearDbTest = async () => {
 	}
 };
 
+// Hooks
+
 beforeAll(async () => {
 	await createDbTest();
 	await initializeDbTest();
@@ -71,12 +78,17 @@ beforeAll(async () => {
 			{ expiresIn: "2h" }
 		),
 		user: jwToken.sign(
-			{ userId: 1, isAdmin: false, isActive: true },
+			{ userId: 2, isAdmin: false, isActive: true },
+			process.env.TOKEN_KEY,
+			{ expiresIn: "2h" }
+		),
+		otherUser: jwToken.sign(
+			{ userId: 10, isAdmin: false, isActive: true },
 			process.env.TOKEN_KEY,
 			{ expiresIn: "2h" }
 		),
 		inactive: jwToken.sign(
-			{ userId: 1, isAdmin: false, isActive: false },
+			{ userId: 2, isAdmin: false, isActive: false },
 			process.env.TOKEN_KEY,
 			{ expiresIn: "2h" }
 		),
