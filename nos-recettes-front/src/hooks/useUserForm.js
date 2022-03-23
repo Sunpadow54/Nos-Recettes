@@ -1,95 +1,133 @@
-import { useState, createRef } from "react";
+import { useState, useEffect, useReducer } from "react";
 // Import components
 import useFetch from "./useFetch";
 
+function reducerUserForm(state, action) {
+	switch (action.type) {
+		case "update_all": {
+			return { ...action.old };
+		}
+		case "update":
+			return { ...state, [action.key]: action.value };
+		default:
+			return;
+	}
+}
+
+const initialUserForm = {
+	firstname: "",
+	lastname: "",
+	email: "",
+	username: "",
+	password: "",
+};
+
 function useUserForm({ user, id }) {
+	const [state, dispatch] = useReducer(reducerUserForm, initialUserForm);
 	const [userForm, setUserForm] = useState(null);
-	// -------Refs
-	const refs = {
-		firstname: createRef(null),
-		lastname: createRef(null),
-		email: createRef(null),
-		username: createRef(null),
-		newPassword: createRef(null),
-		password: createRef(null),
-	};
-	// All inputs props
-	const inputs = {
-		firstname: {
-			type: "text",
-			name: "firstname",
-			label: "Prénom",
-			ref: refs.firstname,
-			defaultValue: user && user.firstname,
-		},
-		lastname: {
-			type: "text",
-			name: "lastname",
-			label: "Nom",
-			ref: refs.lastname,
-			defaultValue: user && user.lastname,
-		},
-		email: {
-			type: "email",
-			name: "email",
-			label: "email",
-			ref: refs.email,
-			defaultValue: user && user.email,
-		},
-		username: {
-			type: "text",
-			name: "username",
-			label: "Username",
-			ref: refs.username,
-			defaultValue: user && user.username,
-		},
-		newPassword: {
-			type: "password",
-			name: "newPassword",
-			label: "nouveau mot de passe",
-			ref: refs.newPassword,
-			labelTop: true,
-		},
-		password: {
-			type: "password",
-			name: "password",
-			label: "mot de passe",
-			ref: refs.password,
-		},
-	};
 
 	// -------- API
-	// Edit User
+
 	const {
 		data: userChanged,
 		error,
 		sendToApi,
 	} = useFetch({
 		endpoint: "/user/" + id,
-		method: "PUT",
+		method: user ? "PUT" : "POST",
 		body: userForm,
 		wait: true,
 		auth: true,
 	});
 
-	// ----- Handles
-	const handleSubmit = (e) => {
-		e.preventDefault(); // stop refreshing page
-		let data;
-		Object.values(refs).forEach((e) => {
-			const { name, value, defaultValue } = e.current;
-			if (value !== defaultValue) {
-				data = {
-					...data,
-					[name]: value,
-				};
+	// --------- Handles
+
+	const handleInputChange = (e) => {
+		const { value, name } = e.target;
+		dispatch({ type: "update", key: name, value: value });
+	};
+
+	const handleEdit = (e) => {
+		e.preventDefault();
+		let data = { password: state.password };
+		for (const [key, value] of Object.entries(state)) {
+			if (user[key] && value !== user[key]) {
+				data[key] = value;
 			}
-		});
+		}
+		// add new password if it changed
+		if (state.newPassword) {
+			data["newPassword"] = state.newPassword;
+		}
 		setUserForm(data);
 		sendToApi();
 	};
 
-	return { handleSubmit, error, inputs, userChanged };
+	// --------- Props
+
+	const inputs = {
+		firstname: {
+			type: "text",
+			name: "firstname",
+			label: "Prénom",
+			value: state.firstname,
+			onChange: handleInputChange,
+		},
+		lastname: {
+			type: "text",
+			name: "lastname",
+			label: "Nom",
+			value: state.lastname,
+			onChange: handleInputChange,
+		},
+		email: {
+			type: "email",
+			name: "email",
+			label: "email",
+			value: state.email,
+			onChange: handleInputChange,
+		},
+		username: {
+			type: "text",
+			name: "username",
+			label: "Username",
+			value: state.username,
+			onChange: handleInputChange,
+		},
+		newPassword: {
+			type: "password",
+			name: "newPassword",
+			label: "nouveau mot de passe",
+			labelTop: true,
+			value: state.newPassword,
+			onChange: handleInputChange,
+		},
+		password: {
+			type: "password",
+			name: "password",
+			label: "mot de passe",
+			value: state.password,
+			onChange: handleInputChange,
+		},
+	};
+
+	// --------- Effects
+
+	useEffect(() => {
+		if (user) {
+			const currentUser = {
+				firstname: user.firstname,
+				lastname: user.lastname,
+				email: user.email,
+				username: user.username,
+				newPassword: "",
+				password: "",
+			};
+			dispatch({ type: "update_all", old: currentUser });
+		}
+	}, [user]);
+
+	return { handleEdit, error, inputs, userChanged };
 }
 
 export default useUserForm;

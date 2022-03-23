@@ -20,7 +20,7 @@ function Profile() {
 	const [user, setUser] = useState(null);
 	const isMyProfile = parseInt(id) === currentUser.id && true;
 	const { btnEdit, isEdit, setEdit } = useToggleEdit();
-	const { inputs, handleSubmit, userChanged, error } = useUserForm({
+	const { inputs, handleEdit, userChanged, error } = useUserForm({
 		user,
 		id,
 	});
@@ -94,7 +94,7 @@ function Profile() {
 									))}
 								</div>
 								<PopupValidate
-									handleValidate={handleSubmit}
+									handleValidate={handleEdit}
 									text="êtes vous sûr de vouloir modifier votre profil ?"
 								>
 									<FormControls
