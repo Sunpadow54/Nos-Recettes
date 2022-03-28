@@ -1,0 +1,27 @@
+// -----------------------------------------------------------
+/*  Admin */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../../style/sass/variables" as v;
+@use "../../../style/sass/mixins" as m;
+
+.admin {
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 4px 4px rgba(0, 0, 0, 0.23);
+	@include m.grid(1fr 4fr, minmax(20vh, auto));
+	border-radius: 10px;
+	&-panel {
+		padding: 3rem;
+		&__title {
+			text-align: center;
+			margin-bottom: 3rem;
+		}
+	}
+}
+
+.stats {
+	max-width: 700px;
+	padding: 1rem;
+	position: relative;
+	margin: auto;
+	@include m.flex($axis: space-between, $g: 3rem);
+}

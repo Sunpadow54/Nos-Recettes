@@ -7,6 +7,9 @@ import RecipesAll from "./pages/Home/RecipesAll/RecipesAll";
 import Recipe from "./pages/Home/Recipe/Recipe";
 import CreateRecipe from "./pages/Home/CreateRecipe/CreateRecipe";
 import Profile from "./pages/Home/Profile/Profile";
+import Admin from "./pages/Home/Admin/Admin";
+import CreateUser from "./pages/Home/Admin/CreateUser";
+import ManageIngredients from "./pages/Home/Admin/ManageIngredients";
 
 function App() {
 	return (
@@ -23,6 +26,15 @@ function App() {
 							/>
 							<Route path="/create" element={<CreateRecipe />} />
 							<Route path="/profil/:id" element={<Profile />} />
+							<Route path="/admin" element={<Admin />}>
+								{" "}
+								{/*road to protect */}
+								<Route path="create" element={<CreateUser />} />
+								<Route
+									path="ingredients"
+									element={<ManageIngredients />}
+								/>
+							</Route>
 						</Route>
 					</Route>
 				</Routes>

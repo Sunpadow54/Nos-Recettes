@@ -28,7 +28,7 @@ function Sidebar({ sidebarState, setSidebarState }) {
 		{
 			text: "admin",
 			icon: RiVipCrownLine,
-			src: "/",
+			src: "/admin",
 			color: "gold",
 		},
 		{

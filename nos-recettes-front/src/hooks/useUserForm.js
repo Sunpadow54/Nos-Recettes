@@ -33,7 +33,7 @@ function useUserForm({ user, id }) {
 		error,
 		sendToApi,
 	} = useFetch({
-		endpoint: "/user/" + id,
+		endpoint: user ? "/user/" + id : "/user/create",
 		method: user ? "PUT" : "POST",
 		body: userForm,
 		wait: true,
@@ -60,6 +60,12 @@ function useUserForm({ user, id }) {
 			data["newPassword"] = state.newPassword;
 		}
 		setUserForm(data);
+		sendToApi();
+	};
+
+	const handleCreate = (e) => {
+		e.preventDefault();
+		setUserForm(state);
 		sendToApi();
 	};
 
@@ -127,7 +133,7 @@ function useUserForm({ user, id }) {
 		}
 	}, [user]);
 
-	return { handleEdit, error, inputs, userChanged };
+	return { handleEdit, handleCreate, error, inputs, userChanged };
 }
 
 export default useUserForm;

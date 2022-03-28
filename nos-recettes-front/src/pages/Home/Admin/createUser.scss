@@ -1,0 +1,10 @@
+// -----------------------------------------------------------
+/*  Create user form*/
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../../style/sass/variables" as v;
+@use "../../../style/sass/mixins" as m;
+
+.form-create-user {
+	@include m.flex(column, $g: 1.5rem);
+}
