@@ -10,7 +10,12 @@ describe("Ingredients", () => {
 				.expect(200)
 				.then((response) => {
 					expect(response.body).toEqual(
-						expect.arrayContaining([expect.any(String)])
+						expect.arrayContaining([
+							expect.objectContaining({
+								id: expect.any(Number),
+								name: expect.any(String),
+							}),
+						])
 					);
 				});
 		});
@@ -19,7 +24,7 @@ describe("Ingredients", () => {
 		it("----> 200", async () => {
 			return request(app)
 				.post("/api/ingredient")
-				.set("Authorization", `Bearer ${token.user}`)
+				.set("Authorization", `Bearer ${token.admin}`)
 				.send(["lasagne", "carotte", "boeuf"])
 				.expect(200);
 		});
@@ -28,7 +33,7 @@ describe("Ingredients", () => {
 		it("----> ingredient name modified", async () => {
 			return request(app)
 				.put("/api/ingredient/1")
-				.set("Authorization", `Bearer ${token.user}`)
+				.set("Authorization", `Bearer ${token.admin}`)
 				.send({ name: "beurreEdited" })
 				.expect(200)
 				.then((response) => {
@@ -38,7 +43,7 @@ describe("Ingredients", () => {
 		it("----> 409 Conflict : ingredient already exist", async () => {
 			return request(app)
 				.put("/api/ingredient/2")
-				.set("Authorization", `Bearer ${token.user}`)
+				.set("Authorization", `Bearer ${token.admin}`)
 				.send({ name: "beurreEdited" })
 				.expect(409);
 		});

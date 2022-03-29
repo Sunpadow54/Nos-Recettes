@@ -79,18 +79,18 @@ function useRecipeForm(recipe) {
 		auth: true,
 	});
 	const allUnits = [
-		"mg",
-		"g",
-		"kg",
-		"ml",
-		"cl",
-		"l",
-		"tasse",
-		"pincée",
-		"cuillère à café",
-		"cuillère à soupe",
-		"noix",
-		"noisette",
+		{ name: "mg" },
+		{ name: "g" },
+		{ name: "kg" },
+		{ name: "ml" },
+		{ name: "cl" },
+		{ name: "l" },
+		{ name: "tasse" },
+		{ name: "pincée" },
+		{ name: "cuillère à café" },
+		{ name: "cuillère à soupe" },
+		{ name: "noix" },
+		{ name: "noisette" },
 	];
 	const { data: newRecipe, sendToApi } = useFetch({
 		endpoint: recipe ? "/recipe/" + recipe.id : "/recipe",
@@ -128,7 +128,8 @@ function useRecipeForm(recipe) {
 
 	const handleAutoComplete = (e, arrayToSearch) => {
 		if (e.target.value !== "") {
-			const result = arrayToSearch.filter((element) =>
+			const nameArray = arrayToSearch.map((el) => el.name); // get only name as array to search from
+			const result = nameArray.filter((element) =>
 				element.startsWith(e.target.value)
 			);
 			setsuggestedOptions(result);

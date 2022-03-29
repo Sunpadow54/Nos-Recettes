@@ -83,4 +83,19 @@ describe("Auth", () => {
 			]);
 		});
 	});
+    describe("admin requests with normal user token", () => {
+		it("---> 401 Unauthorized", async () => {
+			const req = request(app);
+			const authorization = {
+				Authorization: `Bearer ${token.user}`,
+			};
+			return Promise.all([
+                //user
+                req.post("/api/user/create").set(authorization).expect(401),
+				// ingredient
+				req.post("/api/ingredient").set(authorization).expect(401),
+                req.put("/api/ingredient/1").set(authorization).expect(401),
+			]);
+		});
+	});
 });
