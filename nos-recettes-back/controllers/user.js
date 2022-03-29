@@ -26,12 +26,6 @@ async function checkPassword(password, passwordToCompare) {
 // -------------------------- CONTROLS ------------------------
 
 exports.createUser = (req, res, next) => {
-	// If user is not admin
-	if (!res.locals.isAdmin) {
-		res.status(401).json("Unauthorized admin");
-		return;
-	}
-	// If user is admin
 	// hash the password sent
 	hashPassword(req.body.password)
 		.then((passwordHashed) => {
