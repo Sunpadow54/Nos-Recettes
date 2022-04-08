@@ -5,11 +5,18 @@ import "./admin.scss";
 // Imports Icons
 import { IoNewspaperOutline } from "react-icons/io5";
 import { HiUserGroup } from "react-icons/hi";
-import { BsPersonPlus,BsPersonBoundingBox,BsPencilSquare } from "react-icons/bs";
-import { FaCarrot } from "react-icons/fa";
+import {
+	BsPersonPlus,
+	BsPersonBoundingBox,
+	BsPeople,
+	/* BsPencilSquare, */
+} from "react-icons/bs";
+import { FaCarrot /* FaUsers */ } from "react-icons/fa";
+import { IoMdAdd, IoMdRemove } from "react-icons/io";
+import { MdEdit } from "react-icons/md";
 // Import Components
 import StatBox from "../../../components/StatBox/StatBox";
-import NavAdmin from "../../../components/NavAdmin/NavAdmin";
+import MenuCollapse from "../../../components/MenuCollapse/MenuCollapse";
 
 function Admin() {
 	const { setTitle } = useOutletContext();
@@ -20,32 +27,39 @@ function Admin() {
 
 	const navMenu = [
 		{
-			title: "Utilisateurs",
+			name: "Utilisateurs",
+			icon: <BsPeople />,
 			submenu: [
 				{
 					icon: <BsPersonPlus />,
-					text: "nouveau",
-					to: "create",
+					title: "nouveau",
+					path: "/admin/user/create",
 				},
-				/* {
+				{
 					icon: <BsPersonBoundingBox />,
-					text: "modérer",
-					to: "create",
-				}, */
+					title: "modérer",
+					path: "/admin/user/moderer",
+				},
 			],
 		},
 		{
-			title: "Recettes",
+			name: "ingrédients",
+			icon: <FaCarrot />,
 			submenu: [
-				/* {
-					icon: <BsPencilSquare />,
-					text: "recettes à modifier",
-					to: "create",
-				}, */
 				{
-					icon: <FaCarrot />,
-					text: "modifier des ingrédients",
-					to: "ingredients",
+					title: "ajouter",
+					icon: <IoMdAdd />,
+					path: "/admin/ingredient/create",
+				},
+				{
+					title: "modifier",
+					icon: <MdEdit />,
+					path: "/admin/ingredient/edit",
+				},
+				{
+					title: "supprimer",
+					icon: <IoMdRemove />,
+					path: "/admin/ingredient/delete",
 				},
 			],
 		},
@@ -53,20 +67,20 @@ function Admin() {
 
 	return (
 		<div className="admin">
-			<NavAdmin navMenu={navMenu} />
+			<MenuCollapse navclassName="admin-nav" navMenu={navMenu} />
 			<div className="admin-container">
-				<div className="stats">
+				<div className="admin-container__stats">
 					<StatBox
 						text="chefs"
 						nbr="5"
 						icon={<HiUserGroup />}
-						color="blue"
+						colorBg="gold"
 					/>
 					<StatBox
 						text="recettes"
 						nbr="10"
 						icon={<IoNewspaperOutline />}
-						color="green"
+						colorBg="gold"
 					/>
 				</div>
 				<div className="admin-panel">

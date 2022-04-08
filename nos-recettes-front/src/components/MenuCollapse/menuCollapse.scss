@@ -1,0 +1,86 @@
+// -----------------------------------------------------------
+/*  Nav Collapse */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../style/sass/variables" as v;
+@use "../../style/sass/mixins" as m;
+
+$link-color: v.$color-darkgrey;
+
+.nav-collapse {
+	background-color: $link-color;
+}
+
+.navbloc {
+	z-index: 0;
+	color: white;
+	overflow: hidden;
+	&--show {
+		ul {
+			max-height: 100em; // 100% not working with transition
+			transition: max-height 2s ease-out;
+		}
+	}
+	&__title {
+		@include m.flex(
+			$axis: (
+				null,
+				center,
+			),
+			$g: 0.7rem
+		);
+		font-size: 18px;
+		line-height: 40px;
+		font-weight: bold;
+		text-transform: capitalize;
+		padding: 0.9rem 1rem;
+		cursor: pointer;
+		border-top: 1px solid darken($link-color, 5%);
+	}
+	&__links {
+		background-color: lighten($link-color, 5%);
+		@include m.flex(column);
+		max-height: 0;
+	}
+}
+
+.navlink {
+	border-top: 1px solid darken($link-color, 5%);
+	&__item {
+		@include m.flex(
+			$axis: (
+				null,
+				center,
+			),
+			$g: 0.7rem
+		);
+		font-weight: normal;
+		font-size: 14px;
+		color: inherit;
+		width: 100%;
+		&:before {
+			@include m.before-after();
+			width: 0;
+			height: 0;
+			border: 0 solid transparent;
+			border-top-width: 23px;
+			border-bottom-width: 23px;
+			border-left: 25px solid transparent;
+		}
+		&:hover {
+			background-color: lighten($link-color, 10%);
+			&:not(.navlink__item--active):before {
+				border-left-color: white;
+			}
+		}
+		svg {
+			font-size: 20px;
+		}
+		&--active {
+			color: v.$color-gold;
+			&:before {
+				border-left-color: v.$color-gold;
+			}
+		}
+	}
+}

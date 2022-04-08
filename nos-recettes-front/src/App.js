@@ -8,8 +8,8 @@ import Recipe from "./pages/Home/Recipe/Recipe";
 import CreateRecipe from "./pages/Home/CreateRecipe/CreateRecipe";
 import Profile from "./pages/Home/Profile/Profile";
 import Admin from "./pages/Home/Admin/Admin";
-import CreateUser from "./pages/Home/Admin/CreateUser";
-import ManageIngredients from "./pages/Home/Admin/ManageIngredients";
+import CreateUser from "./pages/Home/Admin/Actions/CreateUser";
+import CreateIngredient from "./pages/Home/Admin/Actions/CreateIngredient";
 
 function App() {
 	return (
@@ -29,10 +29,21 @@ function App() {
 							<Route path="/admin" element={<Admin />}>
 								{" "}
 								{/*road to protect */}
-								<Route path="create" element={<CreateUser />} />
 								<Route
-									path="ingredients"
-									element={<ManageIngredients />}
+									path="user/create"
+									element={<CreateUser />}
+								/>
+								<Route
+									path="ingredient/create"
+									element={<CreateIngredient />}
+								/>
+								<Route
+									path="ingredient/edit"
+									element={<p>modif ingr</p>}
+								/>
+								<Route
+									path="ingredient/delete"
+									element={<p>delete ingr</p>}
 								/>
 							</Route>
 						</Route>

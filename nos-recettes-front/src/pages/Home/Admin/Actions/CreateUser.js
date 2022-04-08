@@ -1,11 +1,11 @@
 import { useOutletContext } from "react-router-dom";
 import { useEffect } from "react";
 /* Import Style */
-import "./createUser.scss";
+import "./actions.scss";
 // Import Components
-import useUserForm from "../../../hooks/useUserForm";
-import BtnBrand from "../../../components/Buttons/BtnBrand";
-import FormControls from "../../../components/FormControls/FormControls";
+import useUserForm from "../../../../hooks/useUserForm";
+import BtnBrand from "../../../../components/Buttons/BtnBrand";
+import FormControls from "../../../../components/FormControls/FormControls";
 
 function CreateUser() {
 	const { setSubtitle } = useOutletContext();
@@ -22,7 +22,7 @@ function CreateUser() {
 		<form
 			autoComplete="off"
 			id="create-user"
-			className="form-create-user"
+			className="action-form"
 			onSubmit={handleCreate}
 		>
 			{formInputs.map((input, index) => (

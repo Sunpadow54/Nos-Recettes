@@ -1,0 +1,18 @@
+// -----------------------------------------------------------
+/*  Actions admin */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../../../style/sass/variables" as v;
+@use "../../../../style/sass/mixins" as m;
+
+.action-form {
+	max-width: 700px;
+	margin: auto;
+	@include m.flex(column, $g: 1.5rem);
+	button {
+		align-self: flex-end;
+		&[type="submit"] {
+			align-self: center;
+		}
+	}
+}

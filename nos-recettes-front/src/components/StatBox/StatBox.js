@@ -3,8 +3,12 @@ import classNames from "classnames";
 import "./statBox.scss";
 // Import Components
 
-function StatBox({ icon, color, nbr, text }) {
-	const classBox = classNames("stat-box", color && `stat-box--${color}`);
+function StatBox({ icon, colorTxt, colorBg, nbr, text }) {
+	const classBox = classNames(
+		"stat-box",
+		colorBg && `${colorBg}-bg`,
+		colorTxt && `${colorTxt}-txt`
+	);
 
 	return (
 		<div className={classBox}>
