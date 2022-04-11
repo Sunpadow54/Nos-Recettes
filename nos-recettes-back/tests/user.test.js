@@ -151,4 +151,16 @@ describe("Users", () => {
 				.expect(200);
 		});
 	});
+	// count user
+	describe("GET /user/count", () => {
+		it("---> nbr of users", async () => {
+			return request(app)
+				.get("/api/user/count")
+				.set("Authorization", `Bearer ${token.user}`)
+				.expect(200)
+				.then((response) => {
+					expect(response.body).toEqual(expect.any(Number));
+				});
+		});
+	});
 });

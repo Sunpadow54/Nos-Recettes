@@ -16,6 +16,7 @@ const userCtrl = require('../controllers/user');
 
 router.post('/create', authUser, authAdmin, userSignUpRules(), validateRules, userCtrl.createUser);
 router.put('/:id', authUser, userEditRules(), validateRules, userCtrl.editUser);
+router.get('/count', authUser, /* authAdmin, */ userCtrl.count);
 router.get('/:id', authUser, userCtrl.getOneUser);
 router.delete('/:id', authUser, userCtrl.delete);
 

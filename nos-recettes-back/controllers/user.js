@@ -117,3 +117,11 @@ exports.delete = (req, res, next) => {
 		})
 		.catch((error) => res.status(error.status || 500).json(error.message));
 };
+
+exports.count = (req, res, next) => {
+	User.count()
+		.then((nbr) => {
+			res.status(200).json(parseInt(nbr.count));
+		})
+		.catch((error) => res.status(500).json(error.message));
+};

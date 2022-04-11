@@ -52,6 +52,7 @@ describe("Auth", () => {
 				req.delete("/api/recipe/3").expect(401),
 				// user
 				req.get("/api/user/2").expect(401),
+				req.get("/api/user/count").expect(401),
 				req.post("/api/user/create").expect(401),
 				req.put("/api/user/2").expect(401),
 				req.delete("/api/user/2").expect(401),
@@ -75,6 +76,7 @@ describe("Auth", () => {
 				req.delete("/api/recipe/3").set(authorization).expect(401),
 				// user
 				req.get("/api/user/2").set(authorization).expect(401),
+				req.get("/api/user/count").set(authorization).expect(401),
 				req.post("/api/user/create").set(authorization).expect(401),
 				req.put("/api/user/2").set(authorization).expect(401),
 				req.delete("/api/user/2").set(authorization).expect(401),
@@ -83,18 +85,18 @@ describe("Auth", () => {
 			]);
 		});
 	});
-    describe("admin requests with normal user token", () => {
+	describe("admin requests with normal user token", () => {
 		it("---> 401 Unauthorized", async () => {
 			const req = request(app);
 			const authorization = {
 				Authorization: `Bearer ${token.user}`,
 			};
 			return Promise.all([
-                //user
-                req.post("/api/user/create").set(authorization).expect(401),
+				//user
+				req.post("/api/user/create").set(authorization).expect(401),
 				// ingredient
 				req.post("/api/ingredient").set(authorization).expect(401),
-                req.put("/api/ingredient/1").set(authorization).expect(401),
+				req.put("/api/ingredient/1").set(authorization).expect(401),
 			]);
 		});
 	});

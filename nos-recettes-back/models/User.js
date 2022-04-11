@@ -132,6 +132,19 @@ User.delete = (userId) => {
 	});
 };
 
+User.count = () => {
+	const query = "SELECT COUNT(id) FROM users WHERE is_active='true' ;";
+	// ask client
+	return new Promise((resolve, reject) => {
+		db.query(query, (err, res) => {
+			// errors
+			if (err) return reject(err);
+			// success
+			resolve(res.rows[0]);
+		});
+	});
+};
+
 // ============================================================
 // ------------------------- EXPORT ---------------------------
 

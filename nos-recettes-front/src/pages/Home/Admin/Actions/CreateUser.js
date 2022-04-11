@@ -8,15 +8,24 @@ import BtnBrand from "../../../../components/Buttons/BtnBrand";
 import FormControls from "../../../../components/FormControls/FormControls";
 
 function CreateUser() {
-	const { setSubtitle } = useOutletContext();
+	const { setSubtitle, incrementUser } = useOutletContext();
+
+	const { inputs, handleCreate, userFetch } = useUserForm({});
+	const formInputs = Object.values(inputs).filter(
+		(input) => input.name !== "newPassword"
+	);
+
+	// Effects
+
 	useEffect(() => {
 		setSubtitle("Créer un nouvel utilisateur");
 	}, [setSubtitle]);
 
-	const { inputs, handleCreate } = useUserForm({});
-	const formInputs = Object.values(inputs).filter(
-		(input) => input.name !== "newPassword"
-	);
+	useEffect(() => {
+		if (userFetch) {
+			incrementUser();
+		}
+	}, [userFetch]);
 
 	return (
 		<form

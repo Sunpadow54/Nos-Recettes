@@ -15,15 +15,24 @@ import { FaCarrot /* FaUsers */ } from "react-icons/fa";
 import { IoMdAdd, IoMdRemove } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 // Import Components
+import useFetch from "../../../hooks/useFetch";
 import StatBox from "../../../components/StatBox/StatBox";
 import MenuCollapse from "../../../components/MenuCollapse/MenuCollapse";
 
 function Admin() {
 	const { setTitle } = useOutletContext();
 	const [subtitle, setSubtitle] = useState("");
-	useEffect(() => {
-		setTitle("Administration");
-	}, [setTitle]);
+	const [nbrUsers, setNbrUsers] = useState();
+
+	const { data: fetchNbrUsers } = useFetch({
+		endpoint: "/user/count",
+		method: "GET",
+		auth: true,
+	});
+
+	const incrementUser = () => {
+		setNbrUsers(nbrUsers + 1);
+	};
 
 	const navMenu = [
 		{
@@ -65,6 +74,15 @@ function Admin() {
 		},
 	];
 
+	// Effects
+	useEffect(() => {
+		setTitle("Administration");
+	}, [setTitle]);
+
+	useEffect(() => {
+		setNbrUsers(fetchNbrUsers);
+	}, [fetchNbrUsers]);
+
 	return (
 		<div className="admin">
 			<MenuCollapse navclassName="admin-nav" navMenu={navMenu} />
@@ -72,7 +90,7 @@ function Admin() {
 				<div className="admin-container__stats">
 					<StatBox
 						text="chefs"
-						nbr="5"
+						nbr={nbrUsers}
 						icon={<HiUserGroup />}
 						colorBg="gold"
 					/>
@@ -85,7 +103,7 @@ function Admin() {
 				</div>
 				<div className="admin-panel">
 					<h3 className="admin-panel__title">{subtitle}</h3>
-					<Outlet context={{ setSubtitle }} />
+					<Outlet context={{ setSubtitle, incrementUser }} />
 				</div>
 			</div>
 		</div>
