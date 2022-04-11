@@ -2,6 +2,15 @@ const request = require("supertest");
 const app = require("../app");
 
 describe("Ingredients", () => {
+	describe("POST /ingredient", () => {
+		it("----> 200", async () => {
+			return request(app)
+				.post("/api/ingredient")
+				.set("Authorization", `Bearer ${token.admin}`)
+				.send(["lasagne", "lait", "carotte", "boeuf"])
+				.expect(200);
+		});
+	});
 	describe("GET /ingredient", () => {
 		it("----> array of all ingredients", async () => {
 			return request(app)
@@ -19,14 +28,23 @@ describe("Ingredients", () => {
 					);
 				});
 		});
-	});
-	describe("POST /ingredient", () => {
-		it("----> 200", async () => {
+		it("?search= ---> specific array of ingredients ordered", async () => {
 			return request(app)
-				.post("/api/ingredient")
-				.set("Authorization", `Bearer ${token.admin}`)
-				.send(["lasagne", "carotte", "boeuf"])
-				.expect(200);
+				.get("/api/ingredient?search=la")
+				.set("Authorization", `Bearer ${token.user}`)
+				.expect(200)
+				.then((response) => {
+					expect(response.body).toEqual([
+						{
+							id: expect.any(Number),
+							name: "lait",
+						},
+						{
+							id: expect.any(Number),
+							name: "lasagne",
+						},
+					]);
+				});
 		});
 	});
 	describe("PUT /ingredient", () => {

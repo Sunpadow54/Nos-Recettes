@@ -13,9 +13,16 @@ class Ingredient {
 	}
 }
 
-Ingredient.findAll = () => {
-	// define the query
-	const query = format(`SELECT * FROM ingredients ORDER BY name`);
+Ingredient.findAll = (filter) => {
+	// define the query  / with filter if there is
+	const filterFormated = filter
+		? format(`WHERE name LIKE %L`, filter + "%")
+		: "";
+	const query = format(
+		`SELECT * FROM ingredients %s ORDER BY name`,
+		filterFormated
+	);
+
 	// ask db
 	return new Promise((resolve, reject) => {
 		db.query(query, (err, res) => {

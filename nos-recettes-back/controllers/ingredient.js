@@ -8,7 +8,7 @@ const Ingredient = require("../models/Ingredient");
 // -------------------------- CONTROLS ------------------------
 
 exports.getAll = (req, res, next) => {
-	Ingredient.findAll()
+	Ingredient.findAll(req.query.search)
 		.then((ingredients) => {
 			res.status(200).json(ingredients);
 		})
