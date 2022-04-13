@@ -6,7 +6,7 @@ function useFetch({ endpoint, method, body, wait, auth }) {
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
-	const [immediate, setImmediate] = useState(wait ? false : true);
+	const [immediate, setImmediate] = useState(!wait);
 	const [currentUser] = useContext(UserContext);
 
 	// function to make post/put req on submit
@@ -54,6 +54,7 @@ function useFetch({ endpoint, method, body, wait, auth }) {
 			console.log(err);
 		} finally {
 			setLoading(false);
+			setImmediate(false);
 		}
 	};
 
