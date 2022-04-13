@@ -10,7 +10,7 @@ import FormControls from "../../../../components/FormControls/FormControls";
 function CreateUser() {
 	const { setSubtitle, incrementUser } = useOutletContext();
 
-	const { inputs, handleCreate, userFetch } = useUserForm({});
+	const { inputs, handleCreate, data: userCreated } = useUserForm({});
 	const formInputs = Object.values(inputs).filter(
 		(input) => input.name !== "newPassword"
 	);
@@ -22,10 +22,10 @@ function CreateUser() {
 	}, [setSubtitle]);
 
 	useEffect(() => {
-		if (userFetch) {
+		if (userCreated) {
 			incrementUser();
 		}
-	}, [userFetch]);
+	}, [userCreated]);
 
 	return (
 		<form

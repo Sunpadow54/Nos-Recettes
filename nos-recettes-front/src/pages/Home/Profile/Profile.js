@@ -20,7 +20,12 @@ function Profile() {
 	const [user, setUser] = useState(null);
 	const isMyProfile = parseInt(id) === currentUser.id && true;
 	const { btnEdit, isEdit, setEdit } = useToggleEdit();
-	const { inputs, handleEdit, userChanged, error } = useUserForm({
+	const {
+		inputs,
+		handleEdit,
+		data: dataEdited,
+		error,
+	} = useUserForm({
 		user,
 		id,
 	});
@@ -54,15 +59,15 @@ function Profile() {
 	}, [userFetched]);
 
 	useEffect(() => {
-		if (userChanged) {
+		if (dataEdited) {
 			setEdit(false);
 			setUser({
 				...user,
-				...userChanged,
+				...dataEdited,
 			});
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [userChanged]);
+	}, [dataEdited]);
 
 	return (
 		<div className="profile">

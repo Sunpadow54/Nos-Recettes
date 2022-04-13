@@ -29,7 +29,7 @@ function useUserForm({ user, id }) {
 	// -------- API
 
 	const {
-		data: userFetch,
+		data,
 		error,
 		sendToApi,
 	} = useFetch({
@@ -133,7 +133,7 @@ function useUserForm({ user, id }) {
 		}
 	}, [user]);
 
-	return { handleEdit, handleCreate, error, inputs, userFetch };
+	return { handleEdit, handleCreate, error, inputs, data };
 }
 
 export default useUserForm;
