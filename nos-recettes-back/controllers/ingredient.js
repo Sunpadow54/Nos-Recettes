@@ -24,7 +24,7 @@ exports.createIngredient = (req, res, next) => {
 };
 
 exports.editIngredient = (req, res, next) => {
-	Ingredient.edit({ id: req.params.id, name: req.body.name })
+	Ingredient.edit({ id: req.params.id, name: req.body })
 		.then((ingredientsEdited) => {
 			res.status(200).json(ingredientsEdited);
 		})

@@ -61,7 +61,7 @@ Ingredient.edit = ({ id, name }) => {
 	const query = format(
 		`
             UPDATE ingredients SET name = %L WHERE id = %L
-            RETURNING name;
+            RETURNING id, name;
     `,
 		name,
 		id
