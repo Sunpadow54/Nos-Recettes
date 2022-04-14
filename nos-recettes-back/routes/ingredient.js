@@ -15,7 +15,7 @@ const ingredientCtrl = require("../controllers/ingredient");
 router.get("/", authUser, ingredientCtrl.getAll);
 router.post("/", authUser, authAdmin, ingredientCtrl.createIngredient);
 router.put("/:id", authUser, authAdmin, ingredientCtrl.editIngredient);
-
+router.delete("/:id", authUser, authAdmin, ingredientCtrl.deleteIngredient);
 // ============================================================
 // ------------------------- EXPORT ---------------------------
 

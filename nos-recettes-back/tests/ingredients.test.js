@@ -55,7 +55,10 @@ describe("Ingredients", () => {
 				.send({ name: "beurreEdited" })
 				.expect(200)
 				.then((response) => {
-					expect(response.body).toEqual({ name: "beurreEdited" });
+					expect(response.body).toEqual({
+						id: expect.any(Number),
+						name: "beurreEdited",
+					});
 				});
 		});
 		it("----> 409 Conflict : ingredient already exist", async () => {

@@ -10,7 +10,7 @@ function useIngredientForm(ingredient) {
 	const { data, error, sendToApi } = useFetch({
 		endpoint: ingredient ? "/ingredient/" + ingredient.id : "/ingredient",
 		method: ingredient ? "PUT" : "POST",
-		body: ingredientForm,
+		body: ingredient ? { name: ingredientForm[0] } : ingredientForm,
 		wait: true,
 		auth: true,
 	});
