@@ -33,8 +33,6 @@ exports.editIngredient = (req, res, next) => {
 
 exports.deleteIngredient = (req, res, next) => {
 	Ingredient.delete({ id: req.params.id })
-		.then((ingrDeleted) => {
-			res.status(200).json(ingrDeleted);
-		})
+		.then((ingrDeleted) => res.status(200).json(ingrDeleted))
 		.catch((error) => res.status(error.status || 500).json(error.message));
 };

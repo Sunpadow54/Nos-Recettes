@@ -48,5 +48,3 @@ CREATE TABLE recipe_ingredients
 
 CREATE UNIQUE INDEX ids_recipe_ingredient
 ON recipe_ingredients(id_recipe, id_ingredient);
-
-INSERT INTO ingredients (name) VALUES ('tomate'), ('beurre'), ('huile');

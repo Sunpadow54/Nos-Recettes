@@ -83,6 +83,32 @@ Ingredient.edit = ({ id, name }) => {
 	});
 };
 
+Ingredient.delete = ({ id }) => {
+	// define the query
+	const query = format(
+		`
+            DELETE FROM ingredients WHERE id = %L
+            RETURNING id, name;
+    `,
+		id
+	);
+
+	// ask db
+	return new Promise((resolve, reject) => {
+		db.query(query, (err, res) => {
+			// error
+			if (err && err.constraint) {
+				let error = new Error("already in use");
+				error.status = 409;
+				return reject(error);
+			}
+			if (err) return reject(err);
+			// success
+			resolve(res.rows[0]);
+		});
+	});
+};
+
 // ============================================================
 // ------------------------- EXPORT ---------------------------
 
