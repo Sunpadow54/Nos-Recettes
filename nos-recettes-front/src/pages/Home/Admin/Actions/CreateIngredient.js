@@ -16,7 +16,7 @@ function CreateIngredient() {
 	}, [setSubtitle]);
 
 	const { inputs, handleCreate, handleAddInput, handleRemoveInput } =
-		useIngredientForm();
+		useIngredientForm(null);
 
 	return (
 		<form

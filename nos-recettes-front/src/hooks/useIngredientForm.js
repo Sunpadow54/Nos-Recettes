@@ -1,11 +1,19 @@
-import { useState, useEffect, useReducer, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 // Import components
 import useFetch from "./useFetch";
 
-function useIngredientForm() {
+function useIngredientForm(ingredient) {
 	const [ingredientForm, setIngredientForm] = useState([""]);
 
 	// -------- API
+
+	const { data, error, sendToApi } = useFetch({
+		endpoint: ingredient ? "/ingredient/" + ingredient.id : "/ingredient",
+		method: ingredient ? "PUT" : "POST",
+		body: ingredientForm,
+		wait: true,
+		auth: true,
+	});
 
 	// --------- Handles
 
@@ -30,18 +38,19 @@ function useIngredientForm() {
 
 	const handleEdit = (e) => {
 		e.preventDefault();
+		sendToApi();
 	};
 
 	const handleCreate = (e) => {
 		e.preventDefault();
-		console.log(ingredientForm);
+		sendToApi();
 	};
 
 	// --------- Props
 
 	const inputs = useMemo(() => {
 		let props = [];
-		ingredientForm.forEach((ingredient, i) => {
+		ingredientForm.forEach((ingr, i) => {
 			props.push({
 				type: "text",
 				name: `ingredients-${i}`,
@@ -57,12 +66,19 @@ function useIngredientForm() {
 
 	// --------- Effects
 
+	useEffect(() => {
+		if (ingredient) {
+			setIngredientForm([ingredient.name]);
+		}
+	}, [ingredient]);
+
 	return {
 		handleEdit,
 		handleCreate,
 		handleAddInput,
 		handleRemoveInput,
 		inputs,
+		data,
 	};
 }
 

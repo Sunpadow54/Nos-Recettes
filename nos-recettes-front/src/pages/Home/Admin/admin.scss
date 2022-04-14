@@ -1,5 +1,5 @@
 // -----------------------------------------------------------
-/*  Admin */
+/*  Admin Dashboard*/
 // -----------------------------------------------------------
 /* Import Sass utils */
 @use "../../../style/sass/variables" as v;
@@ -7,24 +7,28 @@
 
 .admin {
 	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 4px 4px rgba(0, 0, 0, 0.23);
-
 	border-radius: 10px;
 	overflow: hidden;
 	@include m.desktop {
 		@include m.grid(1fr 4fr, minmax(20vh, auto));
 	}
 	&-container {
-		@include m.flex(column);
+		@include m.flex(column, $g: 1rem);
+		padding: 1rem 3rem;
+		background-color: v.$color-lightgrey;
 		&__stats {
-			padding: 1rem;
-			@include m.flex($axis: space-evenly, $g: 0.5rem);
+			//padding: 1rem;
+			@include m.flex($axis: space-between, $g: 0.5rem);
 		}
 	}
 	&-panel {
-		padding: 0 1rem;
+		padding: 1.5rem;
+		@include m.shadow-out();
+		background-color: white;
+		z-index: 0; // to show the background color of button:after
 		&__title {
 			text-align: center;
-			padding: 3rem;
+			margin-bottom: 1.4rem;
 		}
 	}
 }

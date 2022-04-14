@@ -5,9 +5,9 @@
 @use "../../style/sass/variables" as v;
 @use "../../style/sass/mixins" as m;
 
-$input-padding: 12px;
+
 @mixin label-top() {
-	transform: translate(-($input-padding), -1.9rem);
+	transform: translate(-(v.$input-padding), -1.9rem);
 	font-size: 14px;
 	color: v.$color-grey;
 }
@@ -25,11 +25,11 @@ $input-padding: 12px;
 	&__label {
 		@include m.position(
 			absolute,
-			calc($input-padding + 1px)
+			calc(v.$input-padding + 1px)
 		); // 1px for the border
 		transition: all 0.5s ease-in-out;
 		//display: block; // to make the uppercase works on ::first-letter
-		padding-left: $input-padding;
+		padding-left: v.$input-padding;
 		z-index: -1; // fix user focus of input
 		font: 1rem Raleway;
 		overflow: hidden;
@@ -48,7 +48,7 @@ $input-padding: 12px;
 	&__control {
 		width: 100%;
 		@include m.border(v.$color-lightgrey);
-		padding: $input-padding;
+		padding: v.$input-padding;
 		font: inherit;
 		background-color: transparent;
 		&:focus {
@@ -147,7 +147,6 @@ $input-padding: 12px;
 	grid-template-areas: "input";
 	align-items: center;
 	@include m.border(v.$color-lightgrey);
-	//padding: $input-padding;
 	padding: v.$input-resize-pad;
 	&::after {
 		content: attr(data-value) "";

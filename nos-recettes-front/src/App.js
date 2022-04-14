@@ -10,6 +10,7 @@ import Profile from "./pages/Home/Profile/Profile";
 import Admin from "./pages/Home/Admin/Admin";
 import CreateUser from "./pages/Home/Admin/Actions/CreateUser";
 import CreateIngredient from "./pages/Home/Admin/Actions/CreateIngredient";
+import EditIngredient from "./pages/Home/Admin/Actions/EditIngredient";
 
 function App() {
 	return (
@@ -39,7 +40,7 @@ function App() {
 								/>
 								<Route
 									path="ingredient/edit"
-									element={<p>modif ingr</p>}
+									element={<EditIngredient />}
 								/>
 								<Route
 									path="ingredient/delete"

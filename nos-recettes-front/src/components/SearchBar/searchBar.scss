@@ -1,0 +1,34 @@
+// -----------------------------------------------------------
+/*  Searchbar */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../style/sass/variables" as v;
+@use "../../style/sass/mixins" as m;
+
+.searchbar {
+	@include m.flex();
+	color: v.$color-darkgrey;
+	&__icon {
+		@include m.centered();
+		font-size: 20px;
+		margin-right: 0.5rem;
+	}
+	&-controls {
+		position: relative;
+		font-size: 17px;
+		&__input {
+			color: inherit;
+			height: 40px;
+			line-height: 50px;
+			font: inherit;
+			border-bottom: 3px solid v.$color-darkgrey;
+		}
+		&__underline {
+			@include m.position(absolute, $l: 0, $b: 0);
+			background-color: v.$color-gold;
+			height: 3px;
+			overflow: hidden;
+			max-width: 100%;
+		}
+	}
+}
