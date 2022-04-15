@@ -54,7 +54,9 @@ function useFetch({ endpoint, method, body, wait, auth }) {
 			console.log(err);
 		} finally {
 			setLoading(false);
-			setImmediate(false);
+			if (wait) {
+				setImmediate(false);
+			}
 		}
 	};
 
@@ -65,7 +67,7 @@ function useFetch({ endpoint, method, body, wait, auth }) {
 			fetchAction();
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [url, method, body, immediate]);
+	}, [endpoint, method, body, immediate]);
 
 	// Cleanup to fix state updated on unmounted
 	useEffect(() => {
