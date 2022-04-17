@@ -59,21 +59,41 @@ Recipe.create = (newRecipe, ingredients) => {
 	});
 };
 
-Recipe.findAll = (filter) => {
-	// Function to format filter to query the db
-	const formatFilters = () => {
+Recipe.findAll = (baseFilters, ingrFilters) => {
+	let query = "";
+	let filters = "";
+	// ---- Format filters if there is;
+	// Ingredient filter ?
+	if (ingrFilters) {
+		let insert =
+			ingrFilters.length > 1
+				? `IN (${ingrFilters.join(", ")})`
+				: `= ${ingrFilters[0]}`;
+		// start query
+		query = `WITH recipeIds AS (
+            SELECT id_recipe AS ids
+                FROM recipe_ingredients 
+                WHERE id_ingredient ${insert}
+        ) `;
+		// create filters
+		filters += "WHERE id IN (SELECT ids FROM recipeIds) ";
+	}
+
+	// Main filters ?
+	if (Object.keys(baseFilters).length > 0) {
 		let filtersArray = [];
-		for (const [key, value] of Object.entries(filter)) {
+		for (const [key, value] of Object.entries(baseFilters)) {
 			filtersArray.push(`${key}='${value}'`);
 		}
-		return "WHERE " + filtersArray.join(" AND ");
-	};
+		// create || continue filters
+		filters += ingrFilters
+			? `AND ${filtersArray.join(" AND ")}`
+			: `WHERE ${filtersArray.join(" AND ")}`;
+	}
 
-	// set filters for query if any
-	const hasFilter = Object.keys(filter).length === 0;
-	const filters = hasFilter ? "" : formatFilters();
-
-	const query = `SELECT 
+	// ---- query
+	query += `
+        SELECT 
             id, r.id_user, r.created_at AS date, r.img, r.duration, r.title,
             i.ingredients
         FROM  recipes AS r
@@ -87,8 +107,9 @@ Recipe.findAll = (filter) => {
         ) i USING (id)
         ${filters}
         ORDER BY r.created_at DESC;
-        `;
+    `;
 
+	console.log(query);
 	// ask db
 	return new Promise((resolve, reject) => {
 		db.query(query, (err, res) => {

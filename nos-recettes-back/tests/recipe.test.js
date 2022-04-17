@@ -78,6 +78,54 @@ describe("Recipes", () => {
 					);
 				});
 		});
+		it("?params ---> specific array of recipes from ingredient id", async () => {
+			return request(app)
+				.get("/api/recipe?ingredient=1")
+				.set("Authorization", `Bearer ${token.user}`)
+				.expect("Content-Type", /json/)
+				.expect(200)
+				.then((response) => {
+					expect(response.body).toEqual(
+						expect.arrayContaining([
+							expect.objectContaining({
+								id: expect.any(Number),
+								id_user: expect.any(Number),
+								date: expect.any(String),
+								duration: expect.any(String),
+								title: expect.any(String),
+								img: expect.any(String || null),
+								ingredients: expect.arrayContaining([
+									expect.any(String),
+								]),
+							}),
+						])
+					);
+				});
+		});
+		it("?params ---> specific array of recipes from ingredient id AND other param ", async () => {
+			return request(app)
+				.get("/api/recipe?ingredient=1&category=plat")
+				.set("Authorization", `Bearer ${token.user}`)
+				.expect("Content-Type", /json/)
+				.expect(200)
+				.then((response) => {
+					expect(response.body).toEqual(
+						expect.arrayContaining([
+							expect.objectContaining({
+								id: expect.any(Number),
+								id_user: expect.any(Number),
+								date: expect.any(String),
+								duration: expect.any(String),
+								title: expect.any(String),
+								img: expect.any(String || null),
+								ingredients: expect.arrayContaining([
+									expect.any(String),
+								]),
+							}),
+						])
+					);
+				});
+		});
 	});
 	// get One recipes
 	describe("GET /recipe/id ", () => {

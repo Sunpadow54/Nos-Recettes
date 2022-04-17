@@ -8,7 +8,17 @@ const Recipe = require("../models/Recipe");
 // -------------------------- CONTROLS ------------------------
 
 exports.getAllRecipes = (req, res, next) => {
-	Recipe.findAll(req.query)
+	// if ingredients
+	const baseFilters = Object.keys(req.query).length > 0 && req.query;
+	const ingrFilters =
+		Object.keys(req.query).includes("ingredient") &&
+		req.query.ingredient.split("-");
+
+	if (Object.keys(req.query).includes("ingredient")) {
+		delete baseFilters.ingredient;
+	}
+
+	Recipe.findAll(baseFilters, ingrFilters)
 		.then((recipes) => res.status(200).json(recipes))
 		.catch((error) => res.status(500).json(error));
 };
