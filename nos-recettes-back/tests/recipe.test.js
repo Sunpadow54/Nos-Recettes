@@ -1,6 +1,25 @@
 const request = require("supertest");
 const app = require("../app");
 
+// Matches
+const expectedRecipes = expect.arrayContaining([
+	expect.objectContaining({
+		id: expect.any(Number),
+		id_user: expect.any(Number),
+		date: expect.any(String),
+		duration: expect.any(String),
+		title: expect.any(String),
+		img: expect.any(String || null),
+		ingredients: expect.arrayContaining([
+			expect.objectContaining({
+				id: expect.any(Number),
+				name: expect.any(String),
+			}),
+		]),
+	}),
+]);
+
+// Tests
 describe("Recipes", () => {
 	// Create
 	describe("POST /recipe", () => {
@@ -37,21 +56,7 @@ describe("Recipes", () => {
 				.expect("Content-Type", /json/)
 				.expect(200)
 				.then((response) => {
-					expect(response.body).toEqual(
-						expect.arrayContaining([
-							expect.objectContaining({
-								id: expect.any(Number),
-								id_user: expect.any(Number),
-								date: expect.any(String),
-								duration: expect.any(String),
-								title: expect.any(String),
-								img: expect.any(String || null),
-								ingredients: expect.arrayContaining([
-									expect.any(String),
-								]),
-							}),
-						])
-					);
+					expect(response.body).toEqual(expectedRecipes);
 				});
 		});
 		it("?params ---> specific array of recipes", async () => {
@@ -61,21 +66,7 @@ describe("Recipes", () => {
 				.expect("Content-Type", /json/)
 				.expect(200)
 				.then((response) => {
-					expect(response.body).toEqual(
-						expect.arrayContaining([
-							expect.objectContaining({
-								id: expect.any(Number),
-								id_user: expect.any(Number),
-								date: expect.any(String),
-								duration: expect.any(String),
-								title: expect.any(String),
-								img: expect.any(String || null),
-								ingredients: expect.arrayContaining([
-									expect.any(String),
-								]),
-							}),
-						])
-					);
+					expect(response.body).toEqual(expectedRecipes);
 				});
 		});
 		it("?params ---> specific array of recipes from ingredient id", async () => {
@@ -85,21 +76,7 @@ describe("Recipes", () => {
 				.expect("Content-Type", /json/)
 				.expect(200)
 				.then((response) => {
-					expect(response.body).toEqual(
-						expect.arrayContaining([
-							expect.objectContaining({
-								id: expect.any(Number),
-								id_user: expect.any(Number),
-								date: expect.any(String),
-								duration: expect.any(String),
-								title: expect.any(String),
-								img: expect.any(String || null),
-								ingredients: expect.arrayContaining([
-									expect.any(String),
-								]),
-							}),
-						])
-					);
+					expect(response.body).toEqual(expectedRecipes);
 				});
 		});
 		it("?params ---> specific array of recipes from ingredient id AND other param ", async () => {
@@ -109,21 +86,7 @@ describe("Recipes", () => {
 				.expect("Content-Type", /json/)
 				.expect(200)
 				.then((response) => {
-					expect(response.body).toEqual(
-						expect.arrayContaining([
-							expect.objectContaining({
-								id: expect.any(Number),
-								id_user: expect.any(Number),
-								date: expect.any(String),
-								duration: expect.any(String),
-								title: expect.any(String),
-								img: expect.any(String || null),
-								ingredients: expect.arrayContaining([
-									expect.any(String),
-								]),
-							}),
-						])
-					);
+					expect(response.body).toEqual(expectedRecipes);
 				});
 		});
 	});

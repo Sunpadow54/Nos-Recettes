@@ -100,7 +100,7 @@ Recipe.findAll = (baseFilters, ingrFilters) => {
         LEFT JOIN (
             SELECT  
                 ri.id_recipe AS id,
-                ARRAY_AGG(i.name) AS ingredients
+                JSON_AGG(JSON_BUILD_OBJECT('name', i.name, 'id', i.id)) AS ingredients
             FROM   recipe_ingredients AS ri
             JOIN   ingredients AS i  ON i.id = ri.id_ingredient
             GROUP  BY ri.id_recipe

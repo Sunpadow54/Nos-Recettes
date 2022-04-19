@@ -1,9 +1,9 @@
 function IngredientsPills({ ingredients }) {
 	return (
 		<ul className="card-pills">
-			{ingredients.map((ingredient) => (
-				<li key={ingredient} className="card-pills__item">
-					{ingredient}
+			{ingredients.map((ingredient, i) => (
+				<li key={i} className="card-pills__item">
+					{ingredient.name}
 				</li>
 			))}
 		</ul>
