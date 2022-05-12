@@ -6,54 +6,44 @@
 @use "../../../../style/sass/mixins" as m;
 
 .action-form {
-	max-width: 500px;
+	//max-width: 500px;
 	padding-top: 1rem;
 	@include m.flex(column, $g: 1.5rem);
-	button {
-		align-self: flex-end;
-		&[type="submit"] {
-			align-self: center;
-		}
+}
+
+table {
+	border-collapse: collapse;
+	min-width: 100%;
+	th,
+	td {
+		border: 1px solid grey;
+		padding: 5px;
+		text-align: center;
+	}
+	td div {
+		@include m.flex();
+	}
+	tr:hover {
+		background-color: lighten(v.$color-lightgrey, 10%);
+	}
+	div {
+		width: fit-content;
+		margin: auto;
+		background-color: white;
 	}
 }
 
-.edit-ingredient {
-	gap: 3rem;
-	&__search {
-		@include m.flex(column, $g: 2rem);
-	}
-	&__form {
-		opacity: 0;
-		&--show {
-			opacity: 1;
-		}
-		&-group {
-			@include m.flex(
-				$axis: (
-					null,
-					center,
-				),
-				$g: 1rem
-			);
-		}
-	}
-}
-.ingredient-list {
-	@include m.flex($g: 0.5rem, $wrap: wrap);
-	&__btn {
-		background-color: v.$color-grey;
-		font-size: 16px;
+.button-simple {
+	@include m.centered();
+	padding: 0.2rem;
+	height: inherit;
+	border: 1px solid v.$color-lightgrey;
+	border-left: none;
+	font-size: 1.6rem;
+	color: v.$color-grey;
+	&:hover {
+		background-color: #1d6f88;
+		border-color: #1d6f88;
 		color: white;
-		padding: 0.2rem 0.7rem;
-		border-radius: 10px;
-		border: 2px solid transparent;
-		&--active,
-		&:hover {
-			//background-color: v.$color-darkgrey;
-			background-color: white;
-			color: v.$color-gold;
-			border-color: v.$color-gold;
-			//border-color: v.$color-darkgrey;
-		}
 	}
 }

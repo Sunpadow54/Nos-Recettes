@@ -2,15 +2,18 @@ import { useState, useEffect, useMemo } from "react";
 // Import components
 import useFetch from "./useFetch";
 
-function useIngredientForm(ingredient) {
-	const [ingredientForm, setIngredientForm] = useState([""]);
+function useIngredientForm(oldIngredient) {
+	const [ingrForm, setIngrForm] = useState([""]);
+	const [request, setRequest] = useState({
+		endpoint: "/ingredient",
+		body: null,
+	});
 
 	// -------- API
 
 	const { data, error, sendToApi } = useFetch({
-		endpoint: ingredient ? "/ingredient/" + ingredient.id : "/ingredient",
-		method: ingredient ? "PUT" : "POST",
-		body: ingredient ? { name: ingredientForm[0] } : ingredientForm,
+		method: oldIngredient ? "PUT" : "POST",
+		...request,
 		wait: true,
 		auth: true,
 	});
@@ -19,58 +22,77 @@ function useIngredientForm(ingredient) {
 
 	const handleInputChange = (e) => {
 		const index = e.target.name.split("-")[1];
-		let newIngr = [...ingredientForm];
-		newIngr[index] = e.target.value;
-		setIngredientForm(newIngr);
+		const value = e.target.value;
+		let newForm = [...ingrForm];
+		newForm[index] = value;
+
+		setIngrForm(newForm);
 	};
 
 	const handleAddInput = () => {
-		let ingredients = [...ingredientForm];
-		ingredients.push("");
-		setIngredientForm(ingredients);
+		let ingrArray = [...ingrForm];
+		ingrArray.push("");
+		setIngrForm(ingrArray);
 	};
 
 	const handleRemoveInput = (index) => {
-		let ingredients = [...ingredientForm];
-		ingredients.splice(index, 1);
-		setIngredientForm(ingredients);
+		let ingrArray = [...ingrForm];
+		ingrArray.splice(index, 1);
+		setIngrForm(ingrArray);
 	};
 
-	const handleEdit = (e) => {
+	const handleEdit = (e, idIngredient) => {
 		e.preventDefault();
+		const index = oldIngredient.findIndex(
+			(item) => item.id === idIngredient
+		);
+		const newReq = {
+			...request,
+			endpoint: "/ingredient/" + idIngredient,
+			body: { name: ingrForm[index] },
+		};
+		setRequest(newReq);
 		sendToApi();
 	};
 
 	const handleCreate = (e) => {
 		e.preventDefault();
+		console.log(ingrForm);
+		const newReq = {
+			...request,
+			body: ingrForm,
+		};
+		setRequest(newReq);
 		sendToApi();
 	};
 
-	// --------- Props
+	// --------- Props (Inputs)
 
 	const inputs = useMemo(() => {
 		let props = [];
-		ingredientForm.forEach((ingr, i) => {
+		ingrForm.forEach((ing, i) => {
 			props.push({
 				type: "text",
 				name: `ingredients-${i}`,
 				label: `ingrédient ${i + 1}`,
-				value: ingredientForm[i],
+				value: ingrForm[i],
 				onChange: handleInputChange,
 				noRequired: true,
 			});
 		});
 		return props;
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [ingredientForm]);
+	}, [ingrForm]);
 
 	// --------- Effects
 
 	useEffect(() => {
-		if (ingredient) {
-			setIngredientForm([ingredient.name]);
+		if (oldIngredient) {
+			const newIngreArray = oldIngredient.map((e) => e.name);
+			setIngrForm(newIngreArray);
 		}
-	}, [ingredient]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [oldIngredient]);
 
 	return {
 		handleEdit,
