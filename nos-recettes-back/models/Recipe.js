@@ -109,7 +109,6 @@ Recipe.findAll = (baseFilters, ingrFilters) => {
         ORDER BY r.created_at DESC;
     `;
 
-	console.log(query);
 	// ask db
 	return new Promise((resolve, reject) => {
 		db.query(query, (err, res) => {
