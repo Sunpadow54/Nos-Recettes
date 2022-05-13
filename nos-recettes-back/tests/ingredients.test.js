@@ -1,6 +1,31 @@
 const request = require("supertest");
 const app = require("../app");
 
+// Matchers
+
+expect.extend({
+	toBeArrayOfOrNull(received, type) {
+		const pass =
+			received == null
+				? true
+				: received.arrayContaining([expect.any(type)]);
+		if (pass) {
+			return {
+				message: () => `Ok`,
+				pass: true,
+			};
+		} else {
+			return {
+				message: () =>
+					`expected ${received} to be an Array of ${type} or null`,
+				pass: false,
+			};
+		}
+	},
+});
+
+// Tests
+
 describe("Ingredients", () => {
 	describe("POST /ingredient", () => {
 		it("----> 200", async () => {
@@ -23,6 +48,7 @@ describe("Ingredients", () => {
 							expect.objectContaining({
 								id: expect.any(Number),
 								name: expect.any(String),
+								recipes: expect.toBeArrayOfOrNull(Number),
 							}),
 						])
 					);
@@ -38,10 +64,12 @@ describe("Ingredients", () => {
 						{
 							id: expect.any(Number),
 							name: "lait",
+							recipes: expect.toBeArrayOfOrNull(Number),
 						},
 						{
 							id: expect.any(Number),
 							name: "lasagne",
+							recipes: expect.toBeArrayOfOrNull(Number),
 						},
 					]);
 				});

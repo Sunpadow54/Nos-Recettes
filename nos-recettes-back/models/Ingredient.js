@@ -19,7 +19,15 @@ Ingredient.findAll = (filter) => {
 		? format(`WHERE name LIKE %L`, filter + "%")
 		: "";
 	const query = format(
-		`SELECT * FROM ingredients %s ORDER BY name`,
+		`SELECT id, name, ri.recipes
+        FROM ingredients
+        LEFT JOIN (
+            SELECT id_ingredient, ARRAY_AGG(id_recipe) AS recipes
+            FROM recipe_ingredients
+            GROUP BY id_ingredient
+        ) ri ON id = id_ingredient
+        %s 
+        ORDER BY name`,
 		filterFormated
 	);
 
