@@ -59,7 +59,7 @@ server.on("listening", () => {
 	const address = server.address();
 	const bind =
 		typeof address === "string" ? "pipe " + address : "port " + port;
-	console.log("Server Groupomania listening on " + bind);
+	console.log("Server mes-recettes listening on " + bind);
 });
 
 // ----- Server wait requests
