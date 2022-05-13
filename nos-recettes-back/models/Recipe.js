@@ -62,33 +62,37 @@ Recipe.create = (newRecipe, ingredients) => {
 Recipe.findAll = (baseFilters, ingrFilters) => {
 	let query = "";
 	let filters = "";
-	// ---- Format filters if there is;
-	// Ingredient filter ?
+
+	// --- Ingredient filter ?
 	if (ingrFilters) {
-		let insert =
-			ingrFilters.length > 1
-				? `IN (${ingrFilters.join(", ")})`
-				: `= ${ingrFilters[0]}`;
+		// get all recipe id where all ingredients asked are present
 		// start query
-		query = `WITH recipeIds AS (
+		query = format(
+			`WITH recipeIds AS (
             SELECT id_recipe AS ids
                 FROM recipe_ingredients 
-                WHERE id_ingredient ${insert}
-        ) `;
+                WHERE id_ingredient IN (%L)
+                GROUP BY id_recipe
+                HAVING COUNT(id_recipe) = %L
+        ) `,
+			ingrFilters,
+			ingrFilters.length
+		);
 		// create filters
 		filters += "WHERE id IN (SELECT ids FROM recipeIds) ";
 	}
 
-	// Main filters ?
+	// --- Main filters ?
 	if (Object.keys(baseFilters).length > 0) {
 		let filtersArray = [];
 		for (const [key, value] of Object.entries(baseFilters)) {
-			filtersArray.push(`${key}='${value}'`);
+			if (Array.isArray(value)) {
+				filtersArray.push(format(`%s IN (%L)`, key, value));
+			} else {
+				filtersArray.push(`${key}='${value}'`);
+			}
 		}
-		// create || continue filters
-		filters += ingrFilters
-			? `AND ${filtersArray.join(" AND ")}`
-			: `WHERE ${filtersArray.join(" AND ")}`;
+		filters += `WHERE ` + filtersArray.join(" AND ");
 	}
 
 	// ---- query

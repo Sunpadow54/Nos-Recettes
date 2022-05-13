@@ -9,11 +9,17 @@ import IngredientsPills from "../RecipeCards/IngredientsPills";
 function RecipesList({ query, title, titleIcon, small, border }) {
 	const createEndpoint = () => {
 		let string = "/recipe";
-		for (const property in query) {
-			string += `?${property}=${query[property]}`;
+		if (query) {
+			//let queriesString = "?"
+			let arr = [];
+			for (const property in query) {
+				arr.push(`${property}=${query[property]}`);
+			}
+			string += "?" + arr.join("&");
 		}
 		return string;
 	};
+
 	const endpoint = createEndpoint();
 
 	const { data: recipes } = useFetch({
@@ -36,13 +42,16 @@ function RecipesList({ query, title, titleIcon, small, border }) {
 					{title}
 				</h3>
 			)}
-			{recipes &&
+			{recipes && recipes.length > 0 ? (
 				recipes.map((recipe) => (
 					<article key={recipe.id} className={cardClass}>
 						<HeaderCard recipe={recipe} />
 						<IngredientsPills ingredients={recipe.ingredients} />
 					</article>
-				))}
+				))
+			) : (
+				<p>aucune recette trouvée</p>
+			)}
 		</>
 	);
 }

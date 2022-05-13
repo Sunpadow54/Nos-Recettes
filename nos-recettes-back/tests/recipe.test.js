@@ -79,6 +79,16 @@ describe("Recipes", () => {
 					expect(response.body).toEqual(expectedRecipes);
 				});
 		});
+		it("?params ---> specific array of recipes from ingredients idS", async () => {
+			return request(app)
+				.get("/api/recipe?ingredient=1,2")
+				.set("Authorization", `Bearer ${token.user}`)
+				.expect("Content-Type", /json/)
+				.expect(200)
+				.then((response) => {
+					expect(response.body).toEqual(expectedRecipes);
+				});
+		});
 		it("?params ---> specific array of recipes from ingredient id AND other param ", async () => {
 			return request(app)
 				.get("/api/recipe?ingredient=1&category=plat")

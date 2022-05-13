@@ -8,15 +8,19 @@ const Recipe = require("../models/Recipe");
 // -------------------------- CONTROLS ------------------------
 
 exports.getAllRecipes = (req, res, next) => {
-	// if ingredients
-	const baseFilters = Object.keys(req.query).length > 0 && req.query;
-	const ingrFilters =
-		Object.keys(req.query).includes("ingredient") &&
-		req.query.ingredient.split("-");
-
-	if (Object.keys(req.query).includes("ingredient")) {
-		delete baseFilters.ingredient;
+	// queries
+	const baseFilters = req.query;
+	if (baseFilters) {
+		for (const [key, value] of Object.entries(baseFilters)) {
+			// if same key has multiple value  => format it into an array
+			baseFilters[key] =
+				value.split(",").length > 1 ? value.split(",") : value;
+		}
 	}
+	// ingredients ?
+	const ingrFilters =
+		baseFilters.hasOwnProperty("ingredients") && req.query.ingredient;
+	delete baseFilters.ingredient;
 
 	Recipe.findAll(baseFilters, ingrFilters)
 		.then((recipes) => res.status(200).json(recipes))
