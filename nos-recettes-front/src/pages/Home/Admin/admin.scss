@@ -14,10 +14,12 @@
 	}
 	&-container {
 		@include m.flex(column, $g: 1rem);
-		padding: 1rem 3rem;
+		padding: 1rem 0;
+        @include m.desktop {
+            padding: 1rem 3rem;
+        }
 		background-color: v.$color-lightgrey;
 		&__stats {
-			//padding: 1rem;
 			@include m.flex($axis: space-between, $g: 0.5rem);
 		}
 	}
