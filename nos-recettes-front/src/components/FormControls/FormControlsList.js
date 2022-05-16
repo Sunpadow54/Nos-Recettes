@@ -1,14 +1,11 @@
 import classNames from "classnames";
 /* Import Style */
 import "./formControls.scss";
-/* Import Icons */
-import { IoMdClose } from "react-icons/io";
 /* Import Components */
 import FormControls from "./FormControls";
-import BtnBrand from "../Buttons/BtnBrand";
 
 function FormControlsList(props) {
-	const { handleRemoveInput, resizable, noLabel, inputprops } = props;
+	const { resizable, noLabel, inputprops, btn } = props;
 
 	return (
 		<>
@@ -33,19 +30,8 @@ function FormControlsList(props) {
 						noLabel={noLabel}
 					/>
 				)}
-				{handleRemoveInput && (
-					<BtnBrand
-						label="supprimer"
-						icon={<IoMdClose />}
-						color="grey"
-						round
-						border0
-						onClick={(e) => {
-							e.preventDefault();
-							handleRemoveInput();
-						}}
-					/>
-				)}
+
+				{btn && <>{btn}</>}
 			</div>
 		</>
 	);

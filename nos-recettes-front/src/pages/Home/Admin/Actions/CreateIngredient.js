@@ -3,7 +3,7 @@ import { useEffect } from "react";
 /* Import Style */
 import "./actions.scss";
 /* Import Icons */
-import { IoMdAdd } from "react-icons/io";
+import { IoMdAdd, IoMdClose } from "react-icons/io";
 // Import Components
 import useIngredientForm from "../../../../hooks/useIngredientForm";
 import FormControlsList from "../../../../components/FormControls/FormControlsList";
@@ -29,9 +29,19 @@ function CreateIngredient() {
 				<FormControlsList
 					key={index}
 					inputprops={input}
-					handleRemoveInput={() => {
-						handleRemoveInput(index);
-					}}
+					btn={
+						<BtnBrand
+							label="supprimer"
+							icon={<IoMdClose />}
+							color="grey"
+							round
+							border0
+							onClick={(e) => {
+								e.preventDefault();
+								handleRemoveInput();
+							}}
+						/>
+					}
 				/>
 			))}
 			<BtnBrand

@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router-dom";
 /* Import Style */
 import "./createRecipe.scss";
 /* Import Icons */
-import { IoMdAdd } from "react-icons/io";
+import { IoMdAdd, IoMdClose } from "react-icons/io";
 /* Import Components */
 import useRecipeForm from "../../../hooks/useRecipeForm";
 import FormControls from "../../../components/FormControls/FormControls";
@@ -35,6 +35,21 @@ function CreateRecipe() {
 		);
 	};
 
+	const BtnRemove = ({ type, index }) => {
+		return (
+			<BtnBrand
+				label="supprimer"
+				icon={<IoMdClose />}
+				color="grey"
+				round
+				border0
+				onClick={() => {
+					handleRemoveInput(type, index);
+				}}
+			/>
+		);
+	};
+
 	useEffect(() => {
 		setTitle("Créer sa recette");
 	}, [setTitle]);
@@ -56,9 +71,7 @@ function CreateRecipe() {
 					<FormControlsList
 						key={i}
 						inputprops={inputStep[i]}
-						handleRemoveInput={(e) => {
-							handleRemoveInput("removeSteps", i);
-						}}
+						btn={<BtnRemove type="removeSteps" index={i} />}
 					/>
 				))}
 				<div className="form-group__btn">
@@ -72,9 +85,7 @@ function CreateRecipe() {
 					<FormControlsList
 						key={i}
 						inputprops={inputIngredient[i]}
-						handleRemoveInput={(e) => {
-							handleRemoveInput("removeIng", i);
-						}}
+						btn={<BtnRemove type="removeIng" index={i} />}
 					/>
 				))}
 				<div className="form-group__btn">

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 /* Import Style */
 import "./recipe.scss";
 /* Import Icons */
-import { IoMdAdd } from "react-icons/io";
+import { IoMdAdd, IoMdClose } from "react-icons/io";
 /* Import Components */
 import { UserContext } from "../../../store/Store";
 import useFetch from "../../../hooks/useFetch";
@@ -52,6 +52,21 @@ function Recipe() {
 		);
 	};
 
+	const BtnRemove = ({ type, index }) => {
+		return (
+			<BtnBrand
+				label="supprimer"
+				icon={<IoMdClose />}
+				color="grey"
+				round
+				border0
+				onClick={() => {
+					handleRemoveInput(type, index);
+				}}
+			/>
+		);
+	};
+
 	return (
 		<div className="recipe-alone">
 			{recipe && (
@@ -86,9 +101,12 @@ function Recipe() {
 										inputprops={inputIngredient[i]}
 										resizable
 										noLabel
-										handleRemoveInput={(e) => {
-											handleRemoveInput("removeIng", i);
-										}}
+										btn={
+											<BtnRemove
+												type="removeIng"
+												index={i}
+											/>
+										}
 									/>
 								))}
 						</IngredientsList>
@@ -110,9 +128,12 @@ function Recipe() {
 										key={i}
 										noLabel
 										inputprops={inputStep[i]}
-										handleRemoveInput={(e) => {
-											handleRemoveInput("removeSteps", i);
-										}}
+										btn={
+											<BtnRemove
+												type="removeSteps"
+												index={i}
+											/>
+										}
 									/>
 								))}
 						</StepsList>

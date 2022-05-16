@@ -1,0 +1,13 @@
+// -----------------------------------------------------------
+/*  Button icon */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../style/sass/mixins" as m;
+
+.btn-icon {
+    @include m.centered();
+	font-size: 1.6rem;
+    &:hover {
+        opacity: 0.7;
+    }
+}
