@@ -15,6 +15,7 @@ function FormControls(props) {
 		labelTop,
 		noLabel,
 		color,
+        btn,
 		...inputProps
 	} = props;
 
@@ -83,6 +84,7 @@ function FormControls(props) {
 					))}
 				</datalist>
 			)}
+            {btn && <span className="input-group__btn">{btn}</span>}
 		</div>
 	);
 }

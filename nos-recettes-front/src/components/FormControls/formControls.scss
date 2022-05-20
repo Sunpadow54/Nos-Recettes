@@ -15,13 +15,18 @@
 .input-group {
 	position: relative;
 	@include m.flex(
-		$axis: (
+		/* $axis: (
 			null,
 			center,
-		)
+		) */
 	);
+    @include m.border(v.$color-lightgrey);
 	z-index: 0;
 	font: inherit;
+    &:focus-within,
+    &:focus-within .input-group__btn{
+        border-color: v.$color-focus;
+    }
 	&__label {
 		@include m.position(
 			absolute,
@@ -47,19 +52,30 @@
 	}
 	&__control {
 		width: 100%;
-		@include m.border(v.$color-lightgrey);
+		//@include m.border(v.$color-lightgrey);
 		padding: v.$input-padding;
 		font: inherit;
 		background-color: transparent;
-		&:focus {
+		/* &:focus {
 			border-color: #32a1ce;
-		}
+		} */
 		&:focus ~ label,
 		&:valid ~ label,
 		&[type="time"] ~ label {
 			@include label-top;
 		}
 	}
+    &__btn {
+        @include m.border(v.$color-lightgrey, $positions:(left));
+        @include m.centered();
+        padding: 0.3rem;
+        &:hover {
+            background-color: v.$color-focus;
+            > * {
+                color:white;
+            }
+        }
+    }
 	input {
 		&[type="time"],
 		&[type="number"] {
