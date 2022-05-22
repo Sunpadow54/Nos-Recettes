@@ -3,7 +3,7 @@
 // -----------------------------------------------------------
 @use "./variables" as v;
 
-// ------------ FLEXBOX Mixins
+// ------------ FLEXBOX
 
 @mixin flex($direction: null, $axis: null, $g: null, $wrap: null) {
 	display: flex;
@@ -38,7 +38,7 @@
 	);
 }
 
-// ------------ GRID Mixins
+// ------------ GRID
 
 @mixin grid(
 	$columns: 1fr,
@@ -62,7 +62,7 @@
 	}
 }
 
-// ------------ Position Mixins
+// ------------ Positions
 
 @mixin position(
 	$position,
@@ -140,14 +140,23 @@
 		@content;
 	}
 }
+// ------------ PREFIX
 
-// ------------ PSEUDO-ELEMENT Mixins
+@mixin prefix($property, $value, $prefixes) {
+	@each $prefix in $prefixes {
+		#{'-' + $prefix + '-' + $property}: $value;
+	}
+	// Output standard non-prefixed declaration
+	#{$property}: $value;
+}
+
+// ------------ PSEUDO-ELEMENT
 @mixin before-after {
 	content: "";
 	display: block;
 }
 
-// ------------ SKETCH LINE Mixins
+// ------------ SKETCH LINE
 
 @mixin line($width: 100%, $deg: 0.3deg, $color: v.$color-darkgrey) {
 	@include before-after();

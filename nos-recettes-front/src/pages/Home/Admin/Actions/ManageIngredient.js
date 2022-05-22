@@ -3,17 +3,21 @@ import { useEffect, useState } from "react";
 /* Import Style */
 import "./actions.scss";
 /* Import Icons */
-import { MdEdit, MdDeleteForever } from "react-icons/md";
+import { MdEdit, MdDeleteForever, MdOutlineFindReplace } from "react-icons/md";
 /* Import Components */
 import useFetch from "../../../../hooks/useFetch";
 import useIngredientForm from "../../../../hooks/useIngredientForm";
 import FormControls from "../../../../components/FormControls/FormControls";
 import SearchBar from "../../../../components/SearchBar/SearchBar";
+import RecipesList from "../../../../components/RecipesList/RecipesList";
+import BtnSimpleIcon from "../../../../components/Buttons/BtnSimpleIcon";
+import Table from "../../../../components/Table/Table";
 
 function ManageIngredient() {
 	const { setSubtitle } = useOutletContext();
 	const [searchString, setSearchString] = useState("");
 	const [ingredients, setIngredients] = useState("");
+	/* const [rowShowned, setRowShowned] = useState(""); */
 
 	const { data: ingredientsFound, sendToApi } = useFetch({
 		endpoint: "/ingredient?search=" + searchString,
@@ -36,6 +40,32 @@ function ManageIngredient() {
 			sendToApi();
 		}
 	};
+
+	// -------- Buttons
+
+	const btnProps = {
+		edit: {
+			icon: <MdEdit />,
+			color: { text: "grey" },
+			label: "modifier l'ingredient",
+		},
+		delete: {
+			icon: <MdDeleteForever />,
+			color: { text: "red" },
+			label: "supprimer l'ingredient",
+		},
+		replace: {
+			icon: <MdOutlineFindReplace />,
+			color: { text: "red" },
+			label: "remplacer et supprimer l'ingredient",
+		},
+	};
+
+	const columns = [
+		{ title: "ingrédient", scope: true },
+		{ title: "modifier" },
+		{ title: "supprimer", hasToogleBtn: true },
+	];
 
 	// -------- Effects
 
@@ -67,46 +97,46 @@ function ManageIngredient() {
 		<div className="action-form">
 			<SearchBar onChange={handleSearch} />
 			{ingredients && (
-				<table>
-					<thead>
-						<tr>
-							<th>ingrédient</th>
-							<th>modifier</th>
-							<th>supprimer</th>
-						</tr>
-					</thead>
-					<tbody>
-						{ingredients.map((ingredient, i) => (
-							<tr key={i}>
-								<td>
-									<p>{ingredient.name}</p>
-								</td>
-								<td>
-									<div>
-										<FormControls {...inputs[i]} label="" />
-										<button
-											className="button-simple"
-											onClick={(e) =>
-												handleEdit(e, ingredient.id)
-											}
-										>
-											<MdEdit />
-										</button>
-									</div>
-								</td>
-								{
-									<td>
-										<div>
-											<button>
-												<MdDeleteForever />
-											</button>
-										</div>
-									</td>
-								}
-							</tr>
-						))}
-					</tbody>
-				</table>
+				<Table columns={columns}>
+					{ingredients.map((ingredient, i) => [
+						<p>{ingredient.name}</p>,
+						<FormControls
+							{...inputs[i]}
+							label=""
+							btn={
+								<BtnSimpleIcon
+									{...btnProps.edit}
+									onClick={(e) =>
+										handleEdit(e, ingredient.id)
+									}
+								/>
+							}
+						/>,
+						ingredient.recipes ? (
+							<MdOutlineFindReplace />
+						) : (
+							<BtnSimpleIcon {...btnProps.delete} />
+						),
+						ingredient.recipes && (
+							<div className="table-recipes">
+								<FormControls
+									label="Remplacer par ..."
+									btn={
+										<BtnSimpleIcon {...btnProps.replace} />
+									}
+								/>
+								<RecipesList
+									query={{
+										id: ingredient.recipes,
+									}}
+									small
+									title={`il y a ${ingredient.recipes.length} recette avec cet ingrédient :`}
+									border
+								/>
+							</div>
+						),
+					])}
+				</Table>
 			)}
 		</div>
 	);

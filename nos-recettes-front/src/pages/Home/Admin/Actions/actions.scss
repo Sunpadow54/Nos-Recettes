@@ -2,48 +2,14 @@
 /*  Actions admin */
 // -----------------------------------------------------------
 /* Import Sass utils */
-@use "../../../../style/sass/variables" as v;
 @use "../../../../style/sass/mixins" as m;
 
 .action-form {
-	//max-width: 500px;
 	padding-top: 1rem;
 	@include m.flex(column, $g: 1.5rem);
 }
 
-table {
-	border-collapse: collapse;
-	min-width: 100%;
-	th,
-	td {
-		border: 1px solid grey;
-		padding: 5px;
-		text-align: center;
-	}
-	td div {
-		@include m.flex();
-	}
-	tr:hover {
-		background-color: lighten(v.$color-lightgrey, 10%);
-	}
-	div {
-		width: fit-content;
-		margin: auto;
-		background-color: white;
-	}
-}
-
-.button-simple {
-	@include m.centered();
-	padding: 0.2rem;
-	height: inherit;
-	border: 1px solid v.$color-lightgrey;
-	border-left: none;
-	font-size: 1.6rem;
-	color: v.$color-grey;
-	&:hover {
-		background-color: #1d6f88;
-		border-color: #1d6f88;
-		color: white;
-	}
+.table-recipes {
+	padding: 2rem;
+	@include m.flex(column, $g: 2rem);
 }

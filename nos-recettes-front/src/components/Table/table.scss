@@ -1,0 +1,70 @@
+// -----------------------------------------------------------
+/*  TABLE  */
+// -----------------------------------------------------------
+/* Import Sass utils */
+@use "../../style/sass/variables" as v;
+@use "../../style/sass/mixins" as m;
+
+.table-collapse {
+	width: 100%;
+	border-collapse: collapse;
+	thead {
+		@include m.border(v.$color-lightgrey, $positions: (top));
+		th {
+			background-color: v.$color-gold;
+			color: white;
+		}
+	}
+	tr:not(.hidden-row) {
+		@include m.border(v.$color-lightgrey, $positions: (bottom));
+	}
+	th,
+	td {
+		padding: 5px;
+		text-align: center;
+		@include m.border(v.$color-lightgrey, $positions: (right, left));
+	}
+	td {
+		& > div {
+			@include m.centered();
+		}
+	}
+	.toogle-btn {
+		&--close {
+			border-bottom: 1px solid white;
+		}
+	}
+
+	.hidden-row {
+		position: relative;
+		> td {
+			padding: 0;
+			overflow: hidden;
+		}
+		&__container {
+			max-height: 0px;
+			border: none;
+			@include m.prefix(
+				transition,
+				max-height 1.5s ease-in-out,
+				(moz, webkit)
+			);
+			&--show {
+				max-height: 9999px;
+				@include m.border(v.$color-lightgrey, $positions: (bottom));
+				@include m.prefix(
+					transition,
+					max-height 5.5s ease,
+					(moz, webkit)
+				);
+				> .hidden-row__content {
+					transform: translateY(0);
+				}
+			}
+		}
+		&__content {
+			transition: all 0.6s ease-in-out;
+			transform: translateY(-100%);
+		}
+	}
+}
