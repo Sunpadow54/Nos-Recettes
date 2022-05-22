@@ -42,10 +42,6 @@ function App() {
 									path="ingredient/edit"
 									element={<ManageIngredient />}
 								/>
-								<Route
-									path="ingredient/delete"
-									element={<p>delete ingr</p>}
-								/>
 							</Route>
 						</Route>
 					</Route>

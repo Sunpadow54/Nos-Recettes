@@ -12,7 +12,7 @@ import {
 	/* BsPencilSquare, */
 } from "react-icons/bs";
 import { FaCarrot /* FaUsers */ } from "react-icons/fa";
-import { IoMdAdd, IoMdRemove } from "react-icons/io";
+import { IoMdAdd /* IoMdRemove */ } from "react-icons/io";
 import { MdEdit } from "react-icons/md";
 // Import Components
 import useFetch from "../../../hooks/useFetch";
@@ -64,11 +64,6 @@ function Admin() {
 					title: "modifier",
 					icon: <MdEdit />,
 					path: "/admin/ingredient/edit",
-				},
-				{
-					title: "supprimer",
-					icon: <IoMdRemove />,
-					path: "/admin/ingredient/delete",
 				},
 			],
 		},
