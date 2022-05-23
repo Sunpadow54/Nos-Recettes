@@ -58,6 +58,9 @@ describe("Auth", () => {
 				req.delete("/api/user/2").expect(401),
 				// ingredient
 				req.get("/api/ingredient").expect(401),
+				req.post("/api/ingredient").expect(401),
+				req.put("/api/ingredient/2").expect(401),
+				req.put("/api/ingredient/replace/2").expect(401),
 			]);
 		});
 	});
@@ -82,6 +85,12 @@ describe("Auth", () => {
 				req.delete("/api/user/2").set(authorization).expect(401),
 				// ingredient
 				req.get("/api/ingredient").set(authorization).expect(401),
+				req.post("/api/ingredient").set(authorization).expect(401),
+				req.put("/api/ingredient/2").set(authorization).expect(401),
+				req
+					.put("/api/ingredient/replace/2")
+					.set(authorization)
+					.expect(401),
 			]);
 		});
 	});
@@ -96,7 +105,11 @@ describe("Auth", () => {
 				req.post("/api/user/create").set(authorization).expect(401),
 				// ingredient
 				req.post("/api/ingredient").set(authorization).expect(401),
-				req.put("/api/ingredient/1").set(authorization).expect(401),
+				req.put("/api/ingredient/2").set(authorization).expect(401),
+				req
+					.put("/api/ingredient/replace/2")
+					.set(authorization)
+					.expect(401),
 			]);
 		});
 	});

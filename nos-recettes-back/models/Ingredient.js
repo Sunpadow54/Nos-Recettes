@@ -67,10 +67,8 @@ Ingredient.create = (ingredients) => {
 Ingredient.edit = ({ id, name }) => {
 	// define the query
 	const query = format(
-		`
-            UPDATE ingredients SET name = %L WHERE id = %L
-            RETURNING id, name;
-    `,
+		`UPDATE ingredients SET name = %L WHERE id = %L
+        RETURNING id, name;`,
 		name,
 		id
 	);
@@ -85,6 +83,32 @@ Ingredient.edit = ({ id, name }) => {
 				return reject(error);
 			}
 			if (err) return reject(err);
+			// success
+			resolve(res.rows[0]);
+		});
+	});
+};
+
+Ingredient.replace = ({ oldId, replaceId }) => {
+	// define the query
+	const query = format(
+		`WITH truc AS (
+            UPDATE recipe_ingredients SET id_ingredient = %L 
+            WHERE id_ingredient = %L
+        )
+        DELETE FROM ingredients WHERE id = %L
+        RETURNING id;
+    `,
+		replaceId,
+		oldId,
+		oldId
+	);
+
+	// ask db
+	return new Promise((resolve, reject) => {
+		db.query(query, (err, res) => {
+			// error
+			if (err) return reject(error);
 			// success
 			resolve(res.rows[0]);
 		});

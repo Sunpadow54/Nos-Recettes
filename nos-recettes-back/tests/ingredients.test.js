@@ -97,9 +97,23 @@ describe("Ingredients", () => {
 				.expect(409);
 		});
 	});
+	describe("REPLACE /ingredient", () => {
+		it("----> id ingredient deleted", async () => {
+			return request(app)
+				.put("/api/ingredient/replace/3")
+				.set("Authorization", `Bearer ${token.admin}`)
+				.send({ id: 2 })
+				.expect(200)
+				.then((response) => {
+					expect(response.body).toEqual({
+						id: 3,
+					});
+				});
+		});
+	});
 	describe("DELETE /ingredient/id", () => {
 		it("----> 409 Conflict : ingredient is used", async () => {
-			// create a dump recipe with ingredient when wants to delete
+			// create a dump recipe with ingredient we want to delete
 			await request(app)
 				.post("/api/recipe")
 				.set("Authorization", `Bearer ${token.user}`)

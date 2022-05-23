@@ -31,6 +31,14 @@ exports.editIngredient = (req, res, next) => {
 		.catch((error) => res.status(error.status || 500).json(error.message));
 };
 
+exports.replaceIngredient = (req, res, next) => {
+	Ingredient.replace({ oldId: req.params.id, replaceId: req.body.id })
+		.then((idDeleted) => {
+			res.status(200).json(idDeleted);
+		})
+		.catch((error) => res.status(error.status || 500).json(error.message));
+};
+
 exports.deleteIngredient = (req, res, next) => {
 	Ingredient.delete({ id: req.params.id })
 		.then((ingrDeleted) => res.status(200).json(ingrDeleted))
