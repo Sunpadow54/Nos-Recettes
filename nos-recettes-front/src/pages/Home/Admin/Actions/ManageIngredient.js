@@ -29,6 +29,7 @@ function ManageIngredient() {
 	const {
 		inputs,
 		handleEdit,
+		handleDelete,
 		data: ingrEdited,
 	} = useIngredientForm(ingredients);
 
@@ -79,15 +80,23 @@ function ManageIngredient() {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [ingredientsFound]);
 
-	// ingredients edited
+	// ingredients edited / delete
 	useEffect(() => {
 		if (ingrEdited) {
-			// if edit is a success render new name of the ingredient edited
+			// if edit or delete is a success
 			let newIngredients = [...ingredients];
 			const index = newIngredients.findIndex(
 				(item) => item.id === ingrEdited.id
 			);
-			newIngredients[index].name = ingrEdited.name;
+			// edit ? --> render new name of the ingredient edited
+			if (ingrEdited.name) {
+				newIngredients[index].name = ingrEdited.name;
+			}
+			// delete ? --> delete this ingredient
+			else {
+				newIngredients.splice(index, 1);
+			}
+
 			setIngredients(newIngredients);
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
@@ -115,7 +124,10 @@ function ManageIngredient() {
 						ingredient.recipes ? (
 							<MdOutlineFindReplace />
 						) : (
-							<BtnSimpleIcon {...btnProps.delete} />
+							<BtnSimpleIcon
+								{...btnProps.delete}
+								onClick={(e) => handleDelete(e, ingredient.id)}
+							/>
 						),
 						ingredient.recipes && (
 							<div className="table-recipes">

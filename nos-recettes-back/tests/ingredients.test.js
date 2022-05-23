@@ -118,13 +118,13 @@ describe("Ingredients", () => {
 				.set("Authorization", `Bearer ${token.admin}`)
 				.expect(409);
 		});
-		it("----> 200 success : id and name of ingredient deleted", async () => {
+		it("----> 200 success : id of ingredient deleted", async () => {
 			return request(app)
 				.delete("/api/ingredient/2")
 				.set("Authorization", `Bearer ${token.admin}`)
 				.expect(200)
 				.then((response) => {
-					expect(response.body).toEqual({ id: 2, name: "ingr2" });
+					expect(response.body).toEqual({ id: 2 });
 				});
 		});
 	});

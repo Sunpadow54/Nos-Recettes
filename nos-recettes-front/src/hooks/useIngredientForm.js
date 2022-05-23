@@ -5,6 +5,7 @@ import useFetch from "./useFetch";
 function useIngredientForm(oldIngredient) {
 	const [ingrForm, setIngrForm] = useState([""]);
 	const [request, setRequest] = useState({
+		method: "POST",
 		endpoint: "/ingredient",
 		body: null,
 	});
@@ -12,7 +13,7 @@ function useIngredientForm(oldIngredient) {
 	// -------- API
 
 	const { data, error, sendToApi } = useFetch({
-		method: oldIngredient ? "PUT" : "POST",
+		// method: oldIngredient ? "PUT" : "POST",
 		...request,
 		wait: true,
 		auth: true,
@@ -41,13 +42,23 @@ function useIngredientForm(oldIngredient) {
 		setIngrForm(ingrArray);
 	};
 
+	const handleCreate = (e) => {
+		e.preventDefault();
+		const newReq = {
+			...request,
+			body: ingrForm,
+		};
+		setRequest(newReq);
+		sendToApi();
+	};
+
 	const handleEdit = (e, idIngredient) => {
 		e.preventDefault();
 		const index = oldIngredient.findIndex(
 			(item) => item.id === idIngredient
 		);
 		const newReq = {
-			...request,
+			method: "PUT",
 			endpoint: "/ingredient/" + idIngredient,
 			body: { name: ingrForm[index] },
 		};
@@ -55,12 +66,12 @@ function useIngredientForm(oldIngredient) {
 		sendToApi();
 	};
 
-	const handleCreate = (e) => {
+	const handleDelete = (e, idIngredient) => {
 		e.preventDefault();
-		console.log(ingrForm);
 		const newReq = {
 			...request,
-			body: ingrForm,
+			method: "DELETE",
+			endpoint: "/ingredient/" + idIngredient,
 		};
 		setRequest(newReq);
 		sendToApi();
@@ -97,6 +108,7 @@ function useIngredientForm(oldIngredient) {
 	return {
 		handleEdit,
 		handleCreate,
+		handleDelete,
 		handleAddInput,
 		handleRemoveInput,
 		inputs,

@@ -7,13 +7,13 @@ import { IoMdClose } from "react-icons/io";
 /* Import Components */
 import BtnSimpleIcon from "../Buttons/BtnSimpleIcon";
 
-function TableTest({ columns, children }) {
+function Table({ columns, children }) {
 	const nbrCols = columns.length;
-	const [rowShowned, setRowShowned] = useState(null);
+	const [rowShowned, setRowShowned] = useState(undefined);
 
 	// ----- Handles
 	const handleToogleRow = (i) => {
-		if (i === rowShowned) setRowShowned(null);
+		if (i === rowShowned) setRowShowned(undefined);
 		else setRowShowned(i);
 	};
 
@@ -63,6 +63,7 @@ function TableTest({ columns, children }) {
 										{
 											toogleBtn: (
 												<td
+													key={`cell-${z}`}
 													className={classNames(
 														"toogle-btn",
 														y === rowShowned &&
@@ -78,12 +79,18 @@ function TableTest({ columns, children }) {
 												</td>
 											),
 											head: (
-												<th id={`row-head-${y}`}>
+												<th
+													key={`cell-${z}`}
+													id={`row-head-${y}`}
+												>
 													<div>{item}</div>
 												</th>
 											),
 											default: (
-												<td id={`row-head-${y}`}>
+												<td
+													key={`cell-${z}`}
+													id={`row-head-${y}`}
+												>
 													<div>{item}</div>
 												</td>
 											),
@@ -118,4 +125,4 @@ function TableTest({ columns, children }) {
 	);
 }
 
-export default TableTest;
+export default Table;

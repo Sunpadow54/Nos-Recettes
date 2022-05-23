@@ -96,7 +96,7 @@ Ingredient.delete = ({ id }) => {
 	const query = format(
 		`
             DELETE FROM ingredients WHERE id = %L
-            RETURNING id, name;
+            RETURNING id;
     `,
 		id
 	);
