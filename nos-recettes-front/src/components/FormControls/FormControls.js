@@ -1,5 +1,5 @@
 import classNames from "classnames";
-/* Import Style */
+/* Style */
 import "./formControls.scss";
 
 function FormControls(props) {
@@ -15,7 +15,7 @@ function FormControls(props) {
 		labelTop,
 		noLabel,
 		color,
-        btn,
+		btn,
 		...inputProps
 	} = props;
 
@@ -76,15 +76,9 @@ function FormControls(props) {
 			</label>
 
 			{inputProps.list && (
-				<datalist id={inputProps.list}>
-					{options.map((option, i) => (
-						<option key={i} value={option}>
-							{option}
-						</option>
-					))}
-				</datalist>
+				<datalist id={inputProps.list}>{optionsMap}</datalist>
 			)}
-            {btn && <span className="input-group__btn">{btn}</span>}
+			{btn && <span className="input-group__btn">{btn}</span>}
 		</div>
 	);
 }

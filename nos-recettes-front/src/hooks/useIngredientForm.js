@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-// Import components
+// Components
 import useFetch from "./useFetch";
 
 function useIngredientForm(oldIngredient) {
@@ -13,7 +13,6 @@ function useIngredientForm(oldIngredient) {
 	// -------- API
 
 	const { data, error, sendToApi } = useFetch({
-		// method: oldIngredient ? "PUT" : "POST",
 		...request,
 		wait: true,
 		auth: true,
@@ -66,6 +65,17 @@ function useIngredientForm(oldIngredient) {
 		sendToApi();
 	};
 
+	const handleReplace = (e, oldId, newId) => {
+		e.preventDefault();
+		const newReq = {
+			method: "PUT",
+			endpoint: "/ingredient/replace/" + oldId,
+			body: { id: newId },
+		};
+		setRequest(newReq);
+		sendToApi();
+	};
+
 	const handleDelete = (e, idIngredient) => {
 		e.preventDefault();
 		const newReq = {
@@ -107,6 +117,7 @@ function useIngredientForm(oldIngredient) {
 
 	return {
 		handleEdit,
+		handleReplace,
 		handleCreate,
 		handleDelete,
 		handleAddInput,

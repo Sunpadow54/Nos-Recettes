@@ -1,13 +1,13 @@
 import { useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
-/* Import Style */
+/* Style */
 import "./actions.scss";
-/* Import Icons */
+/* Icons */
 import { MdEdit, MdDeleteForever, MdOutlineFindReplace } from "react-icons/md";
-/* Import Components */
-import useFetch from "../../../../hooks/useFetch";
+/* Components */
 import useIngredientForm from "../../../../hooks/useIngredientForm";
 import FormControls from "../../../../components/FormControls/FormControls";
+import FormAutoComplete from "../../../../components/FormControls/FormAutoComplete";
 import SearchBar from "../../../../components/SearchBar/SearchBar";
 import RecipesList from "../../../../components/RecipesList/RecipesList";
 import BtnSimpleIcon from "../../../../components/Buttons/BtnSimpleIcon";
@@ -15,32 +15,16 @@ import Table from "../../../../components/Table/Table";
 
 function ManageIngredient() {
 	const { setSubtitle } = useOutletContext();
-	const [searchString, setSearchString] = useState("");
 	const [ingredients, setIngredients] = useState("");
-	/* const [rowShowned, setRowShowned] = useState(""); */
-
-	const { data: ingredientsFound, sendToApi } = useFetch({
-		endpoint: "/ingredient?search=" + searchString,
-		method: "GET",
-		auth: true,
-		wait: true,
-	});
+	const [selectedOption, setSelectedOption] = useState();
 
 	const {
 		inputs,
 		handleEdit,
+		handleReplace,
 		handleDelete,
 		data: ingrEdited,
 	} = useIngredientForm(ingredients);
-
-	// -------- Handles
-
-	const handleSearch = (e) => {
-		if (e.target.value !== "") {
-			setSearchString(e.target.value);
-			sendToApi();
-		}
-	};
 
 	// -------- Buttons
 
@@ -74,13 +58,7 @@ function ManageIngredient() {
 		setSubtitle("Gérer un ingrédient");
 	}, [setSubtitle]);
 
-	// ingredients fetched
-	useEffect(() => {
-		setIngredients(ingredientsFound);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [ingredientsFound]);
-
-	// ingredients edited / delete
+	// ingredients edited / delete ---> render changes
 	useEffect(() => {
 		if (ingrEdited) {
 			// if edit or delete is a success
@@ -104,7 +82,10 @@ function ManageIngredient() {
 
 	return (
 		<div className="action-form">
-			<SearchBar onChange={handleSearch} />
+			<SearchBar
+				endpoint="/ingredient"
+				setSearchResult={setIngredients}
+			/>
 			{ingredients && (
 				<Table columns={columns}>
 					{ingredients.map((ingredient, i) => [
@@ -131,11 +112,22 @@ function ManageIngredient() {
 						),
 						ingredient.recipes && (
 							<div className="table-recipes">
-								<FormControls
+								<FormAutoComplete
 									label="Remplacer par ..."
+									endpoint="/ingredient"
 									btn={
-										<BtnSimpleIcon {...btnProps.replace} />
+										<BtnSimpleIcon
+											{...btnProps.replace}
+											onClick={(e) =>
+												handleReplace(
+													e,
+													ingredient.id,
+													selectedOption.id
+												)
+											}
+										/>
 									}
+									setSelected={setSelectedOption}
 								/>
 								<RecipesList
 									query={{

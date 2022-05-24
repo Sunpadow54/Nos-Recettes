@@ -10,4 +10,7 @@
     &:hover {
         opacity: 0.7;
     }
+    > svg {
+        pointer-events: none;
+    }
 }
